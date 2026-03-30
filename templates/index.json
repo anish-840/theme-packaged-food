@@ -455,6 +455,14 @@
                   },
                   "blocks": {}
                 },
+                "custom_liquid_DFWqrV": {
+                  "type": "custom-liquid",
+                  "name": "t:names.custom_liquid",
+                  "settings": {
+                    "custom_liquid": "{% if product.metafields.allergens.contains != blank %}\n  <div class=\"allergen-badges\">\n    {% for allergen in product.metafields.allergens.contains.value %}\n      <div class=\"allergen-badge\">\n        <img\n          src=\"{{ allergen | prepend: 'allergen-' | append: '.svg' | file_url }}\"\n          alt=\"{{ allergen | capitalize }}\"\n          width=\"24\" height=\"24\" loading=\"lazy\"\n        >\n      </div>\n    {% endfor %}\n  </div>\n{% endif %}"
+                  },
+                  "blocks": {}
+                },
                 "swatches_eYcKAz": {
                   "type": "swatches",
                   "name": "t:names.swatches",
@@ -474,6 +482,7 @@
                 "price_anAima",
                 "product_title_gH3cpy",
                 "text_aDVbik",
+                "custom_liquid_DFWqrV",
                 "swatches_eYcKAz"
               ]
             }
