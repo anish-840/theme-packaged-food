@@ -141,6 +141,106 @@
         "btn_font_weight": "600"
       }
     },
+    "category_carousel_LFJkUE": {
+      "type": "category-carousel",
+      "blocks": {
+        "category_7ihanx": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/cat3_b7efbfc9-6fd4-4a83-9100-205c605fa035.webp",
+            "label": "Bread & Bakery",
+            "link": ""
+          }
+        },
+        "category_EBgqQ7": {
+          "type": "category",
+          "settings": {
+            "label": "Flour & Baking",
+            "link": ""
+          }
+        },
+        "category_aUL4Lg": {
+          "type": "category",
+          "settings": {
+            "label": "Fruits & Vegetables",
+            "link": ""
+          }
+        },
+        "category_AbeMCc": {
+          "type": "category",
+          "settings": {
+            "label": "Fresh Meals & Pizzas",
+            "link": ""
+          }
+        },
+        "category_djr3Rq": {
+          "type": "category",
+          "settings": {
+            "label": "Beverages",
+            "link": ""
+          }
+        },
+        "category_ng4Ubg": {
+          "type": "category",
+          "settings": {
+            "label": "Fresh Meat",
+            "link": ""
+          }
+        },
+        "category_mXJQG8": {
+          "type": "category",
+          "settings": {
+            "label": "Dairy & Eggs",
+            "link": ""
+          }
+        },
+        "category_kxi3iT": {
+          "type": "category",
+          "settings": {
+            "label": "Sauces & Marinades",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "category_7ihanx",
+        "category_EBgqQ7",
+        "category_aUL4Lg",
+        "category_AbeMCc",
+        "category_djr3Rq",
+        "category_ng4Ubg",
+        "category_mXJQG8",
+        "category_kxi3iT"
+      ],
+      "name": "Shop by Category",
+      "settings": {
+        "title": "Shop by Category",
+        "section_bg": "#ffffff",
+        "section_padding_top": 40,
+        "section_padding_bottom": 40,
+        "section_padding_x": 20,
+        "title_size": 24,
+        "title_weight": "500",
+        "title_color": "#1a2e0a",
+        "title_margin_bottom": 24,
+        "card_height": 200,
+        "card_gap": 16,
+        "card_padding": 16,
+        "card_radius": 12,
+        "card_bg": "#ffffff",
+        "card_border_color": "#e8e8e8",
+        "card_border_width": 1,
+        "label_size": 14,
+        "label_weight": "400",
+        "label_color": "#1a2e0a",
+        "indicator_active_color": "#1a2e0a",
+        "indicator_inactive_color": "#d0d0d0",
+        "arrow_color": "#1a2e0a",
+        "nav_bg": "#ffffff",
+        "nav_height": 52,
+        "nav_margin_top": 16
+      }
+    },
     "product_list_EDUBdR": {
       "type": "product-list",
       "blocks": {
@@ -703,6 +803,7 @@
   },
   "order": [
     "hero_slideshow_JFgpNw",
+    "category_carousel_LFJkUE",
     "product_list_EDUBdR",
     "media_with_content_LfPdEJ",
     "collection_list_xpBxCm"
