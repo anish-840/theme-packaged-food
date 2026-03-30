@@ -17,11 +17,24 @@
         "announcement_mxxhta": {
           "type": "_announcement",
           "settings": {
-            "text": "Uplevel your office with new decor",
+            "text": "FREE SHIPPING on orders above ₹500",
             "link": "shopify://collections/all",
-            "font": "var(--font-primary--family)",
+            "font": "var(--font-body--family)",
             "font_size": "var(--font-size--body-md)",
-            "weight": "",
+            "weight": "300",
+            "letter_spacing": "normal",
+            "case": "none"
+          },
+          "blocks": {}
+        },
+        "announcement_JRjhdC": {
+          "type": "_announcement",
+          "settings": {
+            "text": "Save 20% use code: BULKSAVE",
+            "link": "shopify://collections/all",
+            "font": "var(--font-body--family)",
+            "font_size": "var(--font-size--body-md)",
+            "weight": "300",
             "letter_spacing": "normal",
             "case": "none"
           },
@@ -29,13 +42,14 @@
         }
       },
       "block_order": [
-        "announcement_mxxhta"
+        "announcement_mxxhta",
+        "announcement_JRjhdC"
       ],
       "name": "t:names.announcement_bar",
       "settings": {
         "speed": 5,
         "section_width": "full-width",
-        "color_scheme": "",
+        "color_scheme": "scheme-5",
         "divider_width": 0,
         "padding-block-start": 15,
         "padding-block-end": 15
