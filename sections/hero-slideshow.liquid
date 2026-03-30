@@ -162,32 +162,28 @@
             {%- if block.settings.heading != blank -%}
               <h2
                 class="hero-slideshow__heading"
-                style="
-                  font-size: {{ block.settings.heading_size }}px;
-                  font-weight: {{ block.settings.heading_weight }};
-                  color: {{ text_color }};
-                  line-height: {{ block.settings.heading_line_height }};
-                  {%- if block.settings.heading_force_linebreak -%}
-                    white-space: pre-line;
-                  {%- endif -%}
-                "
-              >{{ block.settings.heading }}</h2>
+                style="font-size: {{ block.settings.heading_size }}px; font-weight: {{ block.settings.heading_weight }}; color: {{ text_color }}; line-height: {{ block.settings.heading_line_height }};"
+              >
+                {%- if block.settings.heading_force_linebreak -%}
+                  {{ block.settings.heading | newline_to_br }}
+                {%- else -%}
+                  {{ block.settings.heading | strip_newlines }}
+                {%- endif -%}
+              </h2>
             {%- endif -%}
 
             {%- comment %} Subheading {%- endcomment %}
             {%- if block.settings.subheading != blank -%}
               <p
                 class="hero-slideshow__subheading"
-                style="
-                  font-size: {{ block.settings.subheading_size }}px;
-                  font-weight: {{ block.settings.subheading_weight }};
-                  color: {{ sub_color }};
-                  line-height: {{ block.settings.subheading_line_height }};
-                  {%- if block.settings.subheading_force_linebreak -%}
-                    white-space: pre-line;
-                  {%- endif -%}
-                "
-              >{{ block.settings.subheading }}</p>
+                style="font-size: {{ block.settings.subheading_size }}px; font-weight: {{ block.settings.subheading_weight }}; color: {{ sub_color }}; line-height: {{ block.settings.subheading_line_height }};"
+              >
+                {%- if block.settings.subheading_force_linebreak -%}
+                  {{ block.settings.subheading | newline_to_br }}
+                {%- else -%}
+                  {{ block.settings.subheading | strip_newlines }}
+                {%- endif -%}
+              </p>
             {%- endif -%}
 
             {%- comment %} Button {%- endcomment %}
