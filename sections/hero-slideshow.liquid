@@ -200,16 +200,15 @@
         {%- comment %} ── Content ── {%- endcomment %}
         <div
           class="hero-slideshow__content"
-          style="
-            --h-justify: {{ h_justify }};
-            --h-text:    {{ h_text }};
-            --v-items:   {{ v_items }};
-            --mh-justify: {{ mh_justify }};
-            --mh-text:    {{ mh_text }};
-            --mv-items:   {{ mv_items }};
-          "
+          style="justify-content: {{ h_justify }}; align-items: {{ v_items }};"
         >
-          <div class="hero-slideshow__content-inner">
+          <div
+            class="hero-slideshow__content-inner"
+            style="text-align: {{ h_text }};"
+            data-mh-justify="{{ mh_justify }}"
+            data-mh-text="{{ mh_text }}"
+            data-mv-items="{{ mv_items }}"
+          >
 
             {%- comment %} Heading {%- endcomment %}
             {%- if block.settings.heading != blank -%}
@@ -242,7 +241,7 @@
             {%- comment %} Button {%- endcomment %}
             {%- if block.settings.button_label != blank -%}
               {%- assign btn_href = block.settings.button_url | default: '#' -%}
-              <div class="hero-slideshow__btn-wrap">
+              <div class="hero-slideshow__btn-wrap" style="justify-content: {{ h_justify }};">
                 <a
                   href="{{ btn_href }}"
                   class="hero-slideshow__btn"
@@ -419,21 +418,18 @@
     pointer-events: none;
   }
 
-  /* ── Content positioning — driven by CSS custom props set inline ── */
+  /* ── Content positioning — set via inline styles on each slide ── */
   #{{ section_id }} .hero-slideshow__content {
     position: absolute;
     inset: 0;
     display: flex;
     padding: 40px 60px;
     box-sizing: border-box;
-    justify-content: var(--h-justify, flex-start);
-    align-items:     var(--v-items,   center);
   }
 
   #{{ section_id }} .hero-slideshow__content-inner {
     max-width: {{ section.settings.content_max_width }}px;
     width: 100%;
-    text-align: var(--h-text, left);
   }
 
   /* ── Heading ── */
@@ -453,7 +449,6 @@
   #{{ section_id }} .hero-slideshow__btn-wrap {
     margin-top: 4px;
     display: flex;
-    justify-content: var(--h-justify, flex-start);
   }
   #{{ section_id }} .hero-slideshow__btn {
     display: inline-flex;
@@ -574,14 +569,6 @@
 
     #{{ section_id }} .hero-slideshow__content {
       padding: 24px 20px;
-      justify-content: var(--mh-justify, var(--h-justify, flex-start));
-      align-items:     var(--mv-items,   var(--v-items,   center));
-    }
-    #{{ section_id }} .hero-slideshow__content-inner {
-      text-align: var(--mh-text, var(--h-text, left));
-    }
-    #{{ section_id }} .hero-slideshow__btn-wrap {
-      justify-content: var(--mh-justify, var(--h-justify, flex-start));
     }
     #{{ section_id }} .hero-slideshow__arrow {
       width: 32px;
@@ -686,6 +673,91 @@
   }, { passive: true });
 
   startAutoplay();
+
+  // ── Mobile position swap ──────────────────────────────────────────────
+  // Reads data-* attrs written by Liquid and applies them as inline styles
+  // on the correct elements, switching between desktop and mobile values.
+  var allSlides = Array.from(section.querySelectorAll('.hero-slideshow__slide'));
+
+  function applyPositions() {
+    var isMobile = window.innerWidth < 750;
+    allSlides.forEach(function(slide) {
+      var contentEl = slide.querySelector('.hero-slideshow__content');
+      var innerEl   = slide.querySelector('.hero-slideshow__content-inner');
+      var btnWrap   = slide.querySelector('.hero-slideshow__btn-wrap');
+      if (!contentEl || !innerEl) return;
+
+      var mhJustify = innerEl.dataset.mhJustify;
+      var mhText    = innerEl.dataset.mhText;
+      var mvItems   = innerEl.dataset.mvItems;
+
+      // Desktop values are already set as inline styles by Liquid.
+      // Read them back from the element's current style for fallback.
+      var deskJustify = contentEl.style.justifyContent || 'flex-start';
+      var deskItems   = contentEl.style.alignItems     || 'center';
+      var deskText    = innerEl.style.textAlign        || 'left';
+
+      if (isMobile && mhJustify) {
+        contentEl.style.justifyContent = mhJustify;
+        contentEl.style.alignItems     = mvItems   || deskItems;
+        innerEl.style.textAlign        = mhText    || deskText;
+        if (btnWrap) btnWrap.style.justifyContent = mhJustify;
+      } else {
+        contentEl.style.justifyContent = deskJustify;
+        contentEl.style.alignItems     = deskItems;
+        innerEl.style.textAlign        = deskText;
+        if (btnWrap) btnWrap.style.justifyContent = deskJustify;
+      }
+    });
+  }
+
+  // Store desktop values before first swap so we can restore them
+  allSlides.forEach(function(slide) {
+    var contentEl = slide.querySelector('.hero-slideshow__content');
+    var innerEl   = slide.querySelector('.hero-slideshow__content-inner');
+    var btnWrap   = slide.querySelector('.hero-slideshow__btn-wrap');
+    if (contentEl) {
+      contentEl.dataset.deskJustify = contentEl.style.justifyContent || 'flex-start';
+      contentEl.dataset.deskItems   = contentEl.style.alignItems     || 'center';
+    }
+    if (innerEl) {
+      innerEl.dataset.deskText = innerEl.style.textAlign || 'left';
+    }
+  });
+
+  // Re-read desktop from stored data attrs for cleaner restore
+  function applyPositionsFinal() {
+    var isMobile = window.innerWidth < 750;
+    allSlides.forEach(function(slide) {
+      var contentEl = slide.querySelector('.hero-slideshow__content');
+      var innerEl   = slide.querySelector('.hero-slideshow__content-inner');
+      var btnWrap   = slide.querySelector('.hero-slideshow__btn-wrap');
+      if (!contentEl || !innerEl) return;
+
+      var mhJustify   = innerEl.dataset.mhJustify   || '';
+      var mhText      = innerEl.dataset.mhText       || '';
+      var mvItems     = innerEl.dataset.mvItems      || '';
+      var deskJustify = contentEl.dataset.deskJustify || 'flex-start';
+      var deskItems   = contentEl.dataset.deskItems   || 'center';
+      var deskText    = innerEl.dataset.deskText      || 'left';
+
+      if (isMobile && mhJustify) {
+        contentEl.style.justifyContent = mhJustify;
+        contentEl.style.alignItems     = mvItems || deskItems;
+        innerEl.style.textAlign        = mhText  || deskText;
+        if (btnWrap) btnWrap.style.justifyContent = mhJustify;
+      } else {
+        contentEl.style.justifyContent = deskJustify;
+        contentEl.style.alignItems     = deskItems;
+        innerEl.style.textAlign        = deskText;
+        if (btnWrap) btnWrap.style.justifyContent = deskJustify;
+      }
+    });
+  }
+
+  applyPositionsFinal();
+  window.addEventListener('resize', applyPositionsFinal);
+
 })();
 </script>
 
