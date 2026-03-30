@@ -432,7 +432,8 @@
   #{{ section_id }} .hero-slideshow__nav-bar {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 8px;
     height: var(--nav-bar-height, 56px);
     padding: 0 16px;
   }
@@ -460,9 +461,7 @@
   /* Placeholder keeps spacing balanced when arrows are hidden */
   #{{ section_id }} .hero-slideshow__arrow-placeholder,
   #{{ section_id }} .hero-slideshow__indicators-placeholder {
-    flex-shrink: 0;
-    width: 36px;
-    display: block;
+    display: none;
   }
 
   /* ── Indicators ── */
@@ -471,7 +470,6 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    flex: 1;
   }
 
   /* Dot style */
