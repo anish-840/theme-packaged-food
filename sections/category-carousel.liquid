@@ -1,0 +1,619 @@
+{% comment %}
+  Shop by Category — Carousel Section
+  - Configurable section title
+  - Each block: image + label text
+  - Desktop: 6 columns visible, Mobile: 2 columns visible
+  - Carousel with prev/next arrows + pill indicators below
+  - Settings: card height, font size/weight/color, card style
+{% endcomment %}
+
+{%- liquid
+  assign section_id     = 'cat-carousel-' | append: section.id
+  assign total_blocks   = section.blocks.size
+  assign desk_cols      = 6
+  assign mob_cols       = 2
+-%}
+
+<section id="{{ section_id }}" class="cat-carousel">
+
+  {%- comment %} ── Section heading ── {%- endcomment %}
+  {%- if section.settings.title != blank -%}
+    <h2 class="cat-carousel__title"
+      style="
+        font-size: {{ section.settings.title_size }}px;
+        font-weight: {{ section.settings.title_weight }};
+        color: {{ section.settings.title_color }};
+      ">
+      {{ section.settings.title | escape }}
+    </h2>
+  {%- endif -%}
+
+  {%- comment %} ── Track wrapper (clips overflow) ── {%- endcomment %}
+  <div class="cat-carousel__viewport">
+    <div class="cat-carousel__track" data-track>
+
+      {%- for block in section.blocks -%}
+        <div class="cat-carousel__item" {{ block.shopify_attributes }}>
+          <a
+            class="cat-carousel__card"
+            href="{{ block.settings.link | default: '#' }}"
+            style="--card-height: {{ section.settings.card_height }}px;"
+          >
+            <div class="cat-carousel__img-wrap">
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 600
+                  | image_tag:
+                    class: 'cat-carousel__img',
+                    loading: 'lazy',
+                    widths: '200, 300, 400, 600',
+                    sizes: '(max-width: 749px) 50vw, 200px',
+                    alt: block.settings.image.alt | default: block.settings.label | escape
+                }}
+              {%- else -%}
+                <div class="cat-carousel__img-placeholder">
+                  {{ 'image' | placeholder_svg_tag: 'cat-carousel__placeholder-svg' }}
+                </div>
+              {%- endif -%}
+            </div>
+
+            {%- if block.settings.label != blank -%}
+              <span
+                class="cat-carousel__label"
+                style="
+                  font-size: {{ section.settings.label_size }}px;
+                  font-weight: {{ section.settings.label_weight }};
+                  color: {{ section.settings.label_color }};
+                "
+              >{{ block.settings.label | escape }}</span>
+            {%- endif -%}
+          </a>
+        </div>
+      {%- endfor -%}
+
+    </div>
+  </div>
+
+  {%- comment %} ── Navigation bar ── {%- endcomment %}
+  {%- if total_blocks > desk_cols -%}
+    <div
+      class="cat-carousel__nav"
+      style="
+        --ind-active: {{ section.settings.indicator_active_color }};
+        --ind-inactive: {{ section.settings.indicator_inactive_color }};
+        --nav-bg: {{ section.settings.nav_bg }};
+        --nav-height: {{ section.settings.nav_height }}px;
+      "
+    >
+      <button class="cat-carousel__arrow cat-carousel__arrow--prev" type="button" aria-label="Previous">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <div class="cat-carousel__dots" role="tablist" data-dots></div>
+
+      <button class="cat-carousel__arrow cat-carousel__arrow--next" type="button" aria-label="Next">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  {%- endif -%}
+
+</section>
+
+<style>
+  #{{ section_id }} {
+    padding: {{ section.settings.section_padding_top }}px {{ section.settings.section_padding_x }}px {{ section.settings.section_padding_bottom }}px;
+    background: {{ section.settings.section_bg }};
+  }
+
+  /* ── Title ── */
+  #{{ section_id }} .cat-carousel__title {
+    margin: 0 0 {{ section.settings.title_margin_bottom }}px;
+    padding: 0;
+    line-height: 1.2;
+  }
+
+  /* ── Viewport: clips the track ── */
+  #{{ section_id }} .cat-carousel__viewport {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  /* ── Track: flex row of items ── */
+  #{{ section_id }} .cat-carousel__track {
+    display: flex;
+    gap: {{ section.settings.card_gap }}px;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+
+  /* ── Item: fixed-width column ── */
+  #{{ section_id }} .cat-carousel__item {
+    flex: 0 0 calc((100% - {{ section.settings.card_gap | times: 5 }}px) / 6);
+    min-width: 0;
+  }
+
+  /* ── Card ── */
+  #{{ section_id }} .cat-carousel__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--card-height, 200px);
+    padding: {{ section.settings.card_padding }}px;
+    background: {{ section.settings.card_bg }};
+    border: {{ section.settings.card_border_width }}px solid {{ section.settings.card_border_color }};
+    border-radius: {{ section.settings.card_radius }}px;
+    text-decoration: none;
+    box-sizing: border-box;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+  }
+  #{{ section_id }} .cat-carousel__card:hover {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+  }
+
+  /* ── Image area ── */
+  #{{ section_id }} .cat-carousel__img-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    overflow: hidden;
+  }
+  #{{ section_id }} .cat-carousel__img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+  }
+  #{{ section_id }} .cat-carousel__img-placeholder {
+    width: 80px; height: 80px;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0.25;
+  }
+  #{{ section_id }} .cat-carousel__placeholder-svg {
+    width: 100%; height: 100%;
+  }
+
+  /* ── Label ── */
+  #{{ section_id }} .cat-carousel__label {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    line-height: 1.3;
+    flex-shrink: 0;
+  }
+
+  /* ── Nav bar ── */
+  #{{ section_id }} .cat-carousel__nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: var(--nav-height, 52px);
+    background: var(--nav-bg, transparent);
+    margin-top: {{ section.settings.nav_margin_top }}px;
+  }
+
+  /* ── Arrows ── */
+  #{{ section_id }} .cat-carousel__arrow {
+    flex-shrink: 0;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    color: {{ section.settings.arrow_color }};
+    transition: background 0.2s;
+    padding: 0;
+  }
+  #{{ section_id }} .cat-carousel__arrow:hover {
+    background: rgba(0,0,0,0.06);
+  }
+  #{{ section_id }} .cat-carousel__arrow:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  /* ── Dots ── */
+  #{{ section_id }} .cat-carousel__dots {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  #{{ section_id }} .cat-carousel__dot {
+    width: 28px; height: 6px;
+    border-radius: 3px;
+    border: none; padding: 0;
+    cursor: pointer;
+    background: var(--ind-inactive);
+    transition: background 0.2s, width 0.3s;
+  }
+  #{{ section_id }} .cat-carousel__dot.is-active {
+    background: var(--ind-active);
+    width: 40px;
+  }
+
+  /* ── Mobile: 2 columns ── */
+  @media screen and (max-width: 749px) {
+    #{{ section_id }} .cat-carousel__item {
+      flex: 0 0 calc((100% - {{ section.settings.card_gap }}px) / 2);
+    }
+    #{{ section_id }} .cat-carousel__arrow {
+      width: 30px; height: 30px;
+    }
+    #{{ section_id }} .cat-carousel__dot {
+      width: 20px; height: 5px;
+    }
+    #{{ section_id }} .cat-carousel__dot.is-active {
+      width: 30px;
+    }
+  }
+</style>
+
+<script>
+(function () {
+  var section   = document.getElementById('{{ section_id }}');
+  if (!section) return;
+
+  var track     = section.querySelector('[data-track]');
+  var dotsWrap  = section.querySelector('[data-dots]');
+  var prevBtn   = section.querySelector('.cat-carousel__arrow--prev');
+  var nextBtn   = section.querySelector('.cat-carousel__arrow--next');
+  var items     = Array.from(track ? track.querySelectorAll('.cat-carousel__item') : []);
+  if (!track || items.length === 0) return;
+
+  var current   = 0; // current page index
+
+  /* How many items fit in the viewport at this breakpoint */
+  function colsVisible() {
+    return window.innerWidth < 750 ? 2 : 6;
+  }
+
+  /* Total number of pages */
+  function totalPages() {
+    return Math.ceil(items.length / colsVisible());
+  }
+
+  /* Width of one item including gap */
+  function itemStep() {
+    var gap = parseInt('{{ section.settings.card_gap }}', 10) || 16;
+    var vpW = track.parentElement.offsetWidth;
+    var cols = colsVisible();
+    return (vpW + gap) / cols;
+  }
+
+  /* Build dots */
+  function buildDots() {
+    if (!dotsWrap) return;
+    dotsWrap.innerHTML = '';
+    var pages = totalPages();
+    for (var i = 0; i < pages; i++) {
+      var btn = document.createElement('button');
+      btn.className = 'cat-carousel__dot' + (i === 0 ? ' is-active' : '');
+      btn.setAttribute('role', 'tab');
+      btn.setAttribute('aria-label', 'Go to page ' + (i + 1));
+      btn.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+      btn.dataset.page = i;
+      btn.type = 'button';
+      dotsWrap.appendChild(btn);
+    }
+  }
+
+  /* Go to page */
+  function goTo(page) {
+    var pages = totalPages();
+    current = Math.max(0, Math.min(page, pages - 1));
+
+    /* Snap to item boundary */
+    var offset = current * colsVisible() * itemStep();
+
+    /* Clamp so last page doesn't over-scroll */
+    var maxOffset = track.scrollWidth - track.parentElement.offsetWidth;
+    offset = Math.min(offset, maxOffset);
+
+    track.style.transform = 'translateX(-' + offset + 'px)';
+
+    /* Update dots */
+    if (dotsWrap) {
+      Array.from(dotsWrap.querySelectorAll('.cat-carousel__dot')).forEach(function (d, i) {
+        d.classList.toggle('is-active', i === current);
+        d.setAttribute('aria-selected', i === current ? 'true' : 'false');
+      });
+    }
+
+    /* Arrow states */
+    if (prevBtn) prevBtn.disabled = current === 0;
+    if (nextBtn) nextBtn.disabled = current >= pages - 1;
+  }
+
+  /* Init */
+  function init() {
+    buildDots();
+    goTo(0);
+  }
+
+  /* Events */
+  if (prevBtn) prevBtn.addEventListener('click', function () { goTo(current - 1); });
+  if (nextBtn) nextBtn.addEventListener('click', function () { goTo(current + 1); });
+
+  if (dotsWrap) {
+    dotsWrap.addEventListener('click', function (e) {
+      var btn = e.target.closest('.cat-carousel__dot');
+      if (btn) goTo(parseInt(btn.dataset.page, 10));
+    });
+  }
+
+  /* Touch / swipe */
+  var touchStartX = 0;
+  track.addEventListener('touchstart', function (e) { touchStartX = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend', function (e) {
+    var diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) diff > 0 ? goTo(current + 1) : goTo(current - 1);
+  }, { passive: true });
+
+  /* Rebuild on resize */
+  var resizeTimer;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () { init(); }, 150);
+  });
+
+  init();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Shop by Category",
+  "tag": "section",
+  "class": "cat-carousel-section",
+  "max_blocks": 20,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title",
+      "default": "Shop by Category"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Section background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Padding top",
+      "min": 0, "max": 100, "step": 4, "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Padding bottom",
+      "min": 0, "max": 100, "step": 4, "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "section_padding_x",
+      "label": "Padding left & right",
+      "min": 0, "max": 80, "step": 4, "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Title"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Font size",
+      "min": 14, "max": 48, "step": 1, "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Color",
+      "default": "#1a2e0a"
+    },
+    {
+      "type": "range",
+      "id": "title_margin_bottom",
+      "label": "Space below title",
+      "min": 8, "max": 60, "step": 4, "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Cards"
+    },
+    {
+      "type": "range",
+      "id": "card_height",
+      "label": "Card height",
+      "min": 120, "max": 400, "step": 8, "unit": "px",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Gap between cards",
+      "min": 4, "max": 40, "step": 2, "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "label": "Card inner padding",
+      "min": 4, "max": 32, "step": 2, "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card border radius",
+      "min": 0, "max": 32, "step": 2, "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border color",
+      "default": "#e8e8e8"
+    },
+    {
+      "type": "range",
+      "id": "card_border_width",
+      "label": "Card border width",
+      "min": 0, "max": 4, "step": 1, "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Label text"
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "label": "Font size",
+      "min": 10, "max": 24, "step": 1, "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "label_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Color",
+      "default": "#1a2e0a"
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "color",
+      "id": "indicator_active_color",
+      "label": "Active indicator color",
+      "default": "#1a2e0a"
+    },
+    {
+      "type": "color",
+      "id": "indicator_inactive_color",
+      "label": "Inactive indicator color",
+      "default": "#d0d0d0"
+    },
+    {
+      "type": "color",
+      "id": "arrow_color",
+      "label": "Arrow color",
+      "default": "#1a2e0a"
+    },
+    {
+      "type": "color",
+      "id": "nav_bg",
+      "label": "Nav bar background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "nav_height",
+      "label": "Nav bar height",
+      "min": 36, "max": 80, "step": 4, "unit": "px",
+      "default": 52
+    },
+    {
+      "type": "range",
+      "id": "nav_margin_top",
+      "label": "Space above nav bar",
+      "min": 0, "max": 40, "step": 4, "unit": "px",
+      "default": 16
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Category image"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Category"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop by Category",
+      "blocks": [
+        { "type": "category", "settings": { "label": "Bread & Bakery" } },
+        { "type": "category", "settings": { "label": "Flour & Baking" } },
+        { "type": "category", "settings": { "label": "Fruits & Vegetables" } },
+        { "type": "category", "settings": { "label": "Fresh Meals & Pizzas" } },
+        { "type": "category", "settings": { "label": "Beverages" } },
+        { "type": "category", "settings": { "label": "Fresh Meat" } },
+        { "type": "category", "settings": { "label": "Dairy & Eggs" } },
+        { "type": "category", "settings": { "label": "Sauces & Marinades" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
