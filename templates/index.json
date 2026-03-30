@@ -325,6 +325,128 @@
         "padding-block-end": 0
       }
     },
+    "hero_slideshow_JFgpNw": {
+      "type": "hero-slideshow",
+      "blocks": {
+        "slide_zqqwRq": {
+          "type": "slide",
+          "settings": {
+            "video_url": "",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0,
+            "text_horizontal_position": "left",
+            "text_vertical_position": "middle",
+            "heading": "Fresh. Organic. Delivered.",
+            "heading_size": 56,
+            "heading_weight": "700",
+            "heading_color": "#1a2e0a",
+            "heading_line_height": "1",
+            "heading_force_linebreak": true,
+            "subheading": "Locally sourced & delivered to your doorstep.",
+            "subheading_size": 16,
+            "subheading_weight": "400",
+            "subheading_color": "#3d5c2a",
+            "subheading_line_height": "1.4",
+            "subheading_force_linebreak": false,
+            "button_label": "SHOP NOW",
+            "button_url": "",
+            "btn_bg": "#1a2e0a",
+            "btn_text_color": "#ffffff",
+            "btn_border_color": "#1a2e0a",
+            "btn_border_width": 2,
+            "btn_border_radius": 30,
+            "btn_hover_bg": "#ffffff",
+            "btn_hover_text_color": "#1a2e0a",
+            "btn_hover_border_color": "#1a2e0a"
+          }
+        },
+        "slide_RfkCiT": {
+          "type": "slide",
+          "settings": {
+            "video_url": "",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0,
+            "text_horizontal_position": "left",
+            "text_vertical_position": "middle",
+            "heading": "Fresh.Organic.Delivered.",
+            "heading_size": 56,
+            "heading_weight": "700",
+            "heading_color": "#1a2e0a",
+            "heading_line_height": "1.1",
+            "heading_force_linebreak": true,
+            "subheading": "Locally sourced & delivered to your doorstep.",
+            "subheading_size": 16,
+            "subheading_weight": "400",
+            "subheading_color": "#3d5c2a",
+            "subheading_line_height": "1.4",
+            "subheading_force_linebreak": false,
+            "button_label": "SHOP NOW",
+            "button_url": "",
+            "btn_bg": "#1a2e0a",
+            "btn_text_color": "#ffffff",
+            "btn_border_color": "#1a2e0a",
+            "btn_border_width": 2,
+            "btn_border_radius": 30,
+            "btn_hover_bg": "#ffffff",
+            "btn_hover_text_color": "#1a2e0a",
+            "btn_hover_border_color": "#1a2e0a"
+          }
+        },
+        "slide_fH4MTp": {
+          "type": "slide",
+          "settings": {
+            "video_url": "",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0,
+            "text_horizontal_position": "left",
+            "text_vertical_position": "middle",
+            "heading": "Kitchen &\nDining Sale",
+            "heading_size": 56,
+            "heading_weight": "700",
+            "heading_color": "#1a2e0a",
+            "heading_line_height": "1.1",
+            "heading_force_linebreak": true,
+            "subheading": "Up to 40% off selected kitchenware.",
+            "subheading_size": 16,
+            "subheading_weight": "400",
+            "subheading_color": "#3d5c2a",
+            "subheading_line_height": "1.4",
+            "subheading_force_linebreak": false,
+            "button_label": "BUY NOW",
+            "button_url": "",
+            "btn_bg": "#1a2e0a",
+            "btn_text_color": "#ffffff",
+            "btn_border_color": "#1a2e0a",
+            "btn_border_width": 2,
+            "btn_border_radius": 30,
+            "btn_hover_bg": "#ffffff",
+            "btn_hover_text_color": "#1a2e0a",
+            "btn_hover_border_color": "#1a2e0a"
+          }
+        }
+      },
+      "block_order": [
+        "slide_zqqwRq",
+        "slide_RfkCiT",
+        "slide_fH4MTp"
+      ],
+      "name": "Hero Slideshow",
+      "settings": {
+        "autoplay": true,
+        "autoplay_speed": 5,
+        "adapt_to_image": false,
+        "slide_height": "560px",
+        "content_max_width": 500,
+        "show_indicators": true,
+        "indicator_style": "pills",
+        "indicator_active_color": "#1a2e0a",
+        "indicator_inactive_color": "#b8c4ad",
+        "indicators_bg": "#ffffff",
+        "show_arrows": true,
+        "btn_font_size": 13,
+        "btn_font_weight": "600"
+      }
+    },
     "product_list_EDUBdR": {
       "type": "product-list",
       "blocks": {
@@ -887,6 +1009,7 @@
   },
   "order": [
     "slideshow_zrq6rX",
+    "hero_slideshow_JFgpNw",
     "product_list_EDUBdR",
     "media_with_content_LfPdEJ",
     "collection_list_xpBxCm"

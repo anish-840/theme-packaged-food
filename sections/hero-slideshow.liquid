@@ -171,9 +171,7 @@
                     white-space: pre-line;
                   {%- endif -%}
                 "
-              >
-                {{ block.settings.heading | newline_to_br }}
-              </h2>
+              >{{ block.settings.heading }}</h2>
             {%- endif -%}
 
             {%- comment %} Subheading {%- endcomment %}
@@ -189,16 +187,15 @@
                     white-space: pre-line;
                   {%- endif -%}
                 "
-              >
-                {{ block.settings.subheading | newline_to_br }}
-              </p>
+              >{{ block.settings.subheading }}</p>
             {%- endif -%}
 
             {%- comment %} Button {%- endcomment %}
-            {%- if block.settings.button_label != blank and block.settings.button_url != blank -%}
+            {%- if block.settings.button_label != blank -%}
+              {%- assign btn_href = block.settings.button_url | default: '#' -%}
               <div class="hero-slideshow__btn-wrap">
                 <a
-                  href="{{ block.settings.button_url }}"
+                  href="{{ btn_href }}"
                   class="hero-slideshow__btn"
                   style="
                     --btn-bg:           {{ block.settings.btn_bg }};
@@ -826,11 +823,11 @@
           "content": "Heading"
         },
         {
-          "type": "text",
+          "type": "textarea",
           "id": "heading",
           "label": "Heading text",
           "default": "Fresh.\nOrganic.\nDelivered.",
-          "info": "Use a new line in the text to force line breaks when 'Force line breaks' is on."
+          "info": "Press Enter for a new line. Enable 'Force line breaks' below to respect them."
         },
         {
           "type": "range",
@@ -887,7 +884,7 @@
           "content": "Subheading"
         },
         {
-          "type": "text",
+          "type": "textarea",
           "id": "subheading",
           "label": "Subheading text",
           "default": "Locally sourced & delivered to your doorstep."
