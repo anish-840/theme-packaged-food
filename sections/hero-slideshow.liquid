@@ -37,8 +37,53 @@
           assign is_active = true
         endif
 
-        assign h_align  = block.settings.text_horizontal_position
-        assign v_align  = block.settings.text_vertical_position
+        assign h_align   = block.settings.text_horizontal_position
+        assign v_align   = block.settings.text_vertical_position
+        assign mh_align  = block.settings.mobile_text_horizontal_position
+        assign mv_align  = block.settings.mobile_text_vertical_position
+
+        case h_align
+          when 'left'
+            assign h_justify = 'flex-start'
+            assign h_text    = 'left'
+          when 'center'
+            assign h_justify = 'center'
+            assign h_text    = 'center'
+          when 'right'
+            assign h_justify = 'flex-end'
+            assign h_text    = 'right'
+        endcase
+
+        case v_align
+          when 'top'
+            assign v_items = 'flex-start'
+          when 'middle'
+            assign v_items = 'center'
+          when 'bottom'
+            assign v_items = 'flex-end'
+        endcase
+
+        case mh_align
+          when 'left'
+            assign mh_justify = 'flex-start'
+            assign mh_text    = 'left'
+          when 'center'
+            assign mh_justify = 'center'
+            assign mh_text    = 'center'
+          when 'right'
+            assign mh_justify = 'flex-end'
+            assign mh_text    = 'right'
+        endcase
+
+        case mv_align
+          when 'top'
+            assign mv_items = 'flex-start'
+          when 'middle'
+            assign mv_items = 'center'
+          when 'bottom'
+            assign mv_items = 'flex-end'
+        endcase
+
         assign text_color = block.settings.heading_color
         assign sub_color  = block.settings.subheading_color
       -%}
@@ -154,12 +199,17 @@
 
         {%- comment %} ── Content ── {%- endcomment %}
         <div
-          class="hero-slideshow__content hero-slideshow__content--h-{{ h_align }} hero-slideshow__content--v-{{ v_align }}"
+          class="hero-slideshow__content"
+          style="
+            --h-justify: {{ h_justify }};
+            --h-text:    {{ h_text }};
+            --v-items:   {{ v_items }};
+            --mh-justify: {{ mh_justify }};
+            --mh-text:    {{ mh_text }};
+            --mv-items:   {{ mv_items }};
+          "
         >
-          <div
-            class="hero-slideshow__content-inner"
-            style="text-align: {{ h_align }};"
-          >
+          <div class="hero-slideshow__content-inner">
 
             {%- comment %} Heading {%- endcomment %}
             {%- if block.settings.heading != blank -%}
@@ -369,28 +419,21 @@
     pointer-events: none;
   }
 
-  /* ── Content positioning ── */
+  /* ── Content positioning — driven by CSS custom props set inline ── */
   #{{ section_id }} .hero-slideshow__content {
     position: absolute;
     inset: 0;
     display: flex;
     padding: 40px 60px;
     box-sizing: border-box;
+    justify-content: var(--h-justify, flex-start);
+    align-items:     var(--v-items,   center);
   }
-
-  /* Horizontal */
-  #{{ section_id }} .hero-slideshow__content--h-left   { justify-content: flex-start; text-align: left; }
-  #{{ section_id }} .hero-slideshow__content--h-center { justify-content: center;     text-align: center; }
-  #{{ section_id }} .hero-slideshow__content--h-right  { justify-content: flex-end;   text-align: right; }
-
-  /* Vertical */
-  #{{ section_id }} .hero-slideshow__content--v-top    { align-items: flex-start; }
-  #{{ section_id }} .hero-slideshow__content--v-middle { align-items: center; }
-  #{{ section_id }} .hero-slideshow__content--v-bottom { align-items: flex-end; }
 
   #{{ section_id }} .hero-slideshow__content-inner {
     max-width: {{ section.settings.content_max_width }}px;
     width: 100%;
+    text-align: var(--h-text, left);
   }
 
   /* ── Heading ── */
@@ -410,10 +453,8 @@
   #{{ section_id }} .hero-slideshow__btn-wrap {
     margin-top: 4px;
     display: flex;
+    justify-content: var(--h-justify, flex-start);
   }
-  #{{ section_id }} .hero-slideshow__content--h-left   .hero-slideshow__btn-wrap { justify-content: flex-start; }
-  #{{ section_id }} .hero-slideshow__content--h-center .hero-slideshow__btn-wrap { justify-content: center; }
-  #{{ section_id }} .hero-slideshow__content--h-right  .hero-slideshow__btn-wrap { justify-content: flex-end; }
   #{{ section_id }} .hero-slideshow__btn {
     display: inline-flex;
     align-items: center;
@@ -533,6 +574,14 @@
 
     #{{ section_id }} .hero-slideshow__content {
       padding: 24px 20px;
+      justify-content: var(--mh-justify, var(--h-justify, flex-start));
+      align-items:     var(--mv-items,   var(--v-items,   center));
+    }
+    #{{ section_id }} .hero-slideshow__content-inner {
+      text-align: var(--mh-text, var(--h-text, left));
+    }
+    #{{ section_id }} .hero-slideshow__btn-wrap {
+      justify-content: var(--mh-justify, var(--h-justify, flex-start));
     }
     #{{ section_id }} .hero-slideshow__arrow {
       width: 32px;
@@ -839,7 +888,7 @@
         },
         {
           "type": "header",
-          "content": "Text position"
+          "content": "Desktop — text position"
         },
         {
           "type": "select",
@@ -862,6 +911,32 @@
             { "value": "bottom", "label": "Bottom" }
           ],
           "default": "middle"
+        },
+        {
+          "type": "header",
+          "content": "Mobile — text position"
+        },
+        {
+          "type": "select",
+          "id": "mobile_text_horizontal_position",
+          "label": "Horizontal position",
+          "options": [
+            { "value": "left",   "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right",  "label": "Right" }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "select",
+          "id": "mobile_text_vertical_position",
+          "label": "Vertical position",
+          "options": [
+            { "value": "top",    "label": "Top" },
+            { "value": "middle", "label": "Middle" },
+            { "value": "bottom", "label": "Bottom" }
+          ],
+          "default": "bottom"
         },
         {
           "type": "header",

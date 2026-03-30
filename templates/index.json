@@ -53,7 +53,7 @@
             "overlay_color": "#000000",
             "overlay_opacity": 0,
             "text_horizontal_position": "left",
-            "text_vertical_position": "middle",
+            "text_vertical_position": "top",
             "heading": "Fresh. \nOrganic. \nDelivered.",
             "heading_size": 56,
             "heading_weight": "700",
