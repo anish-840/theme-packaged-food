@@ -9,322 +9,6 @@
  */
 {
   "sections": {
-    "slideshow_zrq6rX": {
-      "type": "slideshow",
-      "blocks": {
-        "slide_chUa8B": {
-          "type": "_slide",
-          "settings": {
-            "media_type_1": "image",
-            "content_direction": "column",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "center",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
-            "inherit_color_scheme": false,
-            "color_scheme": "scheme-6",
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
-            "padding-block-start": 48,
-            "padding-block-end": 48,
-            "padding-inline-start": 48,
-            "padding-inline-end": 48
-          },
-          "blocks": {
-            "text_86VK9C": {
-              "type": "text",
-              "name": "t:names.heading",
-              "settings": {
-                "text": "<h3>New arrivals</h3>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "text_BjhBHb": {
-              "type": "text",
-              "settings": {
-                "text": "<p>Introducing our latest products, made especially for the season. Shop your favorites before they're gone!</p>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 20,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "button_qwXy8P": {
-              "type": "button",
-              "settings": {
-                "label": "Shop now",
-                "link": "shopify://collections/all",
-                "open_in_new_tab": false,
-                "style_class": "button",
-                "width": "fit-content",
-                "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "text_86VK9C",
-            "text_BjhBHb",
-            "button_qwXy8P"
-          ]
-        },
-        "slide_HrGD6g": {
-          "type": "_slide",
-          "settings": {
-            "media_type_1": "image",
-            "content_direction": "column",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "center",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
-            "inherit_color_scheme": false,
-            "color_scheme": "scheme-6",
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
-            "padding-block-start": 48,
-            "padding-block-end": 48,
-            "padding-inline-start": 48,
-            "padding-inline-end": 48
-          },
-          "blocks": {
-            "text_paVMRR": {
-              "type": "text",
-              "name": "t:names.heading",
-              "settings": {
-                "text": "<h3>New arrivals</h3>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "text_yfhP4V": {
-              "type": "text",
-              "settings": {
-                "text": "<p>Introducing our latest products, made especially for the season. Shop your favorites before they're gone!</p>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 20,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "button_inxR6Q": {
-              "type": "button",
-              "settings": {
-                "label": "Shop now",
-                "link": "shopify://collections/all",
-                "open_in_new_tab": false,
-                "style_class": "button",
-                "width": "fit-content",
-                "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "text_paVMRR",
-            "text_yfhP4V",
-            "button_inxR6Q"
-          ]
-        },
-        "slide_hgYbX9": {
-          "type": "_slide",
-          "settings": {
-            "media_type_1": "image",
-            "content_direction": "column",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "center",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
-            "inherit_color_scheme": false,
-            "color_scheme": "scheme-6",
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
-            "padding-block-start": 48,
-            "padding-block-end": 48,
-            "padding-inline-start": 48,
-            "padding-inline-end": 48
-          },
-          "blocks": {
-            "text_UYTQVa": {
-              "type": "text",
-              "name": "t:names.heading",
-              "settings": {
-                "text": "<h2>Bestsellers</h2>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "text_JA4ftM": {
-              "type": "text",
-              "settings": {
-                "text": "<p>Discover the bestsellers that have captured the hearts of our customers with their perfect blend of functionality and style.</p>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 20,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "button_xCRJaK": {
-              "type": "button",
-              "settings": {
-                "label": "Shop now",
-                "link": "shopify://collections/all",
-                "open_in_new_tab": false,
-                "style_class": "button",
-                "width": "fit-content",
-                "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "text_UYTQVa",
-            "text_JA4ftM",
-            "button_xCRJaK"
-          ]
-        }
-      },
-      "block_order": [
-        "slide_chUa8B",
-        "slide_HrGD6g",
-        "slide_hgYbX9"
-      ],
-      "name": "t:names.slideshow_full_frame",
-      "settings": {
-        "display_mode": "full_frame",
-        "section_width": "full-width",
-        "full_frame_on_mobile": false,
-        "slideshow_gap": 12,
-        "corner_radius": 0,
-        "slide_height": "medium",
-        "content_position": "on-media",
-        "color_scheme": "",
-        "icons_style": "arrows_large",
-        "icons_shape": "circle",
-        "slideshow_controls_style": "dots",
-        "autoplay": false,
-        "autoplay_speed": 4,
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      }
-    },
     "hero_slideshow_JFgpNw": {
       "type": "hero-slideshow",
       "blocks": {
@@ -361,19 +45,20 @@
             "btn_hover_border_color": "#1a2e0a"
           }
         },
-        "slide_RfkCiT": {
+        "slide_W83yyV": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/Fruit-Bowl.1261_d2611357-2fd8-4419-a823-7d8ef9cd4adc.webp",
             "video_url": "",
             "overlay_color": "#000000",
             "overlay_opacity": 0,
             "text_horizontal_position": "left",
             "text_vertical_position": "middle",
-            "heading": "Fresh.\nOrganic.\nDelivered.",
+            "heading": "Fresh. \nOrganic. \nDelivered.",
             "heading_size": 56,
             "heading_weight": "700",
             "heading_color": "#1a2e0a",
-            "heading_line_height": "1.1",
+            "heading_line_height": "1",
             "heading_force_linebreak": true,
             "subheading": "Locally sourced & delivered to your doorstep.",
             "subheading_size": 16,
@@ -393,27 +78,28 @@
             "btn_hover_border_color": "#1a2e0a"
           }
         },
-        "slide_fH4MTp": {
+        "slide_ebjixD": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/Fruit-Bowl.1261_d2611357-2fd8-4419-a823-7d8ef9cd4adc.webp",
             "video_url": "",
             "overlay_color": "#000000",
             "overlay_opacity": 0,
             "text_horizontal_position": "left",
             "text_vertical_position": "middle",
-            "heading": "Kitchen &\nDining Sale",
+            "heading": "Fresh. \nOrganic. \nDelivered.",
             "heading_size": 56,
             "heading_weight": "700",
             "heading_color": "#1a2e0a",
-            "heading_line_height": "1.1",
+            "heading_line_height": "1",
             "heading_force_linebreak": true,
-            "subheading": "Up to 40% off selected kitchenware.",
+            "subheading": "Locally sourced & delivered to your doorstep.",
             "subheading_size": 16,
             "subheading_weight": "400",
             "subheading_color": "#3d5c2a",
             "subheading_line_height": "1.4",
             "subheading_force_linebreak": false,
-            "button_label": "BUY NOW",
+            "button_label": "SHOP NOW",
             "button_url": "",
             "btn_bg": "#1a2e0a",
             "btn_text_color": "#ffffff",
@@ -428,8 +114,8 @@
       },
       "block_order": [
         "slide_zqqwRq",
-        "slide_RfkCiT",
-        "slide_fH4MTp"
+        "slide_W83yyV",
+        "slide_ebjixD"
       ],
       "name": "Hero Slideshow",
       "settings": {
@@ -443,6 +129,7 @@
         "indicator_active_color": "#1a2e0a",
         "indicator_inactive_color": "#b8c4ad",
         "indicators_bg": "#ffffff",
+        "indicator_bar_height": 56,
         "show_arrows": true,
         "btn_font_size": 13,
         "btn_font_weight": "600"
@@ -1009,7 +696,6 @@
     }
   },
   "order": [
-    "slideshow_zrq6rX",
     "hero_slideshow_JFgpNw",
     "product_list_EDUBdR",
     "media_with_content_LfPdEJ",

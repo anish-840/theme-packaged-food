@@ -156,7 +156,10 @@
         <div
           class="hero-slideshow__content hero-slideshow__content--h-{{ h_align }} hero-slideshow__content--v-{{ v_align }}"
         >
-          <div class="hero-slideshow__content-inner">
+          <div
+            class="hero-slideshow__content-inner"
+            style="text-align: {{ h_align }};"
+          >
 
             {%- comment %} Heading {%- endcomment %}
             {%- if block.settings.heading != blank -%}
@@ -387,6 +390,7 @@
 
   #{{ section_id }} .hero-slideshow__content-inner {
     max-width: {{ section.settings.content_max_width }}px;
+    width: 100%;
   }
 
   /* ── Heading ── */
@@ -405,7 +409,11 @@
   /* ── Button ── */
   #{{ section_id }} .hero-slideshow__btn-wrap {
     margin-top: 4px;
+    display: flex;
   }
+  #{{ section_id }} .hero-slideshow__content--h-left   .hero-slideshow__btn-wrap { justify-content: flex-start; }
+  #{{ section_id }} .hero-slideshow__content--h-center .hero-slideshow__btn-wrap { justify-content: center; }
+  #{{ section_id }} .hero-slideshow__content--h-right  .hero-slideshow__btn-wrap { justify-content: flex-end; }
   #{{ section_id }} .hero-slideshow__btn {
     display: inline-flex;
     align-items: center;
