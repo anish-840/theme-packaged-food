@@ -1,0 +1,1065 @@
+{% comment %}
+  Featured Product Section
+  - Works on any page (homepage, landing pages, product pages)
+  - Fully self-contained: no content_for 'blocks' dependency
+  - Left: product media gallery with thumbnails
+  - Right: price, title, description, allergens, nutriscore,
+           variant picker, buy button, CTA link
+  - All styling configurable via section settings
+{% endcomment %}
+
+{%- liquid
+  if section.settings.product != blank
+    assign product = section.settings.product
+  else
+    assign product = closest.product
+  endif
+
+  assign selected_variant = product.selected_or_first_available_variant
+  assign allergen_icons   = product.metafields.allergens.icons
+  assign nutriscore       = product.metafields.product.nutriscore.value | upcase | strip
+
+  if nutriscore == 'A'
+    assign ns_pointer = 10
+  elsif nutriscore == 'B'
+    assign ns_pointer = 30
+  elsif nutriscore == 'C'
+    assign ns_pointer = 50
+  elsif nutriscore == 'D'
+    assign ns_pointer = 70
+  elsif nutriscore == 'E'
+    assign ns_pointer = 90
+  else
+    assign ns_pointer = 50
+  endif
+-%}
+
+{%- assign sid = 'fp-' | append: section.id -%}
+
+<section id="{{ sid }}" class="fp-section">
+  <div class="fp-inner">
+
+    {%- comment %} ══════════════════════════════
+        LEFT — Media
+    ══════════════════════════════ {%- endcomment %}
+    <div class="fp-media">
+      <div class="fp-media__main" id="{{ sid }}-main-img">
+        {%- if product.featured_media != blank -%}
+          {{
+            product.featured_media.preview_image
+            | image_url: width: 1200
+            | image_tag:
+              class: 'fp-media__hero-img',
+              loading: 'eager',
+              fetchpriority: 'high',
+              widths: '400, 600, 800, 1000, 1200',
+              sizes: '(max-width: 749px) 100vw, 50vw',
+              alt: product.featured_media.alt | default: product.title | escape
+          }}
+        {%- else -%}
+          <div class="fp-media__placeholder">
+            {{ 'product-1' | placeholder_svg_tag: 'fp-placeholder-svg' }}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- if product.media.size > 1 -%}
+        <div class="fp-media__thumbs" id="{{ sid }}-thumbs">
+          {%- for media in product.media limit: 6 -%}
+            <button
+              class="fp-media__thumb{% if forloop.first %} is-active{% endif %}"
+              type="button"
+              data-src="{{ media.preview_image | image_url: width: 1200 }}"
+              data-index="{{ forloop.index0 }}"
+              aria-label="{{ media.alt | default: product.title | escape }}"
+            >
+              {{
+                media.preview_image
+                | image_url: width: 160
+                | image_tag:
+                  loading: 'lazy',
+                  widths: '80, 120, 160',
+                  alt: media.alt | default: product.title | escape
+              }}
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment %} ══════════════════════════════
+        RIGHT — Info
+    ══════════════════════════════ {%- endcomment %}
+    <div class="fp-info">
+
+      {%- comment %} Price {%- endcomment %}
+      {%- if section.settings.show_price -%}
+        <div class="fp-price">
+          {%- if selected_variant.compare_at_price > selected_variant.price -%}
+            <span class="fp-price__sale">{{ selected_variant.price | money }}</span>
+            <span class="fp-price__compare">{{ selected_variant.compare_at_price | money }}</span>
+          {%- else -%}
+            <span class="fp-price__sale">{{ selected_variant.price | money }}</span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment %} Title {%- endcomment %}
+      {%- if section.settings.show_title -%}
+        <h2 class="fp-title">{{ product.title }}</h2>
+      {%- endif -%}
+
+      {%- comment %} Description {%- endcomment %}
+      {%- if section.settings.show_description and product.description != blank -%}
+        <div class="fp-description">{{ product.description }}</div>
+      {%- endif -%}
+
+      {%- comment %} Allergens {%- endcomment %}
+      {%- if section.settings.show_allergens and allergen_icons != blank -%}
+        <div class="fp-widget fp-allergens">
+          <p class="fp-widget__label">{{ section.settings.allergens_label | default: 'Allergens' }}</p>
+          <div class="fp-allergens__grid">
+            {%- for file in allergen_icons.value -%}
+              {%- assign aname = file | split: '/' | last | split: '.' | first | replace: '_', ' ' | replace: '-', ' ' -%}
+              <div class="fp-allergen__item">
+                <img
+                  src="https://cdn.shopify.com/s/files/1/0965/9793/4353/{{ file }}"
+                  alt="{{ aname }}"
+                  loading="lazy"
+                  class="fp-allergen__icon"
+                >
+                <span class="fp-allergen__name">{{ aname }}</span>
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- comment %} Nutri-score {%- endcomment %}
+      {%- if section.settings.show_nutriscore and nutriscore != blank -%}
+        <div class="fp-widget fp-nutriscore">
+          <div class="fp-nutriscore__header">
+            <span class="fp-widget__label fp-widget__label--inline">{{ section.settings.nutriscore_label | default: 'Nutriscore' }}</span>
+            <div class="fp-nutriscore__info-wrap">
+              <button class="fp-nutriscore__info-btn" type="button" aria-label="What is Nutri-score?">i</button>
+              <span class="fp-nutriscore__tooltip">{{ section.settings.nutriscore_tooltip | default: 'Nutritional Rating System demonstrating the overall nutritional value of food products' }}</span>
+            </div>
+          </div>
+          <div class="fp-nutriscore__bar-wrap">
+            <div class="fp-nutriscore__pointer" style="left: {{ ns_pointer }}%">
+              <svg width="12" height="9" viewBox="0 0 12 9" aria-hidden="true">
+                <polygon points="6,9 0,0 12,0" fill="currentColor"/>
+              </svg>
+            </div>
+            <div class="fp-nutriscore__bar">
+              <span class="fp-ns-zone fp-ns-a{% if nutriscore == 'A' %} is-active{% endif %}">A</span>
+              <span class="fp-ns-zone fp-ns-b{% if nutriscore == 'B' %} is-active{% endif %}">B</span>
+              <span class="fp-ns-zone fp-ns-c{% if nutriscore == 'C' %} is-active{% endif %}">C</span>
+              <span class="fp-ns-zone fp-ns-d{% if nutriscore == 'D' %} is-active{% endif %}">D</span>
+              <span class="fp-ns-zone fp-ns-e{% if nutriscore == 'E' %} is-active{% endif %}">E</span>
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- comment %} Variant Picker {%- endcomment %}
+      {%- if section.settings.show_variants and product.has_only_default_variant == false -%}
+        <div class="fp-variants">
+          {%- for option in product.options_with_values -%}
+            <div class="fp-variants__group">
+              <p class="fp-variants__name">{{ option.name }}</p>
+              <div class="fp-variants__options" id="{{ sid }}-option-{{ forloop.index }}">
+                {%- for value in option.values -%}
+                  {%- assign opt_index = forloop.parentloop.index0 -%}
+                  {%- assign is_selected = false -%}
+                  {%- if selected_variant.options[opt_index] == value -%}
+                    {%- assign is_selected = true -%}
+                  {%- endif -%}
+                  <button
+                    class="fp-variant-btn{% if is_selected %} is-selected{% endif %}"
+                    type="button"
+                    data-option-index="{{ opt_index }}"
+                    data-option-value="{{ value | escape }}"
+                  >{{ value }}</button>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment %} CTA Buttons {%- endcomment %}
+      <div class="fp-cta">
+        {%- if section.settings.show_add_to_cart -%}
+          <a href="{{ product.url }}" class="fp-btn fp-btn--primary">
+            {{ section.settings.btn_primary_label | default: 'Shop Now' }}
+          </a>
+        {%- endif -%}
+        {%- if section.settings.show_secondary_btn and section.settings.btn_secondary_label != blank -%}
+          <a
+            href="{{ section.settings.btn_secondary_url | default: product.url }}"
+            class="fp-btn fp-btn--secondary"
+          >{{ section.settings.btn_secondary_label }}</a>
+        {%- endif -%}
+      </div>
+
+    </div>
+    {%- comment %} /RIGHT {%- endcomment %}
+
+  </div>
+</section>
+
+<style>
+  #{{ sid }} {
+    background: {{ section.settings.section_bg }};
+    padding: {{ section.settings.padding_top }}px {{ section.settings.padding_x }}px {{ section.settings.padding_bottom }}px;
+  }
+
+  #{{ sid }} .fp-inner {
+    display: grid;
+    grid-template-columns: {{ section.settings.media_width }}fr {{ section.settings.info_width }}fr;
+    gap: {{ section.settings.col_gap }}px;
+    align-items: start;
+    max-width: {{ section.settings.max_width }}px;
+    margin: 0 auto;
+  }
+
+  /* ── Media ── */
+  #{{ sid }} .fp-media__main {
+    border-radius: {{ section.settings.media_radius }}px;
+    overflow: hidden;
+    background: {{ section.settings.media_bg }};
+    aspect-ratio: {{ section.settings.media_ratio }};
+  }
+  #{{ sid }} .fp-media__hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: {{ section.settings.media_fit }};
+    object-position: center;
+    display: block;
+    transition: opacity 0.3s ease;
+  }
+  #{{ sid }} .fp-media__placeholder {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0.2;
+  }
+  #{{ sid }} .fp-placeholder-svg { width: 60%; height: 60%; }
+
+  #{{ sid }} .fp-media__thumbs {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+  #{{ sid }} .fp-media__thumb {
+    width: 64px; height: 64px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    padding: 0; background: transparent; cursor: pointer;
+    transition: border-color 0.15s;
+    flex-shrink: 0;
+  }
+  #{{ sid }} .fp-media__thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+  }
+  #{{ sid }} .fp-media__thumb.is-active {
+    border-color: {{ section.settings.thumb_active_color }};
+  }
+
+  /* ── Info column ── */
+  #{{ sid }} .fp-info {
+    display: flex;
+    flex-direction: column;
+    gap: {{ section.settings.block_gap }}px;
+  }
+
+  /* ── Price ── */
+  #{{ sid }} .fp-price {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  #{{ sid }} .fp-price__sale {
+    font-size: {{ section.settings.price_size }}px;
+    font-weight: {{ section.settings.price_weight }};
+    color: {{ section.settings.price_color }};
+    line-height: 1;
+  }
+  #{{ sid }} .fp-price__compare {
+    font-size: {{ section.settings.compare_size }}px;
+    color: {{ section.settings.compare_color }};
+    text-decoration: line-through;
+  }
+
+  /* ── Title ── */
+  #{{ sid }} .fp-title {
+    font-size: {{ section.settings.title_size }}px;
+    font-weight: {{ section.settings.title_weight }};
+    color: {{ section.settings.title_color }};
+    line-height: 1.2;
+    margin: 0; padding: 0;
+  }
+
+  /* ── Description ── */
+  #{{ sid }} .fp-description {
+    font-size: {{ section.settings.desc_size }}px;
+    color: {{ section.settings.desc_color }};
+    line-height: 1.65;
+  }
+  #{{ sid }} .fp-description p { margin: 0 0 8px; }
+  #{{ sid }} .fp-description ul { padding-left: 20px; margin: 0 0 8px; }
+  #{{ sid }} .fp-description li { margin-bottom: 4px; }
+
+  /* ── Widget container (allergens + nutriscore) ── */
+  #{{ sid }} .fp-widget {
+    padding: {{ section.settings.widget_padding }}px;
+    background: {{ section.settings.widget_bg }};
+    border: {{ section.settings.widget_border_width }}px solid {{ section.settings.widget_border_color }};
+    border-radius: {{ section.settings.widget_radius }}px;
+  }
+  #{{ sid }} .fp-widget__label {
+    font-size: {{ section.settings.widget_label_size }}px;
+    font-weight: {{ section.settings.widget_label_weight }};
+    color: {{ section.settings.widget_label_color }};
+    margin: 0 0 12px; padding: 0;
+  }
+  #{{ sid }} .fp-widget__label--inline {
+    display: inline-block;
+    margin: 0;
+  }
+
+  /* ── Allergens ── */
+  #{{ sid }} .fp-allergens__grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    align-items: center;
+  }
+  #{{ sid }} .fp-allergen__item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  #{{ sid }} .fp-allergen__icon {
+    width: {{ section.settings.allergen_icon_size }}px;
+    height: {{ section.settings.allergen_icon_size }}px;
+    object-fit: contain;
+    display: block;
+    flex-shrink: 0;
+  }
+  #{{ sid }} .fp-allergen__name {
+    font-size: {{ section.settings.allergen_label_size }}px;
+    color: {{ section.settings.allergen_label_color }};
+    white-space: nowrap;
+    line-height: 1.3;
+  }
+
+  /* ── Nutri-score ── */
+  #{{ sid }} .fp-nutriscore__header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  #{{ sid }} .fp-nutriscore__info-wrap {
+    position: relative;
+    display: inline-flex;
+  }
+  #{{ sid }} .fp-nutriscore__info-btn {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 1.5px solid #aaa;
+    background: transparent;
+    color: #aaa;
+    font-size: 11px; font-style: italic; font-weight: 600;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0; line-height: 1; flex-shrink: 0;
+  }
+  #{{ sid }} .fp-nutriscore__tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a1a1a;
+    color: #fff;
+    font-size: 12px; line-height: 1.5;
+    padding: 8px 12px;
+    border-radius: 6px;
+    width: 220px;
+    white-space: normal;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    z-index: 20;
+    text-align: center;
+  }
+  #{{ sid }} .fp-nutriscore__tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%; left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #1a1a1a;
+  }
+  #{{ sid }} .fp-nutriscore__info-wrap:hover .fp-nutriscore__tooltip { opacity: 1; }
+
+  #{{ sid }} .fp-nutriscore__bar-wrap {
+    position: relative;
+    padding-top: 20px;
+  }
+  #{{ sid }} .fp-nutriscore__pointer {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    color: #1a1a1a;
+    display: flex; justify-content: center;
+    line-height: 1;
+  }
+  #{{ sid }} .fp-nutriscore__bar {
+    display: flex;
+    border-radius: {{ section.settings.ns_bar_radius }}px;
+    overflow: hidden;
+    height: {{ section.settings.ns_bar_height }}px;
+  }
+  #{{ sid }} .fp-ns-zone {
+    flex: 1;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.02em;
+  }
+  #{{ sid }} .fp-ns-zone.is-active { color: #fff; }
+  #{{ sid }} .fp-ns-a { background: #2d8a2d; }
+  #{{ sid }} .fp-ns-b { background: #85bb2f; }
+  #{{ sid }} .fp-ns-c { background: #f5c400; }
+  #{{ sid }} .fp-ns-d { background: #f07a00; }
+  #{{ sid }} .fp-ns-e { background: #d93025; }
+
+  /* ── Variant picker ── */
+  #{{ sid }} .fp-variants__group { margin-bottom: 4px; }
+  #{{ sid }} .fp-variants__name {
+    font-size: 13px; font-weight: 500;
+    color: {{ section.settings.widget_label_color }};
+    margin: 0 0 8px; padding: 0;
+  }
+  #{{ sid }} .fp-variants__options {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  #{{ sid }} .fp-variant-btn {
+    padding: 7px 16px;
+    border-radius: 20px;
+    border: 1.5px solid #d0d0d0;
+    background: #fff;
+    color: #1a1a1a;
+    font-size: 13px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  #{{ sid }} .fp-variant-btn.is-selected {
+    border-color: {{ section.settings.title_color }};
+    background: transparent;
+    font-weight: 500;
+  }
+  #{{ sid }} .fp-variant-btn:hover {
+    border-color: {{ section.settings.title_color }};
+  }
+
+  /* ── CTA Buttons ── */
+  #{{ sid }} .fp-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+  #{{ sid }} .fp-btn {
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    padding: {{ section.settings.btn_padding_v }}px {{ section.settings.btn_padding_h }}px;
+    border-radius: {{ section.settings.btn_radius }}px;
+    font-size: {{ section.settings.btn_font_size }}px;
+    font-weight: {{ section.settings.btn_font_weight }};
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+  #{{ sid }} .fp-btn--primary {
+    background: {{ section.settings.btn_primary_bg }};
+    color: {{ section.settings.btn_primary_text }};
+    border: 2px solid {{ section.settings.btn_primary_bg }};
+  }
+  #{{ sid }} .fp-btn--primary:hover {
+    background: {{ section.settings.btn_primary_hover_bg }};
+    color: {{ section.settings.btn_primary_hover_text }};
+    border-color: {{ section.settings.btn_primary_hover_bg }};
+  }
+  #{{ sid }} .fp-btn--secondary {
+    background: transparent;
+    color: {{ section.settings.btn_secondary_color }};
+    border: 2px solid {{ section.settings.btn_secondary_color }};
+  }
+  #{{ sid }} .fp-btn--secondary:hover {
+    background: {{ section.settings.btn_secondary_color }};
+    color: #fff;
+  }
+
+  /* ── Mobile ── */
+  @media screen and (max-width: 749px) {
+    #{{ sid }} .fp-inner {
+      grid-template-columns: 1fr;
+      gap: {{ section.settings.col_gap | divided_by: 2 }}px;
+    }
+    #{{ sid }} .fp-media__main {
+      aspect-ratio: {{ section.settings.media_ratio_mobile }};
+    }
+    #{{ sid }} .fp-title {
+      font-size: {{ section.settings.title_size | times: 0.75 | round }}px;
+    }
+    #{{ sid }} .fp-price__sale {
+      font-size: {{ section.settings.price_size | times: 0.8 | round }}px;
+    }
+  }
+</style>
+
+<script>
+(function() {
+  var sid = '{{ sid }}';
+  var section = document.getElementById(sid);
+  if (!section) return;
+
+  /* ── Thumbnail gallery ── */
+  var thumbs = Array.from(section.querySelectorAll('.fp-media__thumb'));
+  var heroImg = section.querySelector('.fp-media__main .fp-media__hero-img');
+
+  thumbs.forEach(function(thumb) {
+    thumb.addEventListener('click', function() {
+      if (!heroImg) return;
+      thumbs.forEach(function(t) { t.classList.remove('is-active'); });
+      thumb.classList.add('is-active');
+      heroImg.style.opacity = '0';
+      setTimeout(function() {
+        heroImg.src = thumb.dataset.src;
+        heroImg.style.opacity = '1';
+      }, 150);
+    });
+  });
+
+  /* ── Variant selector ── */
+  var variantBtns = Array.from(section.querySelectorAll('.fp-variant-btn'));
+  variantBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var idx = btn.dataset.optionIndex;
+      var group = section.querySelectorAll('[data-option-index="' + idx + '"]');
+      group.forEach(function(b) { b.classList.remove('is-selected'); });
+      btn.classList.add('is-selected');
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Featured product",
+  "tag": "section",
+  "class": "featured-product-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Product"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product",
+      "info": "Leave empty to use the current page product"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Max section width",
+      "min": 800, "max": 1600, "step": 40, "unit": "px",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "media_width",
+      "label": "Media column width (fr)",
+      "min": 1, "max": 3, "step": 1,
+      "default": 1,
+      "info": "Ratio of media column vs info column"
+    },
+    {
+      "type": "range",
+      "id": "info_width",
+      "label": "Info column width (fr)",
+      "min": 1, "max": 3, "step": 1,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "col_gap",
+      "label": "Gap between columns",
+      "min": 16, "max": 80, "step": 4, "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "block_gap",
+      "label": "Gap between info blocks",
+      "min": 8, "max": 40, "step": 2, "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Section background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0, "max": 100, "step": 4, "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0, "max": 100, "step": 4, "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_x",
+      "label": "Padding left & right",
+      "min": 0, "max": 80, "step": 4, "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "select",
+      "id": "media_ratio",
+      "label": "Image aspect ratio (desktop)",
+      "options": [
+        { "value": "1 / 1",  "label": "Square — 1:1" },
+        { "value": "4 / 3",  "label": "Landscape — 4:3" },
+        { "value": "3 / 4",  "label": "Portrait — 3:4" },
+        { "value": "16 / 9", "label": "Wide — 16:9" },
+        { "value": "auto",   "label": "Adapt to image" }
+      ],
+      "default": "1 / 1"
+    },
+    {
+      "type": "select",
+      "id": "media_ratio_mobile",
+      "label": "Image aspect ratio (mobile)",
+      "options": [
+        { "value": "1 / 1",  "label": "Square — 1:1" },
+        { "value": "4 / 3",  "label": "Landscape — 4:3" },
+        { "value": "3 / 4",  "label": "Portrait — 3:4" },
+        { "value": "auto",   "label": "Adapt to image" }
+      ],
+      "default": "4 / 3"
+    },
+    {
+      "type": "select",
+      "id": "media_fit",
+      "label": "Image fit",
+      "options": [
+        { "value": "cover",   "label": "Cover (crop to fill)" },
+        { "value": "contain", "label": "Contain (show full image)" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "range",
+      "id": "media_radius",
+      "label": "Image border radius",
+      "min": 0, "max": 32, "step": 2, "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "media_bg",
+      "label": "Image background",
+      "default": "#f5f5f3"
+    },
+    {
+      "type": "color",
+      "id": "thumb_active_color",
+      "label": "Active thumbnail border color",
+      "default": "#1a2e0a"
+    },
+    {
+      "type": "header",
+      "content": "Show / hide blocks"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show price",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show title",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show description",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_allergens",
+      "label": "Show allergens",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_nutriscore",
+      "label": "Show Nutri-score",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_variants",
+      "label": "Show variant picker",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_add_to_cart",
+      "label": "Show primary button",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Price"
+    },
+    {
+      "type": "range",
+      "id": "price_size",
+      "label": "Price font size",
+      "min": 16, "max": 56, "step": 1, "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "select",
+      "id": "price_weight",
+      "label": "Price font weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "compare_size",
+      "label": "Compare-at price size",
+      "min": 12, "max": 32, "step": 1, "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "compare_color",
+      "label": "Compare-at price color",
+      "default": "#888780"
+    },
+    {
+      "type": "header",
+      "content": "Title"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Font size",
+      "min": 18, "max": 72, "step": 2, "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "header",
+      "content": "Description"
+    },
+    {
+      "type": "range",
+      "id": "desc_size",
+      "label": "Font size",
+      "min": 12, "max": 20, "step": 1, "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "desc_color",
+      "label": "Color",
+      "default": "#3d3d3a"
+    },
+    {
+      "type": "header",
+      "content": "Widget container"
+    },
+    {
+      "type": "color",
+      "id": "widget_bg",
+      "label": "Background",
+      "default": "#f5f5f3"
+    },
+    {
+      "type": "range",
+      "id": "widget_padding",
+      "label": "Padding",
+      "min": 8, "max": 32, "step": 2, "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "widget_radius",
+      "label": "Border radius",
+      "min": 0, "max": 24, "step": 2, "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "color",
+      "id": "widget_border_color",
+      "label": "Border color",
+      "default": "#e8e8e8"
+    },
+    {
+      "type": "range",
+      "id": "widget_border_width",
+      "label": "Border width",
+      "min": 0, "max": 4, "step": 1, "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "widget_label_size",
+      "label": "Label font size",
+      "min": 11, "max": 20, "step": 1, "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "widget_label_weight",
+      "label": "Label font weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "color",
+      "id": "widget_label_color",
+      "label": "Label color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "header",
+      "content": "Allergens"
+    },
+    {
+      "type": "text",
+      "id": "allergens_label",
+      "label": "Section label",
+      "default": "Allergens"
+    },
+    {
+      "type": "range",
+      "id": "allergen_icon_size",
+      "label": "Icon size",
+      "min": 16, "max": 48, "step": 2, "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "allergen_label_size",
+      "label": "Name font size",
+      "min": 10, "max": 18, "step": 1, "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "color",
+      "id": "allergen_label_color",
+      "label": "Name color",
+      "default": "#3d3d3a"
+    },
+    {
+      "type": "header",
+      "content": "Nutri-score"
+    },
+    {
+      "type": "text",
+      "id": "nutriscore_label",
+      "label": "Section label",
+      "default": "Nutriscore"
+    },
+    {
+      "type": "text",
+      "id": "nutriscore_tooltip",
+      "label": "Tooltip text",
+      "default": "Nutritional Rating System demonstrating the overall nutritional value of food products"
+    },
+    {
+      "type": "range",
+      "id": "ns_bar_height",
+      "label": "Bar height",
+      "min": 20, "max": 56, "step": 2, "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "ns_bar_radius",
+      "label": "Bar border radius",
+      "min": 0, "max": 20, "step": 2, "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "btn_primary_label",
+      "label": "Primary button label",
+      "default": "Shop Now"
+    },
+    {
+      "type": "color",
+      "id": "btn_primary_bg",
+      "label": "Primary background",
+      "default": "#1a2e0a"
+    },
+    {
+      "type": "color",
+      "id": "btn_primary_text",
+      "label": "Primary text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "btn_primary_hover_bg",
+      "label": "Primary hover background",
+      "default": "#2d5016"
+    },
+    {
+      "type": "color",
+      "id": "btn_primary_hover_text",
+      "label": "Primary hover text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_btn",
+      "label": "Show secondary button",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "btn_secondary_label",
+      "label": "Secondary button label",
+      "default": "Learn more"
+    },
+    {
+      "type": "url",
+      "id": "btn_secondary_url",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "color",
+      "id": "btn_secondary_color",
+      "label": "Secondary button color",
+      "default": "#1a2e0a"
+    },
+    {
+      "type": "range",
+      "id": "btn_radius",
+      "label": "Button border radius",
+      "min": 0, "max": 40, "step": 2, "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "btn_padding_v",
+      "label": "Button padding top & bottom",
+      "min": 8, "max": 24, "step": 2, "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "btn_padding_h",
+      "label": "Button padding left & right",
+      "min": 16, "max": 60, "step": 4, "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "btn_font_size",
+      "label": "Button font size",
+      "min": 12, "max": 20, "step": 1, "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "select",
+      "id": "btn_font_weight",
+      "label": "Button font weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured product"
+    }
+  ]
+}
+{% endschema %}

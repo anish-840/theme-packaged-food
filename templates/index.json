@@ -636,85 +636,73 @@
         "btn_margin_top": 8
       }
     },
-    "product_info_KQTgei": {
-      "type": "product-info",
-      "blocks": {
-        "price_kbKtQi": {
-          "type": "price",
-          "settings": {}
-        },
-        "product_title_eKm7Rc": {
-          "type": "product-title",
-          "settings": {}
-        },
-        "review_fy7gVK": {
-          "type": "review",
-          "settings": {}
-        },
-        "text_hfU3PB": {
-          "type": "text",
-          "settings": {}
-        },
-        "allergens_LkXFey": {
-          "type": "allergens",
-          "settings": {
-            "label": "Allergens",
-            "icon_size": 28,
-            "label_size": 13,
-            "label_color": "#3d3d3a"
-          }
-        },
-        "nutriscore_QUzDER": {
-          "type": "nutriscore",
-          "settings": {
-            "label": "Nutriscore",
-            "tooltip_text": "Nutritional Rating System demonstrating the overall nutritional value of food products",
-            "bar_height": 32,
-            "bar_radius": 6,
-            "label_font_size": 13,
-            "pointer_color": "#1a1a1a"
-          }
-        },
-        "swatches_bzjAxC": {
-          "type": "swatches",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "price_kbKtQi",
-        "product_title_eKm7Rc",
-        "review_fy7gVK",
-        "text_hfU3PB",
-        "allergens_LkXFey",
-        "nutriscore_QUzDER",
-        "swatches_bzjAxC"
-      ],
-      "name": "Product info",
+    "featured_product_new_LzM3FF": {
+      "type": "featured-product-new",
+      "name": "Featured product",
       "settings": {
         "product": "mathri",
-        "block_gap": 16,
-        "section_label_size": 14,
-        "section_label_weight": "500",
-        "section_label_color": "#1a1a1a",
+        "max_width": 1200,
+        "media_width": 1,
+        "info_width": 1,
+        "col_gap": 48,
+        "block_gap": 20,
+        "section_bg": "#ffffff",
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "padding_x": 20,
+        "media_ratio": "1 / 1",
+        "media_ratio_mobile": "4 / 3",
+        "media_fit": "cover",
+        "media_radius": 12,
+        "media_bg": "#f5f5f3",
+        "thumb_active_color": "#1a2e0a",
+        "show_price": true,
+        "show_title": true,
+        "show_description": true,
+        "show_allergens": true,
+        "show_nutriscore": true,
+        "show_variants": true,
+        "show_add_to_cart": true,
+        "price_size": 28,
+        "price_weight": "700",
+        "price_color": "#1a1a1a",
+        "compare_size": 18,
+        "compare_color": "#888780",
+        "title_size": 36,
+        "title_weight": "700",
+        "title_color": "#1a1a1a",
+        "desc_size": 14,
+        "desc_color": "#3d3d3a",
         "widget_bg": "#f5f5f3",
         "widget_padding": 16,
         "widget_radius": 10,
         "widget_border_color": "#e8e8e8",
         "widget_border_width": 1,
-        "price_size": 28,
-        "price_weight": "700",
-        "price_color": "#1a1a1a",
-        "compare_price_size": 18,
-        "compare_price_color": "#888880",
-        "title_size": 32,
-        "title_weight": "700",
-        "title_color": "#1a1a1a",
-        "desc_size": 15,
-        "desc_color": "#3d3d3a",
-        "cta_label": "Shop Now",
-        "cta_bg": "#1a2e0a",
-        "cta_text": "#ffffff",
-        "cta_font_size": 15
+        "widget_label_size": 14,
+        "widget_label_weight": "500",
+        "widget_label_color": "#1a1a1a",
+        "allergens_label": "Allergens",
+        "allergen_icon_size": 28,
+        "allergen_label_size": 13,
+        "allergen_label_color": "#3d3d3a",
+        "nutriscore_label": "Nutriscore",
+        "nutriscore_tooltip": "Nutritional Rating System demonstrating the overall nutritional value of food products",
+        "ns_bar_height": 32,
+        "ns_bar_radius": 6,
+        "btn_primary_label": "Shop Now",
+        "btn_primary_bg": "#1a2e0a",
+        "btn_primary_text": "#ffffff",
+        "btn_primary_hover_bg": "#2d5016",
+        "btn_primary_hover_text": "#ffffff",
+        "show_secondary_btn": false,
+        "btn_secondary_label": "Learn more",
+        "btn_secondary_url": "",
+        "btn_secondary_color": "#1a2e0a",
+        "btn_radius": 30,
+        "btn_padding_v": 14,
+        "btn_padding_h": 32,
+        "btn_font_size": 15,
+        "btn_font_weight": "600"
       }
     },
     "featured_product_information_zh3UDX": {
@@ -1261,7 +1249,7 @@
     "category_carousel_LFJkUE",
     "product_list_EDUBdR",
     "promo_cards_tHdGwB",
-    "product_info_KQTgei",
+    "featured_product_new_LzM3FF",
     "featured_product_information_zh3UDX",
     "media_with_content_LfPdEJ",
     "collection_list_xpBxCm"
