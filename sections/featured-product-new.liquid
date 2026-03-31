@@ -15,7 +15,11 @@
     assign product = closest.product
   endif
 
-  assign selected_variant = product.selected_or_first_available_variant
+  if product.selected_or_first_available_variant != blank
+    assign selected_variant = product.selected_or_first_available_variant
+  else
+    assign selected_variant = product.variants.first
+  endif
   assign allergen_icons   = product.metafields.allergens.icons
   assign nutriscore       = product.metafields.product.nutriscore.value | upcase | strip
 
@@ -95,11 +99,13 @@
       {%- comment %} Price {%- endcomment %}
       {%- if section.settings.show_price -%}
         <div class="fp-price">
-          {%- if selected_variant.compare_at_price > selected_variant.price -%}
-            <span class="fp-price__sale">{{ selected_variant.price | money }}</span>
-            <span class="fp-price__compare">{{ selected_variant.compare_at_price | money }}</span>
+          {%- assign display_price = selected_variant.price | default: product.price_min -%}
+          {%- assign display_compare = selected_variant.compare_at_price | default: product.compare_at_price_min -%}
+          {%- if display_compare > display_price -%}
+            <span class="fp-price__sale">{{ display_price | money }}</span>
+            <span class="fp-price__compare">{{ display_compare | money }}</span>
           {%- else -%}
-            <span class="fp-price__sale">{{ selected_variant.price | money }}</span>
+            <span class="fp-price__sale">{{ display_price | money }}</span>
           {%- endif -%}
         </div>
       {%- endif -%}
