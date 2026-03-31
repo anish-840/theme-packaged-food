@@ -760,14 +760,6 @@
             "padding-inline-end": 0
           },
           "blocks": {
-            "custom_liquid_cybU33": {
-              "type": "custom-liquid",
-              "name": "t:names.custom_liquid",
-              "settings": {
-                "custom_liquid": "{% assign allergen_icons = closest.product.metafields.allergens.icons %}\n{% if allergen_icons != blank %}\n  <div style=\"padding:16px;background:#f5f5f3;border:1px solid #e8e8e8;border-radius:10px;\">\n    <p style=\"font-size:14px;font-weight:500;margin:0 0 12px;padding:0;color:#1a1a1a;\">Allergens</p>\n    <div style=\"display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;\">\n      {% for file in allergen_icons.value %}\n        {%- assign allergen_name = file | split:'/' | last | split:'.' | first | replace:'_',' ' | replace:'-',' ' -%}\n        <div style=\"display:flex;align-items:center;gap:6px;\">\n          <img src=\"https://cdn.shopify.com/s/files/1/0965/9793/4353/{{ file }}\"\n            alt=\"{{ allergen_name }}\" loading=\"lazy\"\n            style=\"width:28px;height:28px;object-fit:contain;display:block;flex-shrink:0;\">\n          <span style=\"font-size:13px;color:#3d3d3a;white-space:nowrap;\">{{ allergen_name }}</span>\n        </div>\n      {% endfor %}\n    </div>\n  </div>\n{% endif %}"
-              },
-              "blocks": {}
-            },
             "group_nWpK8A": {
               "type": "group",
               "name": "t:names.header",
@@ -924,20 +916,28 @@
                 }
               },
               "block_order": []
+            },
+            "custom_liquid_cybU33": {
+              "type": "custom-liquid",
+              "name": "t:names.custom_liquid",
+              "settings": {
+                "custom_liquid": "{% assign allergen_icons = closest.product.metafields.allergens.icons %}\n{% if allergen_icons != blank %}\n  <div style=\"padding:16px;background:#f5f5f3;border:1px solid #e8e8e8;border-radius:10px;\">\n    <p style=\"font-size:14px;font-weight:500;margin:0 0 12px;padding:0;color:#1a1a1a;\">Allergens</p>\n    <div style=\"display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;\">\n      {% for file in allergen_icons.value %}\n        {%- assign allergen_name = file | split:'/' | last | split:'.' | first | replace:'_',' ' | replace:'-',' ' -%}\n        <div style=\"display:flex;align-items:center;gap:6px;\">\n          <img src=\"https://cdn.shopify.com/s/files/1/0965/9793/4353/{{ file }}\"\n            alt=\"{{ allergen_name }}\" loading=\"lazy\"\n            style=\"width:28px;height:28px;object-fit:contain;display:block;flex-shrink:0;\">\n          <span style=\"font-size:13px;color:#3d3d3a;white-space:nowrap;\">{{ allergen_name }}</span>\n        </div>\n      {% endfor %}\n    </div>\n  </div>\n{% endif %}"
+              },
+              "blocks": {}
             }
           },
           "block_order": [
-            "custom_liquid_cybU33",
             "group_nWpK8A",
             "review_fidmTg",
             "variant_picker_8bLAmW",
-            "buy_buttons_DjUnFD"
+            "buy_buttons_DjUnFD",
+            "custom_liquid_cybU33"
           ]
         }
       },
       "name": "t:names.featured_product_information",
       "settings": {
-        "product": "",
+        "product": "mathri",
         "content_width": "content-center-aligned",
         "desktop_media_position": "left",
         "equal_columns": true,
