@@ -6,7 +6,11 @@
 {% endcomment %}
 
 {%- liquid
-  assign product        = closest.product
+  if section.settings.product != blank
+    assign product = section.settings.product
+  else
+    assign product = closest.product
+  endif
   assign allergen_icons = product.metafields.allergens.icons
   assign nutriscore     = product.metafields.product.nutriscore.value | upcase | strip
 -%}
@@ -232,6 +236,16 @@
   "tag": "div",
   "class": "pdp-info-section",
   "settings": [
+    {
+      "type": "header",
+      "content": "Product"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product",
+      "info": "Leave empty to use the current page product"
+    },
     {
       "type": "header",
       "content": "Layout"

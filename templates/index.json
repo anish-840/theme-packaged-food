@@ -616,8 +616,10 @@
         "card_radius": 16,
         "card_gap": 16,
         "card_gap_mobile": 16,
+        "adapt_to_image": true,
         "image_height": 480,
         "image_height_mobile": 320,
+        "image_padding_x": 10,
         "label_size": 13,
         "label_weight": "400",
         "heading_size": 40,
@@ -632,6 +634,72 @@
         "btn_padding_v": 14,
         "btn_padding_h": 32,
         "btn_margin_top": 8
+      }
+    },
+    "product_info_KQTgei": {
+      "type": "product-info",
+      "blocks": {
+        "price_kbKtQi": {
+          "type": "price",
+          "settings": {}
+        },
+        "product_title_eKm7Rc": {
+          "type": "product-title",
+          "settings": {}
+        },
+        "review_fy7gVK": {
+          "type": "review",
+          "settings": {}
+        },
+        "text_hfU3PB": {
+          "type": "text",
+          "settings": {}
+        },
+        "allergens_LkXFey": {
+          "type": "allergens",
+          "settings": {
+            "label": "Allergens",
+            "icon_size": 28,
+            "label_size": 13,
+            "label_color": "#3d3d3a"
+          }
+        },
+        "nutriscore_QUzDER": {
+          "type": "nutriscore",
+          "settings": {
+            "label": "Nutriscore",
+            "tooltip_text": "Nutritional Rating System demonstrating the overall nutritional value of food products",
+            "bar_height": 32,
+            "bar_radius": 6,
+            "label_font_size": 13,
+            "pointer_color": "#1a1a1a"
+          }
+        },
+        "swatches_bzjAxC": {
+          "type": "swatches",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "price_kbKtQi",
+        "product_title_eKm7Rc",
+        "review_fy7gVK",
+        "text_hfU3PB",
+        "allergens_LkXFey",
+        "nutriscore_QUzDER",
+        "swatches_bzjAxC"
+      ],
+      "name": "Product info",
+      "settings": {
+        "block_gap": 16,
+        "section_label_size": 14,
+        "section_label_weight": "500",
+        "section_label_color": "#1a1a1a",
+        "widget_bg": "#f5f5f3",
+        "widget_padding": 16,
+        "widget_radius": 10,
+        "widget_border_color": "#e8e8e8",
+        "widget_border_width": 1
       }
     },
     "media_with_content_LfPdEJ": {
@@ -935,6 +1003,7 @@
     "category_carousel_LFJkUE",
     "product_list_EDUBdR",
     "promo_cards_tHdGwB",
+    "product_info_KQTgei",
     "media_with_content_LfPdEJ",
     "collection_list_xpBxCm"
   ]
