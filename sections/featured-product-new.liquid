@@ -96,6 +96,16 @@
     ══════════════════════════════ {%- endcomment %}
     <div class="fp-info">
 
+      {%- comment %} Title {%- endcomment %}
+      {%- if section.settings.show_title -%}
+        <h2 class="fp-title">{{ product.title }}</h2>
+      {%- endif -%}
+
+      {%- comment %} Description {%- endcomment %}
+      {%- if section.settings.show_description and product.description != blank -%}
+        <div class="fp-description">{{ product.description }}</div>
+      {%- endif -%}
+
       {%- comment %} Price {%- endcomment %}
       {%- if section.settings.show_price -%}
         <div class="fp-price">
@@ -108,16 +118,6 @@
             <span class="fp-price__sale">{{ display_price | money }}</span>
           {%- endif -%}
         </div>
-      {%- endif -%}
-
-      {%- comment %} Title {%- endcomment %}
-      {%- if section.settings.show_title -%}
-        <h2 class="fp-title">{{ product.title }}</h2>
-      {%- endif -%}
-
-      {%- comment %} Description {%- endcomment %}
-      {%- if section.settings.show_description and product.description != blank -%}
-        <div class="fp-description">{{ product.description }}</div>
       {%- endif -%}
 
       {%- comment %} Allergens {%- endcomment %}
@@ -336,6 +336,7 @@
   }
   #{{ sid }} .fp-price__compare {
     font-size: {{ section.settings.compare_size }}px;
+    font-weight: {{ section.settings.compare_weight }};
     color: {{ section.settings.compare_color }};
     text-decoration: line-through;
   }
@@ -945,6 +946,17 @@
       "label": "Compare-at price size",
       "min": 12, "max": 32, "step": 1, "unit": "px",
       "default": 18
+    },
+    {
+      "type": "select",
+      "id": "compare_weight",
+      "label": "Compare-at price font weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" }
+      ],
+      "default": "400"
     },
     {
       "type": "color",
