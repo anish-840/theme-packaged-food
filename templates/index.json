@@ -307,7 +307,7 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<p>View All</p>",
+                "text": "<p>View All Products</p>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -523,7 +523,7 @@
       "name": "Featured collection",
       "settings": {
         "collection": "all",
-        "layout_type": "grid",
+        "layout_type": "carousel",
         "carousel_on_mobile": false,
         "max_products": 8,
         "columns": 4,
