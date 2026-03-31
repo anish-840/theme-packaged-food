@@ -25,7 +25,7 @@
       >
 
         {%- comment %} Image ── {%- endcomment %}
-        <div class="promo-card__media" style="height: {{ section.settings.image_height }}px;">
+        <div class="promo-card__media">
           {%- if img != blank -%}
             {{
               img
@@ -115,16 +115,27 @@
   /* ── Image ── */
   #{{ section_id }} .promo-card__media {
     width: 100%;
-    overflow: hidden;
-    position: relative;
+    box-sizing: border-box;
+    padding-left: {{ section.settings.image_padding_x }}px;
+    padding-right: {{ section.settings.image_padding_x }}px;
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   #{{ section_id }} .promo-card__img {
-    width: 100%;
-    height: 100%;
-    object-fit: {{ section.settings.image_fit }};
-    object-position: center;
     display: block;
+    width: 100%;
+    max-width: 100%;
+    {% if section.settings.adapt_to_image %}
+      height: auto;
+      max-height: {{ section.settings.image_height }}px;
+      object-fit: contain;
+    {% else %}
+      height: {{ section.settings.image_height }}px;
+      object-fit: cover;
+      object-position: center;
+    {% endif %}
     transition: transform 0.4s ease;
   }
   #{{ section_id }} .promo-card:hover .promo-card__img {
@@ -132,7 +143,7 @@
   }
   #{{ section_id }} .promo-card__img-placeholder {
     width: 100%;
-    height: 100%;
+    height: {{ section.settings.image_height }}px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -188,8 +199,15 @@
       grid-template-columns: 1fr;
       gap: {{ section.settings.card_gap_mobile }}px;
     }
-    #{{ section_id }} .promo-card__media {
-      height: {{ section.settings.image_height_mobile }}px !important;
+    #{{ section_id }} .promo-card__img {
+      {% if section.settings.adapt_to_image %}
+        max-height: {{ section.settings.image_height_mobile }}px;
+      {% else %}
+        height: {{ section.settings.image_height_mobile }}px;
+      {% endif %}
+    }
+    #{{ section_id }} .promo-card__img-placeholder {
+      height: {{ section.settings.image_height_mobile }}px;
     }
   }
 </style>
@@ -262,28 +280,32 @@
       "content": "Image"
     },
     {
+      "type": "checkbox",
+      "id": "adapt_to_image",
+      "label": "Adapt to image height",
+      "info": "When on, the image shows at its natural height up to the max. When off, a fixed height crops the image.",
+      "default": true
+    },
+    {
       "type": "range",
       "id": "image_height",
-      "label": "Image height (desktop)",
+      "label": "Max image height (desktop)",
       "min": 200, "max": 700, "step": 10, "unit": "px",
       "default": 480
     },
     {
       "type": "range",
       "id": "image_height_mobile",
-      "label": "Image height (mobile)",
+      "label": "Max image height (mobile)",
       "min": 200, "max": 600, "step": 10, "unit": "px",
       "default": 320
     },
     {
-      "type": "select",
-      "id": "image_fit",
-      "label": "Image fit",
-      "options": [
-        { "value": "cover",   "label": "Cover (crop to fill)" },
-        { "value": "contain", "label": "Contain (show full image)" }
-      ],
-      "default": "cover"
+      "type": "range",
+      "id": "image_padding_x",
+      "label": "Image padding left & right",
+      "min": 0, "max": 40, "step": 2, "unit": "px",
+      "default": 10
     },
     {
       "type": "header",
