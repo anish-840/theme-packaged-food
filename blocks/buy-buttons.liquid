@@ -451,6 +451,13 @@
   .buy-buttons-block .product-form-buttons accelerated-checkout,
   .buy-buttons-block .product-form-buttons .shopify-payment-button {
     flex-shrink: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .buy-buttons-block .product-form-buttons accelerated-checkout > *,
+  .buy-buttons-block .product-form-buttons .shopify-payment-button > * {
+    margin: 0 !important;
+    padding-block: 0 !important;
   }
   .buy-buttons-block .product-form-buttons .shopify-payment-button__button {
     height: 48px !important;
@@ -458,6 +465,7 @@
     font-size: 15px;
     white-space: nowrap;
     min-width: 130px;
+    margin: 0 !important;
   }
   .buy-buttons-block .product-form-buttons .shopify-payment-button__button--unbranded {
     border-radius: 40px !important;
