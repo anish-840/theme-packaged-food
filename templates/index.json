@@ -566,7 +566,7 @@
         "card_dRqR7P": {
           "type": "card",
           "settings": {
-            "card_bg": "#d8e8d8",
+            "card_bg": "#cfddd9",
             "image": "shopify://shop_images/promo2_043a93e8-22be-4755-9405-ee2b99a7bf78.webp",
             "label": "Just arrived!",
             "label_color": "#3d3d3a",
@@ -585,7 +585,7 @@
         "card_pnVD9Q": {
           "type": "card",
           "settings": {
-            "card_bg": "#d0dce8",
+            "card_bg": "#cfdce6",
             "image": "shopify://shop_images/promo3.webp",
             "label": "Collection",
             "label_color": "#3d3d3a",
