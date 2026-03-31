@@ -459,15 +459,7 @@
                   "type": "custom-liquid",
                   "name": "t:names.custom_liquid",
                   "settings": {
-                    "custom_liquid": "{% if product.metafields.allergens.icons != blank %}\n  <div class=\"allergen-badges\">\n    {% for file in product.metafields.allergens.icons.value %}\n      <div class=\"allergen-badge\" title=\"{{ file.alt | default: file.filename | split: '.' | first | replace: '_', ' ' }}\">\n        <img\n          src=\"{{ file | image_url: width: 48 }}\"\n          alt=\"{{ file.alt | default: file.filename | split: '.' | first | replace: '_', ' ' }}\"\n          width=\"32\"\n          height=\"32\"\n          loading=\"lazy\"\n        >\n      </div>\n    {% endfor %}\n  </div>\n\n  <style>\n    .allergen-badges {\n      display: flex;\n      flex-wrap: wrap;\n      gap: 6px;\n      align-items: center;\n      margin-top: 8px;\n    }\n    .allergen-badge img {\n      display: block;\n      object-fit: contain;\n    }\n  </style>\n{% endif %}"
-                  },
-                  "blocks": {}
-                },
-                "custom_liquid_DFWqrV": {
-                  "type": "custom-liquid",
-                  "name": "t:names.custom_liquid",
-                  "settings": {
-                    "custom_liquid": "{% if product.metafields.allergens.contains != blank %}\n  <div class=\"allergen-badges\">\n    {% for allergen in product.metafields.allergens.contains.value %}\n      <div class=\"allergen-badge\">\n        <img\n          src=\"{{ allergen | prepend: 'allergen-' | append: '.svg' | file_url }}\"\n          alt=\"{{ allergen | capitalize }}\"\n          width=\"24\" height=\"24\" loading=\"lazy\"\n        >\n      </div>\n    {% endfor %}\n  </div>\n{% endif %}"
+                    "custom_liquid": "{% for namespace in product.metafields %}\n  {{ namespace | first }}<br>\n  {% for field in namespace.last %}\n    &nbsp;&nbsp;{{ field | first }}: {{ field.last.type }}<br>\n  {% endfor %}\n{% endfor %}"
                   },
                   "blocks": {}
                 },
@@ -491,7 +483,6 @@
                 "product_title_gH3cpy",
                 "text_aDVbik",
                 "custom_liquid_iWyQNb",
-                "custom_liquid_DFWqrV",
                 "swatches_eYcKAz"
               ]
             }
