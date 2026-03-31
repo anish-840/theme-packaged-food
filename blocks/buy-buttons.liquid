@@ -1,3 +1,4 @@
+
 {% liquid
   assign block_settings = block.settings
   assign product = closest.product
@@ -216,7 +217,6 @@
               </div>
             </volume-pricing>
           {%- endif -%}
-
           {% content_for 'block',
             type: 'add-to-cart',
             id: 'add-to-cart',
@@ -365,139 +365,6 @@
 {% endif %}
 
 {% render 'buy-buttons-styles' %}
-
-{% stylesheet %}
-  /* ── Desktop: single row ── */
-  .buy-buttons-block .product-form-buttons {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: nowrap;
-  }
-
-  /* ── Quantity stepper wrapper ── */
-  .buy-buttons-block quantity-input,
-  .buy-buttons-block .quantity {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-shrink: 0;
-    border: 1.5px solid currentColor;
-    border-radius: 40px;
-    padding: 4px 6px;
-  }
-
-  /* Minus / Plus buttons — circular */
-  .buy-buttons-block .quantity__button {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: 1.5px solid currentColor;
-    background: transparent;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 18px;
-    line-height: 1;
-    padding: 0;
-    flex-shrink: 0;
-    transition: background 0.15s;
-  }
-  .buy-buttons-block .quantity__button:hover {
-    background: rgba(0, 0, 0, 0.06);
-  }
-  .buy-buttons-block .quantity__button svg {
-    width: 14px;
-    height: 14px;
-    pointer-events: none;
-  }
-
-  /* Number input */
-  .buy-buttons-block .quantity__input {
-    width: 28px;
-    text-align: center;
-    border: none;
-    background: transparent;
-    font-size: 15px;
-    font-weight: 500;
-    padding: 0;
-    -moz-appearance: textfield;
-  }
-  .buy-buttons-block .quantity__input::-webkit-outer-spin-button,
-  .buy-buttons-block .quantity__input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-  /* ── Add to cart — grows to fill space ── */
-  .buy-buttons-block .product-form-buttons [name="add"],
-  .buy-buttons-block .product-form-buttons add-to-cart-button,
-  .buy-buttons-block .product-form-buttons .button:not(.button-tertiary):not(.button-unstyled) {
-    flex: 1;
-    min-width: 0;
-    height: 48px;
-    border-radius: 40px;
-    font-size: 15px;
-    font-weight: 600;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* ── Buy it now / accelerated checkout ── */
-  .buy-buttons-block .product-form-buttons accelerated-checkout,
-  .buy-buttons-block .product-form-buttons .shopify-payment-button {
-    flex-shrink: 0;
-  }
-  .buy-buttons-block .product-form-buttons .shopify-payment-button__button {
-    height: 48px !important;
-    border-radius: 40px !important;
-    font-size: 15px;
-    white-space: nowrap;
-    min-width: 130px;
-  }
-  .buy-buttons-block .product-form-buttons .shopify-payment-button__button--unbranded {
-    border-radius: 40px !important;
-  }
-
-  /* ── Mobile: 3 stacked rows ── */
-  @media screen and (max-width: 749px) {
-    .buy-buttons-block .product-form-buttons {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 10px;
-    }
-
-    /* Row 1: quantity stepper — centred */
-    .buy-buttons-block quantity-input,
-    .buy-buttons-block .quantity {
-      justify-content: center;
-      align-self: center;
-      width: auto;
-    }
-
-    /* Row 2: Add to cart — full width */
-    .buy-buttons-block .product-form-buttons [name="add"],
-    .buy-buttons-block .product-form-buttons add-to-cart-button,
-    .buy-buttons-block .product-form-buttons .button:not(.button-tertiary):not(.button-unstyled) {
-      width: 100%;
-      flex: none;
-    }
-
-    /* Row 3: Buy it now — full width */
-    .buy-buttons-block .product-form-buttons accelerated-checkout,
-    .buy-buttons-block .product-form-buttons .shopify-payment-button {
-      width: 100%;
-    }
-    .buy-buttons-block .product-form-buttons .shopify-payment-button__button {
-      width: 100% !important;
-      min-width: unset;
-    }
-  }
-{% endstylesheet %}
 
 {% schema %}
 {
