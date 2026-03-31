@@ -1,0 +1,447 @@
+{% comment %}
+  Product Info Section — PDP
+  Matches screenshot layout:
+  Price → Title → Reviews → Short description →
+  Allergens → Nutri-score → Variant picker → Buy buttons
+{% endcomment %}
+
+{%- liquid
+  assign product        = closest.product
+  assign allergen_icons = product.metafields.allergens.icons
+  assign nutriscore     = product.metafields.product.nutriscore.value | upcase | strip
+-%}
+
+<div id="pdp-info-{{ section.id }}" class="pdp-info-section">
+
+  {%- comment %} ── Allergens block ── {%- endcomment %}
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'allergens' -%}
+      {%- if allergen_icons != blank -%}
+        <div class="pdp-widget pdp-allergens-wrap" {{ block.shopify_attributes }}>
+          <p class="pdp-section-label">{{ block.settings.label | default: 'Allergens' }}</p>
+          <div class="pdp-allergens">
+            {%- for file in allergen_icons.value -%}
+              {%- assign allergen_name = file | split: '/' | last | split: '.' | first | replace: '_', ' ' | replace: '-', ' ' -%}
+              <div class="pdp-allergen__item">
+                <img
+                  src="https://cdn.shopify.com/s/files/1/0965/9793/4353/{{ file }}"
+                  alt="{{ allergen_name }}"
+                  width="{{ block.settings.icon_size }}"
+                  height="{{ block.settings.icon_size }}"
+                  loading="lazy"
+                >
+                <span class="pdp-allergen__name" style="font-size: {{ block.settings.label_size }}px; color: {{ block.settings.label_color }};">
+                  {{ allergen_name }}
+                </span>
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+
+    {%- elsif block.type == 'nutriscore' -%}
+      {%- if nutriscore != blank -%}
+        {%- if nutriscore == 'A' -%}{%- assign pointer_pct = 10 -%}
+        {%- elsif nutriscore == 'B' -%}{%- assign pointer_pct = 30 -%}
+        {%- elsif nutriscore == 'C' -%}{%- assign pointer_pct = 50 -%}
+        {%- elsif nutriscore == 'D' -%}{%- assign pointer_pct = 70 -%}
+        {%- elsif nutriscore == 'E' -%}{%- assign pointer_pct = 90 -%}
+        {%- else -%}{%- assign pointer_pct = 50 -%}
+        {%- endif -%}
+
+        <div class="pdp-widget pdp-nutriscore-wrap" {{ block.shopify_attributes }}>
+          <div class="pdp-nutriscore__header">
+            <span class="pdp-section-label pdp-section-label--inline">{{ block.settings.label | default: 'Nutriscore' }}</span>
+            <div class="pdp-nutriscore__info-wrap">
+              <button class="pdp-nutriscore__info-btn" type="button" aria-label="What is Nutri-score?">i</button>
+              <div class="pdp-nutriscore__tooltip">
+                {{ block.settings.tooltip_text | default: 'Nutritional Rating System demonstrating the overall nutritional value of food products' }}
+              </div>
+            </div>
+          </div>
+          <div class="pdp-nutriscore__bar-wrap">
+            <div class="pdp-nutriscore__pointer" style="left: {{ pointer_pct }}%;">
+              <svg width="12" height="9" viewBox="0 0 12 9" aria-hidden="true">
+                <polygon points="6,9 0,0 12,0" fill="{{ block.settings.pointer_color }}"/>
+              </svg>
+            </div>
+            <div
+              class="pdp-nutriscore__bar"
+              style="height: {{ block.settings.bar_height }}px; border-radius: {{ block.settings.bar_radius }}px;"
+            >
+              {%- assign ns_letters = 'A,B,C,D,E' | split: ',' -%}
+              {%- assign ns_colors  = '#2d8a2d,#85bb2f,#f5c400,#f07a00,#d93025' | split: ',' -%}
+              {%- for letter in ns_letters -%}
+                <span
+                  class="pdp-nutriscore__zone{% if letter == nutriscore %} is-active{% endif %}"
+                  style="background: {{ ns_colors[forloop.index0] }}; font-size: {{ block.settings.label_font_size }}px;"
+                >{{ letter }}</span>
+              {%- endfor -%}
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- comment %} ── All standard theme blocks rendered once ── {%- endcomment %}
+  {% content_for 'blocks' %}
+
+</div>
+
+<style>
+  #pdp-info-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    gap: {{ section.settings.block_gap }}px;
+  }
+
+  #pdp-info-{{ section.id }} .pdp-section-label {
+    font-size: {{ section.settings.section_label_size }}px;
+    font-weight: {{ section.settings.section_label_weight }};
+    color: {{ section.settings.section_label_color }};
+    margin: 0 0 10px;
+    padding: 0;
+  }
+  #pdp-info-{{ section.id }} .pdp-section-label--inline {
+    margin: 0;
+    display: inline-block;
+  }
+
+  /* ── Widget container ── */
+  #pdp-info-{{ section.id }} .pdp-widget {
+    padding: {{ section.settings.widget_padding }}px;
+    background: {{ section.settings.widget_bg }};
+    border: {{ section.settings.widget_border_width }}px solid {{ section.settings.widget_border_color }};
+    border-radius: {{ section.settings.widget_radius }}px;
+  }
+
+  /* ── Allergens ── */
+  #pdp-info-{{ section.id }} .pdp-allergens {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    align-items: flex-start;
+  }
+  #pdp-info-{{ section.id }} .pdp-allergen__item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  #pdp-info-{{ section.id }} .pdp-allergen__item img {
+    display: block;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+  #pdp-info-{{ section.id }} .pdp-allergen__name {
+    white-space: nowrap;
+    line-height: 1.3;
+  }
+
+  /* ── Nutri-score ── */
+  #pdp-info-{{ section.id }} .pdp-nutriscore__header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  #pdp-info-{{ section.id }} .pdp-nutriscore__info-wrap {
+    position: relative;
+    display: inline-flex;
+  }
+  #pdp-info-{{ section.id }} .pdp-nutriscore__info-btn {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 1.5px solid #aaa;
+    background: transparent;
+    color: #aaa;
+    font-size: 11px;
+    font-style: italic;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+  }
+  #pdp-info-{{ section.id }} .pdp-nutriscore__tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a1a1a;
+    color: #fff;
+    font-size: 12px;
+    line-height: 1.5;
+    padding: 8px 12px;
+    border-radius: 6px;
+    width: 240px;
+    white-space: normal;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    z-index: 20;
+    text-align: center;
+  }
+  #pdp-info-{{ section.id }} .pdp-nutriscore__tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #1a1a1a;
+  }
+  #pdp-info-{{ section.id }} .pdp-nutriscore__info-wrap:hover .pdp-nutriscore__tooltip {
+    opacity: 1;
+  }
+  #pdp-info-{{ section.id }} .pdp-nutriscore__bar-wrap {
+    position: relative;
+    padding-top: 20px;
+  }
+  #pdp-info-{{ section.id }} .pdp-nutriscore__pointer {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    line-height: 1;
+  }
+  #pdp-info-{{ section.id }} .pdp-nutriscore__bar {
+    display: flex;
+    overflow: hidden;
+  }
+  #pdp-info-{{ section.id }} .pdp-nutriscore__zone {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 0.02em;
+  }
+  #pdp-info-{{ section.id }} .pdp-nutriscore__zone.is-active {
+    color: #ffffff;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Product info",
+  "tag": "div",
+  "class": "pdp-info-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "block_gap",
+      "label": "Gap between blocks",
+      "min": 0, "max": 40, "step": 2, "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Section label style"
+    },
+    {
+      "type": "range",
+      "id": "section_label_size",
+      "label": "Font size",
+      "min": 11, "max": 22, "step": 1, "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "section_label_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "color",
+      "id": "section_label_color",
+      "label": "Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "header",
+      "content": "Widget container"
+    },
+    {
+      "type": "color",
+      "id": "widget_bg",
+      "label": "Background",
+      "default": "#f5f5f3"
+    },
+    {
+      "type": "range",
+      "id": "widget_padding",
+      "label": "Padding",
+      "min": 8, "max": 32, "step": 2, "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "widget_radius",
+      "label": "Border radius",
+      "min": 0, "max": 24, "step": 2, "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "color",
+      "id": "widget_border_color",
+      "label": "Border color",
+      "default": "#e8e8e8"
+    },
+    {
+      "type": "range",
+      "id": "widget_border_width",
+      "label": "Border width",
+      "min": 0, "max": 4, "step": 1, "unit": "px",
+      "default": 1
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Text"
+    },
+    {
+      "type": "image",
+      "name": "Image"
+    },
+    {
+      "type": "price",
+      "name": "Price"
+    },
+    {
+      "type": "review",
+      "name": "Reviews"
+    },
+    {
+      "type": "sku",
+      "name": "SKU"
+    },
+    {
+      "type": "swatches",
+      "name": "Swatches"
+    },
+    {
+      "type": "product-title",
+      "name": "Product title"
+    },
+    {
+      "type": "buy-buttons",
+      "name": "Buy buttons"
+    },
+    {
+      "type": "custom-liquid",
+      "name": "Custom Liquid"
+    },
+    {
+      "type": "@app"
+    },
+    {
+      "type": "allergens",
+      "name": "Allergens",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Section label",
+          "default": "Allergens"
+        },
+        {
+          "type": "range",
+          "id": "icon_size",
+          "label": "Icon size",
+          "min": 16, "max": 48, "step": 2, "unit": "px",
+          "default": 28
+        },
+        {
+          "type": "range",
+          "id": "label_size",
+          "label": "Label font size",
+          "min": 10, "max": 18, "step": 1, "unit": "px",
+          "default": 13
+        },
+        {
+          "type": "color",
+          "id": "label_color",
+          "label": "Label color",
+          "default": "#3d3d3a"
+        }
+      ]
+    },
+    {
+      "type": "nutriscore",
+      "name": "Nutri-score",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Section label",
+          "default": "Nutriscore"
+        },
+        {
+          "type": "text",
+          "id": "tooltip_text",
+          "label": "Tooltip text",
+          "default": "Nutritional Rating System demonstrating the overall nutritional value of food products"
+        },
+        {
+          "type": "range",
+          "id": "bar_height",
+          "label": "Bar height",
+          "min": 20, "max": 56, "step": 2, "unit": "px",
+          "default": 32
+        },
+        {
+          "type": "range",
+          "id": "bar_radius",
+          "label": "Bar border radius",
+          "min": 0, "max": 20, "step": 2, "unit": "px",
+          "default": 6
+        },
+        {
+          "type": "range",
+          "id": "label_font_size",
+          "label": "Zone label size",
+          "min": 10, "max": 20, "step": 1, "unit": "px",
+          "default": 13
+        },
+        {
+          "type": "color",
+          "id": "pointer_color",
+          "label": "Pointer color",
+          "default": "#1a1a1a"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product info",
+      "blocks": [
+        { "type": "price" },
+        { "type": "product-title" },
+        { "type": "review" },
+        { "type": "text" },
+        { "type": "allergens" },
+        { "type": "nutriscore" },
+        { "type": "swatches" },
+        { "type": "buy-buttons" }
+      ]
+    }
+  ]
+}
+{% endschema %}
