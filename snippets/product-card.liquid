@@ -35,7 +35,6 @@
   assign product_card_gap_value = product_card_gap | default: block_settings.product_card_gap
   assign product_view_context = product_view_context | default: 'collection'
 
-  # Logic to determine which variant URL to use (matching swatch selection logic)
   assign variant_to_link = product.selected_or_first_available_variant
 
   if settings.transition_to_main_product
@@ -53,6 +52,8 @@
   if product.id == empty or product == blank
     assign onboarding = true
   endif
+
+  assign allergen_icons = product.metafields.allergens.icons
 %}
 
 <product-card
@@ -70,7 +71,7 @@
     data-placeholder="true"
   {% endif %}
 >
-  <a
+  
     id="{{ product_card_id | md5 }}"
     {% unless onboarding %}
       href="{{ variant_to_link.url }}"
