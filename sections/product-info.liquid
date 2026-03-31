@@ -88,8 +88,86 @@
     {%- endif -%}
   {%- endfor -%}
 
-  {%- comment %} ── All standard theme blocks rendered once ── {%- endcomment %}
-  {% content_for 'blocks' %}
+  {%- comment %} ── Standard blocks: use content_for on product pages, direct render on other pages ── {%- endcomment %}
+  {%- if request.page_type == 'product' and section.settings.product == blank -%}
+    {% content_for 'blocks' %}
+  {%- else -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'allergens' or block.type == 'nutriscore' -%}
+        {%- comment %} already rendered above {%- endcomment %}
+      {%- elsif block.type == 'price' -%}
+        <div class="pdp-block-price" {{ block.shopify_attributes }}>
+          {%- if product.compare_at_price > product.price -%}
+            <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;">
+              <span style="font-size:{{ section.settings.price_size }}px;font-weight:{{ section.settings.price_weight }};color:{{ section.settings.price_color }};">
+                {{ product.price | money }}
+              </span>
+              <span style="font-size:{{ section.settings.compare_price_size }}px;color:{{ section.settings.compare_price_color }};text-decoration:line-through;">
+                {{ product.compare_at_price | money }}
+              </span>
+            </div>
+          {%- else -%}
+            <span style="font-size:{{ section.settings.price_size }}px;font-weight:{{ section.settings.price_weight }};color:{{ section.settings.price_color }};">
+              {{ product.price | money }}
+            </span>
+          {%- endif -%}
+        </div>
+
+      {%- elsif block.type == 'product-title' -%}
+        <div {{ block.shopify_attributes }}>
+          <h1 style="font-size:{{ section.settings.title_size }}px;font-weight:{{ section.settings.title_weight }};color:{{ section.settings.title_color }};margin:0;line-height:1.2;">
+            {{ product.title }}
+          </h1>
+        </div>
+
+      {%- elsif block.type == 'text' -%}
+        {%- if product.description != blank -%}
+          <div class="pdp-block-description" {{ block.shopify_attributes }}>
+            <div style="font-size:{{ section.settings.desc_size }}px;color:{{ section.settings.desc_color }};line-height:1.6;">
+              {{ product.description }}
+            </div>
+          </div>
+        {%- endif -%}
+
+      {%- elsif block.type == 'buy-buttons' -%}
+        <div class="pdp-block-cta" {{ block.shopify_attributes }}>
+          <a
+            href="{{ product.url }}"
+            style="
+              display:inline-flex;align-items:center;justify-content:center;
+              padding:14px 32px;border-radius:40px;
+              background:{{ section.settings.cta_bg }};
+              color:{{ section.settings.cta_text }};
+              font-size:{{ section.settings.cta_font_size }}px;
+              font-weight:600;text-decoration:none;
+              border:2px solid {{ section.settings.cta_bg }};
+              transition:background 0.2s,color 0.2s;
+            "
+          >{{ section.settings.cta_label | default: 'Shop Now' }}</a>
+        </div>
+
+      {%- elsif block.type == 'swatches' -%}
+        {%- unless product.has_only_default_variant -%}
+          <div class="pdp-block-variants" {{ block.shopify_attributes }}>
+            {%- for option in product.options_with_values -%}
+              <div style="margin-bottom:12px;">
+                <p style="font-size:13px;font-weight:500;margin:0 0 8px;color:{{ section.settings.section_label_color }};">{{ option.name }}</p>
+                <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                  {%- for value in option.values -%}
+                    <span style="
+                      padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;
+                      border:1.5px solid #d0d0d0;background:#fff;color:#1a1a1a;
+                    ">{{ value }}</span>
+                  {%- endfor -%}
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endunless -%}
+
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
 
 </div>
 
@@ -322,6 +400,123 @@
       "label": "Border width",
       "min": 0, "max": 4, "step": 1, "unit": "px",
       "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Price (homepage)"
+    },
+    {
+      "type": "range",
+      "id": "price_size",
+      "label": "Price font size",
+      "min": 14, "max": 48, "step": 1, "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "select",
+      "id": "price_weight",
+      "label": "Price font weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "compare_price_size",
+      "label": "Compare-at price font size",
+      "min": 12, "max": 32, "step": 1, "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "compare_price_color",
+      "label": "Compare-at price color",
+      "default": "#888880"
+    },
+    {
+      "type": "header",
+      "content": "Title (homepage)"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Font size",
+      "min": 16, "max": 72, "step": 2, "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "header",
+      "content": "Description (homepage)"
+    },
+    {
+      "type": "range",
+      "id": "desc_size",
+      "label": "Font size",
+      "min": 12, "max": 20, "step": 1, "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "color",
+      "id": "desc_color",
+      "label": "Color",
+      "default": "#3d3d3a"
+    },
+    {
+      "type": "header",
+      "content": "CTA button (homepage)"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Shop Now"
+    },
+    {
+      "type": "color",
+      "id": "cta_bg",
+      "label": "Background",
+      "default": "#1a2e0a"
+    },
+    {
+      "type": "color",
+      "id": "cta_text",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "cta_font_size",
+      "label": "Font size",
+      "min": 12, "max": 20, "step": 1, "unit": "px",
+      "default": 15
     }
   ],
   "blocks": [

@@ -691,6 +691,7 @@
       ],
       "name": "Product info",
       "settings": {
+        "product": "mathri",
         "block_gap": 16,
         "section_label_size": 14,
         "section_label_weight": "500",
