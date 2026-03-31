@@ -326,14 +326,6 @@
             "padding-inline-end": 0
           },
           "blocks": {
-            "custom_liquid_nrQ7iF": {
-              "type": "custom-liquid",
-              "name": "t:names.custom_liquid",
-              "settings": {
-                "custom_liquid": "{% assign card_product = closest.product %}\n{% assign allergen_icons = card_product.metafields.allergens.icons %}\n\ntitle: {{ card_product.title }}<br>\nicons: {{ allergen_icons }}<br>\n{% for file in allergen_icons.value %}\n  [{{ file }}]<br>\n{% endfor %}"
-              },
-              "blocks": {}
-            },
             "product_card_gallery_hpki3q": {
               "type": "_product-card-gallery",
               "name": "t:names.product_card_media",
@@ -496,7 +488,6 @@
             }
           },
           "block_order": [
-            "custom_liquid_nrQ7iF",
             "product_card_gallery_hpki3q",
             "group_jHUdWN"
           ]
