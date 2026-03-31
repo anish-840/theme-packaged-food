@@ -455,6 +455,14 @@
                   },
                   "blocks": {}
                 },
+                "custom_liquid_iWyQNb": {
+                  "type": "custom-liquid",
+                  "name": "t:names.custom_liquid",
+                  "settings": {
+                    "custom_liquid": "{% if product.metafields.allergens.icons != blank %}\n  <div class=\"allergen-badges\">\n    {% for file in product.metafields.allergens.icons.value %}\n      <div class=\"allergen-badge\" title=\"{{ file.alt | default: file.filename | split: '.' | first | replace: '_', ' ' }}\">\n        <img\n          src=\"{{ file | image_url: width: 48 }}\"\n          alt=\"{{ file.alt | default: file.filename | split: '.' | first | replace: '_', ' ' }}\"\n          width=\"32\"\n          height=\"32\"\n          loading=\"lazy\"\n        >\n      </div>\n    {% endfor %}\n  </div>\n\n  <style>\n    .allergen-badges {\n      display: flex;\n      flex-wrap: wrap;\n      gap: 6px;\n      align-items: center;\n      margin-top: 8px;\n    }\n    .allergen-badge img {\n      display: block;\n      object-fit: contain;\n    }\n  </style>\n{% endif %}"
+                  },
+                  "blocks": {}
+                },
                 "custom_liquid_DFWqrV": {
                   "type": "custom-liquid",
                   "name": "t:names.custom_liquid",
@@ -482,6 +490,7 @@
                 "price_anAima",
                 "product_title_gH3cpy",
                 "text_aDVbik",
+                "custom_liquid_iWyQNb",
                 "custom_liquid_DFWqrV",
                 "swatches_eYcKAz"
               ]
