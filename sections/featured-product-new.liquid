@@ -190,7 +190,8 @@
 
       {%- comment %} Add to cart form {%- endcomment %}
       {%- if section.settings.show_add_to_cart -%}
-        {%- form 'product', product, id: 'fp-form-' | append: section.id, class: 'fp-form' -%}
+        {%- assign fp_form_id = 'fp-form-' | append: section.id -%}
+        {%- form 'product', product, id: fp_form_id, class: 'fp-form' -%}
           <input type="hidden" name="id" id="fp-variant-id-{{ section.id }}" value="{{ selected_variant.id }}">
 
           <div class="fp-cta">
