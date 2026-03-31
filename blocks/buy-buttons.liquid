@@ -468,7 +468,13 @@
     .buy-buttons-block .product-form-buttons {
       flex-direction: column;
       align-items: stretch;
-      gap: 10px;
+      gap: 8px;
+    }
+
+    /* Strip all extra margin/padding from every direct child */
+    .buy-buttons-block .product-form-buttons > * {
+      margin: 0 !important;
+      padding-block: 0 !important;
     }
 
     /* Row 1: quantity stepper — centred */
@@ -487,14 +493,23 @@
       flex: none;
     }
 
-    /* Row 3: Buy it now — full width */
+    /* Row 3: Buy it now — strip all internal spacing from the component */
     .buy-buttons-block .product-form-buttons accelerated-checkout,
     .buy-buttons-block .product-form-buttons .shopify-payment-button {
       width: 100%;
+      margin: 0 !important;
+      padding: 0 !important;
     }
     .buy-buttons-block .product-form-buttons .shopify-payment-button__button {
       width: 100% !important;
       min-width: unset;
+      margin: 0 !important;
+    }
+    /* Shopify injects a div wrapper inside accelerated-checkout — zero it out */
+    .buy-buttons-block .product-form-buttons accelerated-checkout > *,
+    .buy-buttons-block .product-form-buttons .shopify-payment-button > * {
+      margin: 0 !important;
+      padding-block: 0 !important;
     }
   }
 {% endstylesheet %}
