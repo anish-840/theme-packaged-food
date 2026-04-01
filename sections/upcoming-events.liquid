@@ -1,0 +1,389 @@
+{{ 'upcoming-events.css' | asset_url | stylesheet_tag }}
+
+<style>
+  #UpcomingEvents-{{ section.id }} .events-heading {
+    font-size: {{ section.settings.heading_size }}px;
+    font-weight: {{ section.settings.heading_weight }};
+    margin-bottom: 24px;
+    color: #1a1a1a;
+  }
+
+  {% for block in section.blocks %}
+    #UpcomingEvents-{{ section.id }} .event-item-{{ block.id }} .event-title {
+      font-size: {{ block.settings.title_size }}px;
+      font-weight: {{ block.settings.title_weight }};
+      margin: 0 0 4px 0;
+      text-transform: uppercase;
+      color: #1a1a1a;
+    }
+    
+    #UpcomingEvents-{{ section.id }} .event-item-{{ block.id }} .event-subtitle {
+      font-size: {{ block.settings.subtitle_size }}px;
+      font-weight: {{ block.settings.subtitle_weight }};
+      margin: 0;
+      color: #555;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    #UpcomingEvents-{{ section.id }} .event-item-{{ block.id }} .event-btn {
+      background-color: {{ block.settings.btn_bg_color }};
+      color: {{ block.settings.btn_text_color }};
+      font-size: {{ block.settings.btn_size }}px;
+      font-weight: {{ block.settings.btn_weight }};
+      padding: 10px 24px;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: opacity 0.3s ease;
+      display: inline-block;
+    }
+
+    #UpcomingEvents-{{ section.id }} .event-item-{{ block.id }} .event-btn:hover {
+      opacity: 0.8;
+    }
+  {% endfor %}
+
+  /* General Scoped CSS for layout */
+  .upcoming-events-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    font-family: inherit;
+  }
+
+  .events-accordion-wrapper {
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .event-item {
+    border-bottom: 1px solid #e5e5e5;
+  }
+  .event-item:last-child {
+    border-bottom: none;
+  }
+
+  .event-header {
+    display: flex;
+    align-items: center;
+    padding: 20px 24px;
+    cursor: pointer;
+    background: #fff;
+    transition: background 0.2s ease;
+  }
+  .event-header:hover {
+    background: #fcfcfc;
+  }
+
+  .event-toggle {
+    font-size: 24px;
+    font-weight: 300;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+    color: #1a1a1a;
+    transition: transform 0.3s ease;
+  }
+
+  .event-info {
+    flex-grow: 1;
+  }
+
+  .event-action {
+    margin-left: 20px;
+  }
+
+  .event-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    background: #f9f9f9;
+  }
+
+  .event-item.active .event-content {
+    max-height: 1000px; /* arbitrary large number for CSS transition */
+    padding: 20px 24px 20px 64px;
+    border-top: 1px solid #e5e5e5;
+  }
+  
+  .event-item.active .event-header {
+    background: #f9f9f9;
+  }
+
+  .event-item .event-description {
+    color: #333;
+    line-height: 1.6;
+    font-size: 15px;
+  }
+
+  .event-item .event-description p {
+    margin-bottom: 12px;
+  }
+  .event-item .event-description ul {
+    margin-top: 10px;
+    padding-left: 20px;
+  }
+
+  @media (max-width: 768px) {
+    .event-header {
+      flex-direction: column;
+      align-items: flex-start;
+      position: relative;
+    }
+    .event-toggle {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+    .event-info {
+      padding-left: 40px;
+      margin-bottom: 16px;
+    }
+    .event-action {
+      margin-left: 40px;
+    }
+    .event-item.active .event-content {
+      padding: 20px 24px 20px 40px;
+    }
+  }
+</style>
+
+<div class="upcoming-events-section" id="UpcomingEvents-{{ section.id }}">
+  {% if section.settings.heading != blank %}
+    <h2 class="events-heading">{{ section.settings.heading }}</h2>
+  {% endif %}
+
+  <div class="events-accordion-wrapper">
+    {% for block in section.blocks %}
+      <div class="event-item event-item-{{ block.id }} {% if forloop.first %}active{% endif %}" {{ block.shopify_attributes }}>
+        
+        <div class="event-header" onclick="toggleAccordion(this)">
+          <div class="event-toggle">
+            <span class="icon-plus" style="display: {% if forloop.first %}none{% else %}block{% endif %};">+</span>
+            <span class="icon-minus" style="display: {% if forloop.first %}block{% else %}none{% endif %};">−</span>
+          </div>
+          
+          <div class="event-info">
+            <h3 class="event-title">{{ block.settings.title }}</h3>
+            <p class="event-subtitle">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              {{ block.settings.subtitle }}
+            </p>
+          </div>
+
+          {% if block.settings.button_label != blank %}
+            <div class="event-action">
+              <a href="{{ block.settings.button_url }}" class="event-btn" onclick="event.stopPropagation();">
+                {{ block.settings.button_label }}
+              </a>
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="event-content">
+          <div class="event-description">
+            {{ block.settings.description }}
+          </div>
+        </div>
+
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  function toggleAccordion(header) {
+    const item = header.parentElement;
+    const isMobile = window.innerWidth <= 768;
+    
+    // Toggle active class
+    item.classList.toggle('active');
+    
+    // Toggle icons
+    const plusIcon = header.querySelector('.icon-plus');
+    const minusIcon = header.querySelector('.icon-minus');
+    
+    if (item.classList.contains('active')) {
+      plusIcon.style.display = 'none';
+      minusIcon.style.display = 'block';
+    } else {
+      plusIcon.style.display = 'block';
+      minusIcon.style.display = 'none';
+    }
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Upcoming Events",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Upcoming Events"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 18,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size",
+      "default": 28
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading Font Weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "500"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "event",
+      "name": "Event",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Event Details"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Event Title",
+          "default": "WINE TASTING"
+        },
+        {
+          "type": "range",
+          "id": "title_size",
+          "min": 12,
+          "max": 36,
+          "step": 1,
+          "unit": "px",
+          "label": "Title Font Size",
+          "default": 16
+        },
+        {
+          "type": "select",
+          "id": "title_weight",
+          "label": "Title Font Weight",
+          "options": [
+            { "value": "400", "label": "Normal" },
+            { "value": "500", "label": "Medium" },
+            { "value": "600", "label": "Semi-Bold" }
+          ],
+          "default": "500"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Event Subtitle (Location & Time)",
+          "default": "Saint Germain. Thu Sep 24th 6.00pm - 8.00pm"
+        },
+        {
+          "type": "range",
+          "id": "subtitle_size",
+          "min": 10,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "label": "Subtitle Font Size",
+          "default": 14
+        },
+        {
+          "type": "select",
+          "id": "subtitle_weight",
+          "label": "Subtitle Font Weight",
+          "options": [
+            { "value": "300", "label": "Light" },
+            { "value": "400", "label": "Normal" },
+            { "value": "500", "label": "Medium" }
+          ],
+          "default": "400"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Event Description",
+          "default": "<p>Add full details about your event here.</p>"
+        },
+        {
+          "type": "header",
+          "content": "Button Settings"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button Text",
+          "default": "Register"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Button Link"
+        },
+        {
+          "type": "color",
+          "id": "btn_bg_color",
+          "label": "Button Background Color",
+          "default": "#1a1a1a"
+        },
+        {
+          "type": "color",
+          "id": "btn_text_color",
+          "label": "Button Text Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "range",
+          "id": "btn_size",
+          "min": 12,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "label": "Button Font Size",
+          "default": 14
+        },
+        {
+          "type": "select",
+          "id": "btn_weight",
+          "label": "Button Font Weight",
+          "options": [
+            { "value": "400", "label": "Normal" },
+            { "value": "500", "label": "Medium" },
+            { "value": "600", "label": "Semi-Bold" }
+          ],
+          "default": "500"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Upcoming Events",
+      "blocks": [
+        { "type": "event", "settings": { "title": "WINE TASTING", "subtitle": "Saint Germain. Thu Sep 24th 6.00pm - 8.00pm" } },
+        { "type": "event", "settings": { "title": "Free cooking class", "subtitle": "Champs Élysées. Wed Oct 11th 5.00pm - 8.00pm" } },
+        { "type": "event", "settings": { "title": "Pumpkin carving contest", "subtitle": "La Défense. Fri Oct 18th 5.00pm - 8.00pm" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
