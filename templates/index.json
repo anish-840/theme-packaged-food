@@ -149,7 +149,7 @@
           "settings": {
             "image": "shopify://shop_images/ChatGPT_Image_Apr_1_2026_12_05_15_PM.jpg",
             "label": "Snacks & Savories",
-            "link": ""
+            "link": "shopify://collections/snacks-savouries"
           }
         },
         "category_EBgqQ7": {
@@ -157,7 +157,7 @@
           "settings": {
             "image": "shopify://shop_images/ChatGPT_Image_Apr_1_2026_12_06_40_PM.jpg",
             "label": "Sweets & Bakery",
-            "link": ""
+            "link": "shopify://collections/sweets-bakery"
           }
         },
         "category_aUL4Lg": {
@@ -165,7 +165,7 @@
           "settings": {
             "image": "shopify://shop_images/ChatGPT_Image_Apr_1_2026_12_08_28_PM.jpg",
             "label": "Health & Wellness",
-            "link": ""
+            "link": "shopify://collections/health-wellness"
           }
         },
         "category_AbeMCc": {
@@ -173,7 +173,7 @@
           "settings": {
             "image": "shopify://shop_images/ChatGPT_Image_Apr_1_2026_12_09_58_PM.jpg",
             "label": "Ready To Eat",
-            "link": ""
+            "link": "shopify://collections/ready-meals"
           }
         },
         "category_djr3Rq": {
@@ -181,7 +181,7 @@
           "settings": {
             "image": "shopify://shop_images/ChatGPT_Image_Apr_1_2026_12_12_17_PM.jpg",
             "label": "Spices & Pickles",
-            "link": ""
+            "link": "shopify://collections/spices-pickles"
           }
         },
         "category_ng4Ubg": {
@@ -189,7 +189,7 @@
           "settings": {
             "image": "shopify://shop_images/ChatGPT_Image_Apr_1_2026_12_13_51_PM.jpg",
             "label": "Beverages",
-            "link": ""
+            "link": "shopify://collections/beverages"
           }
         },
         "category_mXJQG8": {
