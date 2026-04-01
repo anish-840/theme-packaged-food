@@ -28,10 +28,11 @@
       {%- comment %} Event list preview ── {%- endcomment %}
       {%- assign event_blocks = section.blocks | where: 'type', 'event' -%}
       {%- if section.settings.show_event_list and event_blocks.size > 0 -%}
-        <ul class="er-event-list">
+        <ul class="er-event-list" data-er-list>
           {%- for block in event_blocks -%}
+            {%- assign list_index = forloop.index0 -%}
             {%- if block.settings.event_name != blank and block.settings.show_in_list -%}
-              <li class="er-event-list__item" {{ block.shopify_attributes }}>
+              <li class="er-event-list__item" data-er-item="{{ list_index }}" {{ block.shopify_attributes }}>
                 {%- if block.settings.list_icon == 'calendar' -%}
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                     <rect x="2" y="1" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.4"/>
@@ -73,6 +74,53 @@
           {%- endfor -%}
         </ul>
       {%- endif -%}
+
+      {%- comment %} ── Event image gallery ── {%- endcomment %}
+      {%- if section.settings.show_event_images and event_blocks.size > 0 -%}
+        <div
+          class="er-event-gallery"
+          style="
+            height: {{ section.settings.event_img_height }}px;
+            border-radius: {{ section.settings.event_img_radius }}px;
+            background: {{ section.settings.event_img_bg }};
+          "
+          data-er-gallery
+        >
+          {%- assign img_index = 0 -%}
+          {%- for block in event_blocks -%}
+            {%- if block.settings.show_in_list -%}
+              <div
+                class="er-event-gallery__slide{% if img_index == 0 %} is-active{% endif %}"
+                data-er-slide="{{ img_index }}"
+              >
+                {%- if block.settings.event_image != blank -%}
+                  {{
+                    block.settings.event_image
+                    | image_url: width: 900
+                    | image_tag:
+                      class: 'er-event-gallery__img',
+                      loading: 'lazy',
+                      widths: '400, 600, 900',
+                      sizes: '(max-width: 749px) 100vw, 45vw',
+                      alt: block.settings.event_name | escape
+                  }}
+                {%- else -%}
+                  <div class="er-event-gallery__placeholder">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                      <rect x="4" y="8" width="40" height="32" rx="4" stroke="currentColor" stroke-width="2" opacity="0.3"/>
+                      <circle cx="16" cy="20" r="4" stroke="currentColor" stroke-width="2" opacity="0.3"/>
+                      <path d="M4 36l10-10 8 8 6-6 16 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+                    </svg>
+                    <span>{{ block.settings.event_name | escape }}</span>
+                  </div>
+                {%- endif -%}
+              </div>
+              {%- assign img_index = img_index | plus: 1 -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
     </div>
 
     {%- comment %} ── Right: form ── {%- endcomment %}
@@ -308,6 +356,69 @@
     font-size: 12px;
     color: {{ section.settings.desc_color }};
     opacity: 0.7;
+  }
+
+  /* ── Active list item highlight ── */
+  #{{ sid }} .er-event-list__item {
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 6px 8px;
+    margin: 0 -8px;
+    transition: background 0.15s;
+  }
+  #{{ sid }} .er-event-list__item:hover,
+  #{{ sid }} .er-event-list__item.is-active {
+    background: rgba(45, 80, 22, 0.06);
+  }
+  #{{ sid }} .er-event-list__item.is-active .er-event-list__name {
+    color: {{ section.settings.accent_color }} !important;
+  }
+  #{{ sid }} .er-event-list__item svg {
+    transition: color 0.15s;
+  }
+  #{{ sid }} .er-event-list__item.is-active svg,
+  #{{ sid }} .er-event-list__item:hover svg {
+    color: {{ section.settings.accent_color }};
+  }
+
+  /* ── Event image gallery ── */
+  #{{ sid }} .er-event-gallery {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    margin-top: {{ section.settings.event_img_margin_top }}px;
+  }
+  #{{ sid }} .er-event-gallery__slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity {{ section.settings.event_img_transition }}ms ease;
+    pointer-events: none;
+  }
+  #{{ sid }} .er-event-gallery__slide.is-active {
+    opacity: 1;
+    pointer-events: auto;
+    position: relative;
+    height: 100%;
+  }
+  #{{ sid }} .er-event-gallery__img {
+    width: 100%;
+    height: 100%;
+    object-fit: {{ section.settings.event_img_fit }};
+    object-position: center;
+    display: block;
+  }
+  #{{ sid }} .er-event-gallery__placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: {{ section.settings.desc_color }};
+    font-size: 13px;
+    opacity: 0.5;
   }
 
   /* ── Form card ── */
@@ -642,6 +753,39 @@
     .finally(function() {
       btn.classList.remove('is-loading');
       btn.disabled = false;
+    });
+  });
+})();
+
+/* ── Event gallery hover ── */
+(function() {
+  var section = document.getElementById('{{ sid }}');
+  if (!section) return;
+
+  var list    = section.querySelector('[data-er-list]');
+  var gallery = section.querySelector('[data-er-gallery]');
+  if (!list || !gallery) return;
+
+  var items  = Array.from(list.querySelectorAll('[data-er-item]'));
+  var slides = Array.from(gallery.querySelectorAll('[data-er-slide]'));
+  if (!items.length || !slides.length) return;
+
+  function activate(index) {
+    items.forEach(function(el) { el.classList.remove('is-active'); });
+    slides.forEach(function(el) { el.classList.remove('is-active'); });
+    var item  = items.find(function(el) { return el.dataset.erItem == index; });
+    var slide = slides.find(function(el) { return el.dataset.erSlide == index; });
+    if (item)  item.classList.add('is-active');
+    if (slide) slide.classList.add('is-active');
+  }
+
+  /* Activate first item on load */
+  activate(0);
+
+  /* Hover to switch */
+  items.forEach(function(item) {
+    item.addEventListener('mouseenter', function() {
+      activate(item.dataset.erItem);
     });
   });
 })();
@@ -1173,6 +1317,60 @@
     },
     {
       "type": "header",
+      "content": "Event image gallery"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_event_images",
+      "label": "Show event image gallery",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "event_img_height",
+      "label": "Image height",
+      "min": 120, "max": 480, "step": 10, "unit": "px",
+      "default": 220
+    },
+    {
+      "type": "range",
+      "id": "event_img_margin_top",
+      "label": "Space above image",
+      "min": 0, "max": 40, "step": 4, "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "event_img_radius",
+      "label": "Image border radius",
+      "min": 0, "max": 24, "step": 2, "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "event_img_fit",
+      "label": "Image fit",
+      "options": [
+        { "value": "cover",   "label": "Cover (crop to fill)" },
+        { "value": "contain", "label": "Contain (show full image)" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "color",
+      "id": "event_img_bg",
+      "label": "Image background / placeholder color",
+      "default": "#f0f0ee"
+    },
+    {
+      "type": "range",
+      "id": "event_img_transition",
+      "label": "Crossfade speed",
+      "min": 100, "max": 800, "step": 50, "unit": "ms",
+      "default": 300
+    },
+    {
+      "type": "header",
       "content": "Messages"
     },
     {
@@ -1216,6 +1414,12 @@
           "id": "event_value",
           "label": "Dropdown value (sent to webhook)",
           "info": "Optional slug e.g. 'wine-tasting-sep24'. Falls back to the event name if blank."
+        },
+        {
+          "type": "image_picker",
+          "id": "event_image",
+          "label": "Event image",
+          "info": "Shown in the gallery below the list when this event is hovered."
         },
         {
           "type": "header",

@@ -59,6 +59,55 @@
     },
     "event_registration_KBxWQP": {
       "type": "event-registration",
+      "blocks": {
+        "event_fH3hkf": {
+          "type": "event",
+          "settings": {
+            "event_name": "Wine Tasting",
+            "event_meta": "Thu Sep 24th · 6:00 PM",
+            "event_value": "",
+            "show_in_list": true,
+            "list_icon": "calendar",
+            "list_name_size": 14,
+            "list_name_weight": "500",
+            "list_name_color": "#1a1a1a",
+            "list_meta_color": "#888780"
+          }
+        },
+        "event_kh9hHK": {
+          "type": "event",
+          "settings": {
+            "event_name": "Baking Masterclass",
+            "event_meta": "Thu Sep 24th · 6:00 PM",
+            "event_value": "",
+            "show_in_list": true,
+            "list_icon": "calendar",
+            "list_name_size": 14,
+            "list_name_weight": "500",
+            "list_name_color": "#1a1a1a",
+            "list_meta_color": "#888780"
+          }
+        },
+        "event_THTAk6": {
+          "type": "event",
+          "settings": {
+            "event_name": "Cooking Class",
+            "event_meta": "Thu Sep 24th · 6:00 PM",
+            "event_value": "",
+            "show_in_list": true,
+            "list_icon": "calendar",
+            "list_name_size": 14,
+            "list_name_weight": "500",
+            "list_name_color": "#1a1a1a",
+            "list_meta_color": "#888780"
+          }
+        }
+      },
+      "block_order": [
+        "event_fH3hkf",
+        "event_kh9hHK",
+        "event_THTAk6"
+      ],
       "name": "Event Registration",
       "settings": {
         "section_bg": "#fafaf7",
