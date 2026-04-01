@@ -2651,6 +2651,76 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
+    },
+    "upcoming_events_BzVpPp": {
+      "type": "upcoming-events",
+      "blocks": {
+        "event_hEpW6Q": {
+          "type": "event",
+          "settings": {
+            "title": "WINE TASTING",
+            "title_size": 16,
+            "title_weight": "500",
+            "subtitle": "Saint Germain. Thu Sep 24th 6.00pm - 8.00pm",
+            "subtitle_size": 14,
+            "subtitle_weight": "400",
+            "description": "<p>Add full details about your event here.</p>",
+            "button_label": "Register",
+            "button_url": "",
+            "btn_bg_color": "#1a1a1a",
+            "btn_text_color": "#ffffff",
+            "btn_size": 14,
+            "btn_weight": "500"
+          }
+        },
+        "event_W8ek3b": {
+          "type": "event",
+          "settings": {
+            "title": "Free cooking class",
+            "title_size": 16,
+            "title_weight": "500",
+            "subtitle": "Champs Élysées. Wed Oct 11th 5.00pm - 8.00pm",
+            "subtitle_size": 14,
+            "subtitle_weight": "400",
+            "description": "<p>Add full details about your event here.</p>",
+            "button_label": "Register",
+            "button_url": "",
+            "btn_bg_color": "#1a1a1a",
+            "btn_text_color": "#ffffff",
+            "btn_size": 14,
+            "btn_weight": "500"
+          }
+        },
+        "event_ge6nUe": {
+          "type": "event",
+          "settings": {
+            "title": "Pumpkin carving contest",
+            "title_size": 16,
+            "title_weight": "500",
+            "subtitle": "La Défense. Fri Oct 18th 5.00pm - 8.00pm",
+            "subtitle_size": 14,
+            "subtitle_weight": "400",
+            "description": "<p>Add full details about your event here.</p>",
+            "button_label": "Register",
+            "button_url": "",
+            "btn_bg_color": "#1a1a1a",
+            "btn_text_color": "#ffffff",
+            "btn_size": 14,
+            "btn_weight": "500"
+          }
+        }
+      },
+      "block_order": [
+        "event_hEpW6Q",
+        "event_W8ek3b",
+        "event_ge6nUe"
+      ],
+      "name": "Upcoming Events",
+      "settings": {
+        "heading": "Upcoming Events",
+        "heading_size": 28,
+        "heading_weight": "500"
+      }
     }
   },
   "order": [
@@ -2668,6 +2738,7 @@
     "hero_zUDwae",
     "section_EfWn4j",
     "testimonials_HCjt6i",
-    "featured_blog_posts_F4jNrK"
+    "featured_blog_posts_F4jNrK",
+    "upcoming_events_BzVpPp"
   ]
 }
