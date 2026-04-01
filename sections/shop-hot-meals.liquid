@@ -187,7 +187,11 @@
     position: relative;
     overflow: hidden;
     border-radius: {{ section.settings.bg_radius }}px;
-    margin: {{ section.settings.bg_margin }}px;
+    padding-top:    {{ section.settings.bg_padding_top }}px;
+    padding-bottom: {{ section.settings.bg_padding_bottom }}px;
+    padding-left:   {{ section.settings.bg_padding_left }}px;
+    padding-right:  {{ section.settings.bg_padding_right }}px;
+    box-sizing: border-box;
   }
   #{{ sid }} .shm-bg__img {
     width: 100%;
@@ -386,7 +390,10 @@
     /* Bg image: full width, fixed height on mobile */
     #{{ sid }} .shm-bg {
       border-radius: {{ section.settings.bg_radius_mobile }}px;
-      margin: {{ section.settings.bg_margin_mobile }}px;
+      padding-top:    {{ section.settings.bg_padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.bg_padding_bottom_mobile }}px;
+      padding-left:   {{ section.settings.bg_padding_left_mobile }}px;
+      padding-right:  {{ section.settings.bg_padding_right_mobile }}px;
       height: {{ section.settings.bg_height_mobile }}px;
     }
     #{{ sid }} .shm-bg__img--desktop { display: none !important; }
@@ -610,10 +617,31 @@
     },
     {
       "type": "range",
-      "id": "bg_margin",
-      "label": "Background image margin",
-      "min": 0, "max": 32, "step": 4, "unit": "px",
+      "id": "bg_padding_top",
+      "label": "Padding top",
+      "min": 0, "max": 60, "step": 4, "unit": "px",
       "default": 16
+    },
+    {
+      "type": "range",
+      "id": "bg_padding_bottom",
+      "label": "Padding bottom",
+      "min": 0, "max": 60, "step": 4, "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "bg_padding_left",
+      "label": "Padding left",
+      "min": 0, "max": 60, "step": 4, "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "bg_padding_right",
+      "label": "Padding right",
+      "min": 0, "max": 60, "step": 4, "unit": "px",
+      "default": 0
     },
     {
       "type": "range",
@@ -631,9 +659,30 @@
     },
     {
       "type": "range",
-      "id": "bg_margin_mobile",
-      "label": "Background image margin (mobile)",
-      "min": 0, "max": 24, "step": 4, "unit": "px",
+      "id": "bg_padding_top_mobile",
+      "label": "Padding top (mobile)",
+      "min": 0, "max": 60, "step": 4, "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "bg_padding_bottom_mobile",
+      "label": "Padding bottom (mobile)",
+      "min": 0, "max": 60, "step": 4, "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "bg_padding_left_mobile",
+      "label": "Padding left (mobile)",
+      "min": 0, "max": 60, "step": 4, "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "bg_padding_right_mobile",
+      "label": "Padding right (mobile)",
+      "min": 0, "max": 60, "step": 4, "unit": "px",
       "default": 8
     },
     {
