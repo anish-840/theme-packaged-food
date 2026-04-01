@@ -132,79 +132,6 @@
     },
     "hero_yf7yA4": {
       "type": "hero",
-      "blocks": {
-        "text_BUFA4d": {
-          "type": "text",
-          "settings": {
-            "text": "<h2>Get in Touch</h2>",
-            "width": "fit-content",
-            "max_width": "narrow",
-            "alignment": "left",
-            "type_preset": "h3",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "text_4kDWtW": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Fill out the form below and we will get back to you as soon as possible.</p>",
-            "width": "fit-content",
-            "max_width": "narrow",
-            "alignment": "left",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 32,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "button_X764GN": {
-          "type": "button",
-          "name": "t:names.button",
-          "disabled": true,
-          "settings": {
-            "label": "Shop now",
-            "link": "shopify://collections/all",
-            "open_in_new_tab": false,
-            "style_class": "button",
-            "width": "fit-content",
-            "custom_width": 100,
-            "width_mobile": "fit-content",
-            "custom_width_mobile": 100
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "text_BUFA4d",
-        "text_4kDWtW",
-        "button_X764GN"
-      ],
       "name": "t:names.hero",
       "settings": {
         "media_type_1": "image",
@@ -225,11 +152,11 @@
         "vertical_alignment_flex_direction_column": "flex-end",
         "gap": 16,
         "section_width": "page-width",
-        "section_height": "large",
+        "section_height": "small",
         "section_height_custom": 50,
         "color_scheme": "scheme-5",
-        "toggle_overlay": true,
-        "overlay_color": "#000000cd",
+        "toggle_overlay": false,
+        "overlay_color": "#000000cc",
         "overlay_style": "gradient",
         "gradient_direction": "to top",
         "blurred_reflection": false,
@@ -242,13 +169,16 @@
       "type": "contact-webhook",
       "name": "Webhook Contact Form",
       "settings": {
-        "heading": "",
-        "heading_size": 36,
-        "subheading": "",
+        "heading": "Get in Touch",
+        "subheading": "Fill out the form below and we will get back to you as soon as possible.",
         "webhook_url": "",
         "btn_text": "Send Message",
-        "btn_color": "#4a7a25",
-        "success_message": "Thank you! Your message has been sent successfully."
+        "success_msg": "Thanks for reaching out! We will get back to you shortly.",
+        "err_name": "Please enter your full name.",
+        "err_email": "Please enter a valid email address.",
+        "err_phone": "Please enter your phone number.",
+        "err_reason": "Please select a reason for contacting us.",
+        "err_message": "Please provide a message so we can help you."
       }
     }
   },
