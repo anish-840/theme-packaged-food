@@ -464,6 +464,7 @@
                 "text_aDVbik": {
                   "type": "text",
                   "name": "t:names.text",
+                  "disabled": true,
                   "settings": {
                     "text": "<p>Short Description</p>",
                     "width": "fit-content",
