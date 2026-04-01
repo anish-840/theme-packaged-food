@@ -1,0 +1,651 @@
+{% comment %}
+  Testimonials Carousel Section
+  - Multiple testimonial blocks, each with avatar, name, role, quote
+  - Centered layout with card border
+  - Prev/next arrows + pill indicators
+  - All settings configurable
+{% endcomment %}
+
+{%- assign sid = 'testimonials-' | append: section.id -%}
+
+<section id="{{ sid }}" class="testi-section">
+  <div class="testi-card">
+
+    <div class="testi-viewport">
+      <div class="testi-track" data-track>
+        {%- for block in section.blocks -%}
+          <div class="testi-slide" {{ block.shopify_attributes }}>
+
+            {%- comment %} Avatar + name/role ── {%- endcomment %}
+            <div class="testi-author">
+              <div class="testi-avatar">
+                {%- if block.settings.avatar != blank -%}
+                  {{
+                    block.settings.avatar
+                    | image_url: width: 120
+                    | image_tag:
+                      class: 'testi-avatar__img',
+                      loading: 'lazy',
+                      widths: '60, 90, 120',
+                      alt: block.settings.name | escape
+                  }}
+                {%- else -%}
+                  <div class="testi-avatar__initials">
+                    {{- block.settings.name | slice: 0, 1 | upcase -}}
+                  </div>
+                {%- endif -%}
+              </div>
+              <div class="testi-author__text">
+                {%- if block.settings.name != blank -%}
+                  <span class="testi-author__name">{{ block.settings.name | escape }}</span>
+                {%- endif -%}
+                {%- if block.settings.role != blank -%}
+                  <span class="testi-author__role">{{ block.settings.role | escape }}</span>
+                {%- endif -%}
+              </div>
+            </div>
+
+            {%- comment %} Quote ── {%- endcomment %}
+            {%- if block.settings.quote != blank -%}
+              <blockquote class="testi-quote">
+                {{ block.settings.quote | escape }}
+              </blockquote>
+            {%- endif -%}
+
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    {%- comment %} Nav ── {%- endcomment %}
+    {%- if section.blocks.size > 1 -%}
+      <div
+        class="testi-nav"
+        style="
+          --ind-active: {{ section.settings.ind_active_color }};
+          --ind-inactive: {{ section.settings.ind_inactive_color }};
+        "
+      >
+        <button class="testi-arrow testi-arrow--prev" type="button" aria-label="Previous testimonial">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="testi-dots" data-dots></div>
+        <button class="testi-arrow testi-arrow--next" type="button" aria-label="Next testimonial">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+<style>
+  #{{ sid }} {
+    padding: {{ section.settings.section_padding_top }}px {{ section.settings.section_padding_x }}px {{ section.settings.section_padding_bottom }}px;
+    background: {{ section.settings.section_bg }};
+  }
+
+  /* ── Card ── */
+  #{{ sid }} .testi-card {
+    max-width: {{ section.settings.card_max_width }}px;
+    margin: 0 auto;
+    background: {{ section.settings.card_bg }};
+    border: {{ section.settings.card_border_width }}px solid {{ section.settings.card_border_color }};
+    border-radius: {{ section.settings.card_radius }}px;
+    padding: {{ section.settings.card_padding_v }}px {{ section.settings.card_padding_h }}px;
+    box-sizing: border-box;
+  }
+
+  /* ── Viewport / track ── */
+  #{{ sid }} .testi-viewport {
+    overflow: hidden;
+    width: 100%;
+  }
+  #{{ sid }} .testi-track {
+    display: flex;
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+  #{{ sid }} .testi-slide {
+    flex: 0 0 100%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: {{ section.settings.slide_gap }}px;
+    text-align: center;
+  }
+
+  /* ── Author ── */
+  #{{ sid }} .testi-author {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  #{{ sid }} .testi-avatar {
+    width: {{ section.settings.avatar_size }}px;
+    height: {{ section.settings.avatar_size }}px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: {{ section.settings.avatar_bg }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #{{ sid }} .testi-avatar__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  #{{ sid }} .testi-avatar__initials {
+    font-size: {{ section.settings.avatar_size | divided_by: 2.5 | round }}px;
+    font-weight: 600;
+    color: {{ section.settings.name_color }};
+  }
+  #{{ sid }} .testi-author__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    text-align: left;
+  }
+  #{{ sid }} .testi-author__name {
+    font-size: {{ section.settings.name_size }}px;
+    font-weight: {{ section.settings.name_weight }};
+    color: {{ section.settings.name_color }};
+    line-height: 1.3;
+  }
+  #{{ sid }} .testi-author__role {
+    font-size: {{ section.settings.role_size }}px;
+    font-weight: {{ section.settings.role_weight }};
+    color: {{ section.settings.role_color }};
+    line-height: 1.3;
+  }
+
+  /* ── Quote ── */
+  #{{ sid }} .testi-quote {
+    margin: 0;
+    padding: 0;
+    font-size: {{ section.settings.quote_size }}px;
+    font-weight: {{ section.settings.quote_weight }};
+    font-style: {{ section.settings.quote_style }};
+    color: {{ section.settings.quote_color }};
+    line-height: {{ section.settings.quote_line_height }};
+    max-width: {{ section.settings.quote_max_width }}px;
+    font-family: {{ section.settings.quote_font }};
+  }
+
+  /* ── Nav ── */
+  #{{ sid }} .testi-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: {{ section.settings.nav_margin_top }}px;
+  }
+  #{{ sid }} .testi-arrow {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    color: {{ section.settings.arrow_color }};
+    padding: 0; flex-shrink: 0;
+    transition: background 0.15s;
+  }
+  #{{ sid }} .testi-arrow:hover { background: rgba(0,0,0,0.06); }
+  #{{ sid }} .testi-arrow:disabled { opacity: 0.3; cursor: default; }
+
+  #{{ sid }} .testi-dots {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  #{{ sid }} .testi-dot {
+    height: 6px;
+    border-radius: 3px;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    background: var(--ind-inactive);
+    transition: background 0.2s, width 0.3s;
+    width: 28px;
+  }
+  #{{ sid }} .testi-dot.is-active {
+    background: var(--ind-active);
+    width: 40px;
+  }
+
+  /* ── Mobile ── */
+  @media screen and (max-width: 749px) {
+    #{{ sid }} .testi-card {
+      padding: {{ section.settings.card_padding_v | divided_by: 1.5 | round }}px {{ section.settings.card_padding_h | divided_by: 1.5 | round }}px;
+    }
+    #{{ sid }} .testi-quote {
+      font-size: {{ section.settings.quote_size | times: 0.85 | round }}px;
+    }
+  }
+</style>
+
+<script>
+(function() {
+  var section = document.getElementById('{{ sid }}');
+  if (!section) return;
+
+  var track   = section.querySelector('[data-track]');
+  var dotsWrap = section.querySelector('[data-dots]');
+  var prevBtn = section.querySelector('.testi-arrow--prev');
+  var nextBtn = section.querySelector('.testi-arrow--next');
+  var slides  = Array.from(track ? track.querySelectorAll('.testi-slide') : []);
+  if (!track || slides.length === 0) return;
+
+  var current = 0;
+  var autoplay = {{ section.settings.autoplay | json }};
+  var speed   = {{ section.settings.autoplay_speed | times: 1000 }};
+  var timer   = null;
+
+  function buildDots() {
+    if (!dotsWrap) return;
+    dotsWrap.innerHTML = '';
+    slides.forEach(function(_, i) {
+      var btn = document.createElement('button');
+      btn.className = 'testi-dot' + (i === 0 ? ' is-active' : '');
+      btn.type = 'button';
+      btn.setAttribute('aria-label', 'Go to testimonial ' + (i + 1));
+      btn.dataset.index = i;
+      dotsWrap.appendChild(btn);
+    });
+  }
+
+  function goTo(index) {
+    current = (index + slides.length) % slides.length;
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+    Array.from(dotsWrap.querySelectorAll('.testi-dot')).forEach(function(d, i) {
+      d.classList.toggle('is-active', i === current);
+    });
+    if (prevBtn) prevBtn.disabled = current === 0;
+    if (nextBtn) nextBtn.disabled = current === slides.length - 1;
+  }
+
+  function startAutoplay() {
+    if (!autoplay || slides.length < 2) return;
+    timer = setInterval(function() { goTo(current + 1); }, speed);
+  }
+  function stopAutoplay() { if (timer) { clearInterval(timer); timer = null; } }
+
+  if (prevBtn) prevBtn.addEventListener('click', function() { stopAutoplay(); goTo(current - 1); startAutoplay(); });
+  if (nextBtn) nextBtn.addEventListener('click', function() { stopAutoplay(); goTo(current + 1); startAutoplay(); });
+
+  if (dotsWrap) {
+    dotsWrap.addEventListener('click', function(e) {
+      var btn = e.target.closest('.testi-dot');
+      if (btn) { stopAutoplay(); goTo(parseInt(btn.dataset.index, 10)); startAutoplay(); }
+    });
+  }
+
+  /* Swipe */
+  var tx = 0;
+  track.addEventListener('touchstart', function(e) { tx = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend', function(e) {
+    var diff = tx - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) { stopAutoplay(); diff > 0 ? goTo(current + 1) : goTo(current - 1); startAutoplay(); }
+  }, { passive: true });
+
+  section.addEventListener('mouseenter', stopAutoplay);
+  section.addEventListener('mouseleave', startAutoplay);
+
+  buildDots();
+  goTo(0);
+  startAutoplay();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "tag": "section",
+  "class": "testimonials-section",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Section background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Padding top",
+      "min": 0, "max": 100, "step": 4, "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Padding bottom",
+      "min": 0, "max": 100, "step": 4, "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "section_padding_x",
+      "label": "Padding left & right",
+      "min": 0, "max": 80, "step": 4, "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Card"
+    },
+    {
+      "type": "range",
+      "id": "card_max_width",
+      "label": "Card max width",
+      "min": 400, "max": 1200, "step": 20, "unit": "px",
+      "default": 860
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border color",
+      "default": "#e8e8e8"
+    },
+    {
+      "type": "range",
+      "id": "card_border_width",
+      "label": "Card border width",
+      "min": 0, "max": 4, "step": 1, "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card border radius",
+      "min": 0, "max": 32, "step": 2, "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "card_padding_v",
+      "label": "Card padding top & bottom",
+      "min": 16, "max": 80, "step": 4, "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "card_padding_h",
+      "label": "Card padding left & right",
+      "min": 16, "max": 120, "step": 4, "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "slide_gap",
+      "label": "Gap between avatar and quote",
+      "min": 8, "max": 48, "step": 4, "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Avatar"
+    },
+    {
+      "type": "range",
+      "id": "avatar_size",
+      "label": "Avatar size",
+      "min": 32, "max": 100, "step": 4, "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "color",
+      "id": "avatar_bg",
+      "label": "Avatar placeholder background",
+      "default": "#e3edda"
+    },
+    {
+      "type": "header",
+      "content": "Name"
+    },
+    {
+      "type": "range",
+      "id": "name_size",
+      "label": "Font size",
+      "min": 12, "max": 24, "step": 1, "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "name_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "color",
+      "id": "name_color",
+      "label": "Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "header",
+      "content": "Role / subtitle"
+    },
+    {
+      "type": "range",
+      "id": "role_size",
+      "label": "Font size",
+      "min": 10, "max": 20, "step": 1, "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "select",
+      "id": "role_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "color",
+      "id": "role_color",
+      "label": "Color",
+      "default": "#888780"
+    },
+    {
+      "type": "header",
+      "content": "Quote"
+    },
+    {
+      "type": "range",
+      "id": "quote_size",
+      "label": "Font size",
+      "min": 14, "max": 40, "step": 1, "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "select",
+      "id": "quote_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "select",
+      "id": "quote_style",
+      "label": "Font style",
+      "options": [
+        { "value": "normal", "label": "Normal" },
+        { "value": "italic", "label": "Italic" }
+      ],
+      "default": "italic"
+    },
+    {
+      "type": "select",
+      "id": "quote_font",
+      "label": "Font family",
+      "options": [
+        { "value": "inherit",             "label": "Theme default" },
+        { "value": "Georgia, serif",      "label": "Georgia (serif)" },
+        { "value": "'Times New Roman', serif", "label": "Times New Roman" },
+        { "value": "var(--font-heading--family, inherit)", "label": "Theme heading font" }
+      ],
+      "default": "Georgia, serif"
+    },
+    {
+      "type": "color",
+      "id": "quote_color",
+      "label": "Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "select",
+      "id": "quote_line_height",
+      "label": "Line height",
+      "options": [
+        { "value": "1.3", "label": "Tight — 1.3" },
+        { "value": "1.5", "label": "Normal — 1.5" },
+        { "value": "1.7", "label": "Relaxed — 1.7" },
+        { "value": "1.9", "label": "Loose — 1.9" }
+      ],
+      "default": "1.5"
+    },
+    {
+      "type": "range",
+      "id": "quote_max_width",
+      "label": "Quote max width",
+      "min": 300, "max": 900, "step": 20, "unit": "px",
+      "default": 660
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "color",
+      "id": "ind_active_color",
+      "label": "Active indicator color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "ind_inactive_color",
+      "label": "Inactive indicator color",
+      "default": "#d0d0d0"
+    },
+    {
+      "type": "color",
+      "id": "arrow_color",
+      "label": "Arrow color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "nav_margin_top",
+      "label": "Space above nav",
+      "min": 0, "max": 48, "step": 4, "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Autoplay"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Auto-rotate testimonials",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Change every",
+      "min": 2, "max": 10, "step": 1, "unit": "s",
+      "default": 5
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "avatar",
+          "label": "Avatar image"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Michael Smith"
+        },
+        {
+          "type": "text",
+          "id": "role",
+          "label": "Role / subtitle",
+          "default": "Customer"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "Great products. Always fresh, eco stuff that I can't find anywhere else in the city. I wouldn't imagine my daily life without them!"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "name": "Michael Smith",
+            "role": "Customer",
+            "quote": "Great products. Always fresh, eco stuff that I can't find anywhere else in the city. I wouldn't imagine my daily life without them!"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "name": "John Forest",
+            "role": "Customer",
+            "quote": "What I love about this shop is the fact that they have great assistance after buying. They offer free recipes and a lot of freebies on each purchase."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
