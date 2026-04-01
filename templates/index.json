@@ -1317,7 +1317,9 @@
         "overlay_style": "solid",
         "gradient_direction": "to top",
         "padding-block-start": 30,
-        "padding-block-end": 30
+        "padding-block-end": 30,
+        "padding-inline-start": 16,
+        "padding-inline-end": 16
       }
     },
     "section_iYhJfb": {
@@ -2112,7 +2114,9 @@
         "overlay_style": "solid",
         "gradient_direction": "to top",
         "padding-block-start": 48,
-        "padding-block-end": 48
+        "padding-block-end": 48,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
       }
     },
     "shop_hot_meals_RgaFjc": {
@@ -2431,7 +2435,9 @@
         "overlay_style": "solid",
         "gradient_direction": "to top",
         "padding-block-start": 0,
-        "padding-block-end": 22
+        "padding-block-end": 22,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
       }
     }
   },
