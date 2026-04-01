@@ -1150,7 +1150,7 @@
             "text_FrtpfC": {
               "type": "text",
               "settings": {
-                "text": "<h3>Spices, Masala & Pickles</h3>",
+                "text": "<h3>Snacks & Savories</h3>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "center",
@@ -1235,7 +1235,7 @@
             "text_Pnykhk": {
               "type": "text",
               "settings": {
-                "text": "<h3>Beverages</h3>",
+                "text": "<h3>Health & Wellness</h3>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "center",
