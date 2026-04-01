@@ -191,20 +191,6 @@
             "label": "Beverages",
             "link": "shopify://collections/beverages"
           }
-        },
-        "category_mXJQG8": {
-          "type": "category",
-          "settings": {
-            "label": "Dairy & Eggs",
-            "link": ""
-          }
-        },
-        "category_kxi3iT": {
-          "type": "category",
-          "settings": {
-            "label": "Sauces & Marinades",
-            "link": ""
-          }
         }
       },
       "block_order": [
@@ -213,9 +199,7 @@
         "category_aUL4Lg",
         "category_AbeMCc",
         "category_djr3Rq",
-        "category_ng4Ubg",
-        "category_mXJQG8",
-        "category_kxi3iT"
+        "category_ng4Ubg"
       ],
       "name": "Shop by Category",
       "settings": {
