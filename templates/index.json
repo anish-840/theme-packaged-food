@@ -147,43 +147,48 @@
         "category_7ihanx": {
           "type": "category",
           "settings": {
-            "image": "shopify://shop_images/cat3_b7efbfc9-6fd4-4a83-9100-205c605fa035.webp",
-            "label": "Bread & Bakery",
+            "image": "shopify://shop_images/ChatGPT_Image_Apr_1_2026_12_05_15_PM.jpg",
+            "label": "Snacks & Savories",
             "link": ""
           }
         },
         "category_EBgqQ7": {
           "type": "category",
           "settings": {
-            "label": "Flour & Baking",
+            "image": "shopify://shop_images/ChatGPT_Image_Apr_1_2026_12_06_40_PM.jpg",
+            "label": "Sweets & Bakery",
             "link": ""
           }
         },
         "category_aUL4Lg": {
           "type": "category",
           "settings": {
-            "label": "Fruits & Vegetables",
+            "image": "shopify://shop_images/ChatGPT_Image_Apr_1_2026_12_08_28_PM.jpg",
+            "label": "Health & Wellness",
             "link": ""
           }
         },
         "category_AbeMCc": {
           "type": "category",
           "settings": {
-            "label": "Fresh Meals & Pizzas",
+            "image": "shopify://shop_images/ChatGPT_Image_Apr_1_2026_12_09_58_PM.jpg",
+            "label": "Ready To Eat",
             "link": ""
           }
         },
         "category_djr3Rq": {
           "type": "category",
           "settings": {
-            "label": "Beverages",
+            "image": "shopify://shop_images/ChatGPT_Image_Apr_1_2026_12_12_17_PM.jpg",
+            "label": "Spices & Pickles",
             "link": ""
           }
         },
         "category_ng4Ubg": {
           "type": "category",
           "settings": {
-            "label": "Fresh Meat",
+            "image": "shopify://shop_images/ChatGPT_Image_Apr_1_2026_12_13_51_PM.jpg",
+            "label": "Beverages",
             "link": ""
           }
         },
