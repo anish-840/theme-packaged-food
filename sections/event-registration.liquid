@@ -30,16 +30,42 @@
       {%- if section.settings.show_event_list and event_blocks.size > 0 -%}
         <ul class="er-event-list">
           {%- for block in event_blocks -%}
-            {%- if block.settings.event_name != blank -%}
+            {%- if block.settings.event_name != blank and block.settings.show_in_list -%}
               <li class="er-event-list__item" {{ block.shopify_attributes }}>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <rect x="2" y="1" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.4"/>
-                  <path d="M5 1V3M11 1V3M2 6h12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-                </svg>
+                {%- if block.settings.list_icon == 'calendar' -%}
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <rect x="2" y="1" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.4"/>
+                    <path d="M5 1V3M11 1V3M2 6h12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                  </svg>
+                {%- elsif block.settings.list_icon == 'pin' -%}
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M8 1.5A3.5 3.5 0 0 1 11.5 5c0 2.5-3.5 9-3.5 9S4.5 7.5 4.5 5A3.5 3.5 0 0 1 8 1.5z" stroke="currentColor" stroke-width="1.4"/>
+                    <circle cx="8" cy="5" r="1.2" stroke="currentColor" stroke-width="1.2"/>
+                  </svg>
+                {%- elsif block.settings.list_icon == 'star' -%}
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M8 1l1.545 3.13L13 4.635l-2.5 2.435.59 3.44L8 8.885l-3.09 1.625.59-3.44L3 4.635l3.455-.505z" stroke="currentColor" stroke-width="1.3"/>
+                  </svg>
+                {%- elsif block.settings.list_icon == 'check' -%}
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.4"/>
+                    <path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                {%- endif -%}
                 <div>
-                  <span class="er-event-list__name">{{ block.settings.event_name | escape }}</span>
+                  <span
+                    class="er-event-list__name"
+                    style="
+                      font-size: {{ block.settings.list_name_size }}px;
+                      color: {{ block.settings.list_name_color }};
+                      font-weight: {{ block.settings.list_name_weight }};
+                    "
+                  >{{ block.settings.event_name | escape }}</span>
                   {%- if block.settings.event_meta != blank -%}
-                    <span class="er-event-list__meta">{{ block.settings.event_meta | escape }}</span>
+                    <span
+                      class="er-event-list__meta"
+                      style="color: {{ block.settings.list_meta_color }};"
+                    >{{ block.settings.event_meta | escape }}</span>
                   {%- endif -%}
                 </div>
               </li>
@@ -1168,23 +1194,81 @@
       "name": "Event",
       "settings": [
         {
+          "type": "header",
+          "content": "Event details"
+        },
+        {
           "type": "text",
           "id": "event_name",
-          "label": "Event name (shown in dropdown and list)",
-          "default": "Wine Tasting — Saint Germain"
+          "label": "Event name",
+          "default": "Wine Tasting — Saint Germain",
+          "info": "Shown in both the dropdown and the left panel list."
         },
         {
           "type": "text",
           "id": "event_meta",
-          "label": "Event detail / date (shown in list only)",
+          "label": "Date & detail line",
           "default": "Thu Sep 24th · 6:00 PM",
-          "info": "Optional. Shown as a subtitle below the event name in the left panel list."
+          "info": "Shown as a subtitle below the event name in the left list only."
         },
         {
           "type": "text",
           "id": "event_value",
           "label": "Dropdown value (sent to webhook)",
-          "info": "Optional. If blank, the event name is used as the value. Use a short slug like 'wine-tasting-sep24' for cleaner webhook data."
+          "info": "Optional slug e.g. 'wine-tasting-sep24'. Falls back to the event name if blank."
+        },
+        {
+          "type": "header",
+          "content": "Left list appearance"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_in_list",
+          "label": "Show in left panel list",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "list_icon",
+          "label": "Icon",
+          "options": [
+            { "value": "calendar", "label": "Calendar" },
+            { "value": "pin",      "label": "Location pin" },
+            { "value": "star",     "label": "Star" },
+            { "value": "check",    "label": "Check circle" }
+          ],
+          "default": "calendar"
+        },
+        {
+          "type": "range",
+          "id": "list_name_size",
+          "label": "Name font size",
+          "min": 11, "max": 20, "step": 1, "unit": "px",
+          "default": 14
+        },
+        {
+          "type": "select",
+          "id": "list_name_weight",
+          "label": "Name font weight",
+          "options": [
+            { "value": "400", "label": "Regular" },
+            { "value": "500", "label": "Medium" },
+            { "value": "600", "label": "Semi-bold" },
+            { "value": "700", "label": "Bold" }
+          ],
+          "default": "500"
+        },
+        {
+          "type": "color",
+          "id": "list_name_color",
+          "label": "Name color",
+          "default": "#1a1a1a"
+        },
+        {
+          "type": "color",
+          "id": "list_meta_color",
+          "label": "Date/detail color",
+          "default": "#888780"
         }
       ]
     }
@@ -1198,7 +1282,13 @@
           "settings": {
             "event_name": "Wine Tasting — Saint Germain",
             "event_meta": "Thu Sep 24th · 6:00 PM",
-            "event_value": "wine-tasting-sep24"
+            "event_value": "wine-tasting-sep24",
+            "show_in_list": true,
+            "list_icon": "calendar",
+            "list_name_size": 14,
+            "list_name_weight": "500",
+            "list_name_color": "#1a1a1a",
+            "list_meta_color": "#888780"
           }
         },
         {
@@ -1206,7 +1296,13 @@
           "settings": {
             "event_name": "Free Cooking Class — Champs Élysées",
             "event_meta": "Wed Oct 11th · 2:00 PM",
-            "event_value": "cooking-class-oct11"
+            "event_value": "cooking-class-oct11",
+            "show_in_list": true,
+            "list_icon": "calendar",
+            "list_name_size": 14,
+            "list_name_weight": "500",
+            "list_name_color": "#1a1a1a",
+            "list_meta_color": "#888780"
           }
         },
         {
@@ -1214,7 +1310,13 @@
           "settings": {
             "event_name": "Pumpkin Carving Contest — La Défense",
             "event_meta": "Fri Oct 18th · 4:00 PM",
-            "event_value": "pumpkin-carving-oct18"
+            "event_value": "pumpkin-carving-oct18",
+            "show_in_list": true,
+            "list_icon": "calendar",
+            "list_name_size": 14,
+            "list_name_weight": "500",
+            "list_name_color": "#1a1a1a",
+            "list_meta_color": "#888780"
           }
         }
       ]
