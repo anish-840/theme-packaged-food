@@ -12,15 +12,15 @@
     "hero_slideshow_JFgpNw": {
       "type": "hero-slideshow",
       "blocks": {
-        "slide_zqqwRq": {
+        "slide_W83yyV": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Untitled_design_62.jpg",
+            "image": "shopify://shop_images/Untitled_design_67.jpg",
             "video_url": "",
             "overlay_color": "#000000",
             "overlay_opacity": 0,
             "text_horizontal_position": "left",
-            "text_vertical_position": "middle",
+            "text_vertical_position": "bottom",
             "mobile_text_horizontal_position": "left",
             "mobile_text_vertical_position": "bottom",
             "heading": "Fresh. \nOrganic. \nDelivered.",
@@ -47,15 +47,15 @@
             "btn_hover_border_color": "#1a2e0a"
           }
         },
-        "slide_W83yyV": {
+        "slide_zqqwRq": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Untitled_design_67.jpg",
+            "image": "shopify://shop_images/Untitled_design_62.jpg",
             "video_url": "",
             "overlay_color": "#000000",
             "overlay_opacity": 0,
             "text_horizontal_position": "left",
-            "text_vertical_position": "bottom",
+            "text_vertical_position": "middle",
             "mobile_text_horizontal_position": "left",
             "mobile_text_vertical_position": "bottom",
             "heading": "Fresh. \nOrganic. \nDelivered.",
@@ -119,8 +119,8 @@
         }
       },
       "block_order": [
-        "slide_zqqwRq",
         "slide_W83yyV",
+        "slide_zqqwRq",
         "slide_ebjixD"
       ],
       "name": "Hero Slideshow",
