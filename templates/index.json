@@ -2446,6 +2446,67 @@
         "padding-inline-start": 0,
         "padding-inline-end": 0
       }
+    },
+    "testimonials_HCjt6i": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial_Xkphme": {
+          "type": "testimonial",
+          "settings": {
+            "name": "Michael Smith",
+            "role": "Customer",
+            "quote": "Great products. Always fresh, eco stuff that I can't find anywhere else in the city. I wouldn't imagine my daily life without them!"
+          }
+        },
+        "testimonial_UtmtRH": {
+          "type": "testimonial",
+          "settings": {
+            "name": "John Forest",
+            "role": "Customer",
+            "quote": "What I love about this shop is the fact that they have great assistance after buying. They offer free recipes and a lot of freebies on each purchase."
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_Xkphme",
+        "testimonial_UtmtRH"
+      ],
+      "name": "Testimonials",
+      "settings": {
+        "section_bg": "#ffffff",
+        "section_padding_top": 40,
+        "section_padding_bottom": 40,
+        "section_padding_x": 20,
+        "card_max_width": 860,
+        "card_bg": "#ffffff",
+        "card_border_color": "#e8e8e8",
+        "card_border_width": 1,
+        "card_radius": 12,
+        "card_padding_v": 48,
+        "card_padding_h": 64,
+        "slide_gap": 24,
+        "avatar_size": 56,
+        "avatar_bg": "#e3edda",
+        "name_size": 16,
+        "name_weight": "600",
+        "name_color": "#1a1a1a",
+        "role_size": 13,
+        "role_weight": "400",
+        "role_color": "#888780",
+        "quote_size": 22,
+        "quote_weight": "400",
+        "quote_style": "italic",
+        "quote_font": "Georgia, serif",
+        "quote_color": "#1a1a1a",
+        "quote_line_height": "1.5",
+        "quote_max_width": 660,
+        "ind_active_color": "#1a1a1a",
+        "ind_inactive_color": "#d0d0d0",
+        "arrow_color": "#1a1a1a",
+        "nav_margin_top": 20,
+        "autoplay": false,
+        "autoplay_speed": 5
+      }
     }
   },
   "order": [
@@ -2461,6 +2522,7 @@
     "shop_hot_meals_RgaFjc",
     "product_hotspots_nqGaYg",
     "hero_zUDwae",
-    "section_EfWn4j"
+    "section_EfWn4j",
+    "testimonials_HCjt6i"
   ]
 }
