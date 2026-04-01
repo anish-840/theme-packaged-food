@@ -16,6 +16,7 @@
       "blocks": {
         "media": {
           "type": "_media-without-appearance",
+          "disabled": true,
           "static": true,
           "settings": {
             "media_type": "image",
@@ -69,9 +70,9 @@
                 "width": "fill",
                 "custom_width": 100,
                 "inherit_color_scheme": true,
+                "color_scheme": "scheme-4",
                 "heading": "",
                 "heading_preset": "h3",
-                "color_scheme": "scheme-4",
                 "border_style": "all",
                 "border_width": 0,
                 "border_radius": 100,
@@ -283,7 +284,7 @@
         "copyright": {
           "type": "footer-copyright",
           "settings": {
-            "show_powered_by": true,
+            "show_powered_by": false,
             "font_size": "0.75rem",
             "case": "none"
           },

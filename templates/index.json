@@ -2240,6 +2240,7 @@
         "hotspot_product_ebgdwP",
         "hotspot_product_4tNRze"
       ],
+      "disabled": true,
       "name": "t:names.product_hotspots",
       "settings": {
         "toggle_overlay": false,
