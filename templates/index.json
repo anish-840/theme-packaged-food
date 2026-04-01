@@ -553,11 +553,11 @@
         "card_JwJN3r": {
           "type": "card",
           "settings": {
-            "card_bg": "#ecdfcb",
-            "image": "shopify://shop_images/promo1_4575bd47-9a81-46da-8853-4cda5aacf922.webp",
+            "card_bg": "#fbe9da",
+            "image": "shopify://shop_images/Frame_18963.png",
             "label": "Fresh everyday",
             "label_color": "#3d3d3a",
-            "heading": "Finest Bread",
+            "heading": "Snack Delights",
             "heading_color": "#1a1a1a",
             "button_label": "Show more",
             "button_url": "",
@@ -572,11 +572,11 @@
         "card_dRqR7P": {
           "type": "card",
           "settings": {
-            "card_bg": "#cfddd9",
-            "image": "shopify://shop_images/promo2_043a93e8-22be-4755-9405-ee2b99a7bf78.webp",
+            "card_bg": "#dbe0da",
+            "image": "shopify://shop_images/Frame_2236.png",
             "label": "Just arrived!",
             "label_color": "#3d3d3a",
-            "heading": "Superfoods",
+            "heading": "Organic Living",
             "heading_color": "#1a1a1a",
             "button_label": "Show more",
             "button_url": "",
@@ -591,11 +591,11 @@
         "card_pnVD9Q": {
           "type": "card",
           "settings": {
-            "card_bg": "#cfdce6",
-            "image": "shopify://shop_images/promo3.webp",
+            "card_bg": "#d5e0ea",
+            "image": "shopify://shop_images/Frame_3asd.png",
             "label": "Collection",
             "label_color": "#3d3d3a",
-            "heading": "Pure Organic",
+            "heading": "Beverages",
             "heading_color": "#1a1a1a",
             "button_label": "Show more",
             "button_url": "",
