@@ -3119,7 +3119,7 @@
                 "text_apEkmk": {
                   "type": "text",
                   "settings": {
-                    "text": "<h2>Gluten Free</h2>",
+                    "text": "<h2>For Concious Eaters</h2>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "center",
@@ -3222,7 +3222,7 @@
               "settings": {
                 "icon": "eye",
                 "image_upload": "shopify://shop_images/icon4.webp",
-                "width": 32,
+                "width": 200,
                 "link": "",
                 "open_in_new_tab": false
               },
@@ -3349,7 +3349,7 @@
         "section_width": "page-width",
         "section_height": "",
         "section_height_custom": 50,
-        "color_scheme": "",
+        "color_scheme": "scheme-2",
         "background_media": "none",
         "video_position": "cover",
         "background_image_position": "cover",
