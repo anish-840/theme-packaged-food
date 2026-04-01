@@ -35,6 +35,10 @@
     font-size: 14px;
     font-weight: 500;
   }
+  .required-asterisk {
+    color: #d93025;
+    margin-left: 2px;
+  }
   .local-contact-form input,
   .local-contact-form select,
   .local-contact-form textarea {
@@ -70,29 +74,30 @@
   .has-error select,
   .has-error textarea {
     border-color: #d93025;
+    background-color: #fdf3f2;
   }
   .has-error .error-text {
     display: block;
   }
 
-  /* Button matching Local Theme pill style */
+  /* Dynamic Button Styles */
   .local-btn {
-    background: #1a1a1a;
-    color: #fff;
+    background-color: {{ section.settings.btn_bg_color }};
+    color: {{ section.settings.btn_text_color }};
+    border-radius: {{ section.settings.btn_radius }}px;
     border: none;
     padding: 16px 40px;
     font-size: 16px;
     font-weight: 600;
-    border-radius: 50px; 
     cursor: pointer;
     width: 100%;
-    transition: background-color 0.3s ease;
+    transition: opacity 0.3s ease;
   }
   .local-btn:hover {
-    background-color: #333;
+    opacity: 0.85;
   }
   .local-btn:disabled {
-    background-color: #999;
+    opacity: 0.5;
     cursor: not-allowed;
   }
 
@@ -133,13 +138,13 @@
   <form id="LocalContactForm-{{ section.id }}" class="local-contact-form" novalidate>
     <div class="form-row">
       <div class="form-group" id="group-name">
-        <label for="ContactFormName">Name</label>
+        <label for="ContactFormName">Name {% if section.settings.req_name %}<span class="required-asterisk">*</span>{% endif %}</label>
         <input type="text" id="ContactFormName" name="name" placeholder="Your full name">
         <div class="error-text">{{ section.settings.err_name }}</div>
       </div>
       
       <div class="form-group" id="group-email">
-        <label for="ContactFormEmail">Email</label>
+        <label for="ContactFormEmail">Email {% if section.settings.req_email %}<span class="required-asterisk">*</span>{% endif %}</label>
         <input type="email" id="ContactFormEmail" name="email" placeholder="you@example.com">
         <div class="error-text">{{ section.settings.err_email }}</div>
       </div>
@@ -147,13 +152,13 @@
 
     <div class="form-row">
       <div class="form-group" id="group-phone">
-        <label for="ContactFormPhone">Phone</label>
+        <label for="ContactFormPhone">Phone {% if section.settings.req_phone %}<span class="required-asterisk">*</span>{% endif %}</label>
         <input type="tel" id="ContactFormPhone" name="phone" placeholder="+1 (555) 000-0000">
         <div class="error-text">{{ section.settings.err_phone }}</div>
       </div>
 
       <div class="form-group" id="group-reason">
-        <label for="ContactFormReason">Reason for Contact</label>
+        <label for="ContactFormReason">Reason for Contact {% if section.settings.req_reason %}<span class="required-asterisk">*</span>{% endif %}</label>
         <select id="ContactFormReason" name="reason">
           <option value="" disabled selected>Please select...</option>
           <option value="Order Status">Order Status</option>
@@ -166,7 +171,7 @@
     </div>
 
     <div class="form-group" id="group-message">
-      <label for="ContactFormMessage">Message</label>
+      <label for="ContactFormMessage">Message {% if section.settings.req_message %}<span class="required-asterisk">*</span>{% endif %}</label>
       <textarea id="ContactFormMessage" name="message" placeholder="How can we help you today?"></textarea>
       <div class="error-text">{{ section.settings.err_message }}</div>
     </div>
@@ -184,6 +189,15 @@
     const successBanner = document.getElementById('SuccessBanner-{{ section.id }}');
     const webhookUrl = "{{ section.settings.webhook_url }}";
 
+    // Inject liquid required settings into JS
+    const config = {
+      name: {{ section.settings.req_name | json }},
+      email: {{ section.settings.req_email | json }},
+      phone: {{ section.settings.req_phone | json }},
+      reason: {{ section.settings.req_reason | json }},
+      message: {{ section.settings.req_message | json }}
+    };
+
     form.addEventListener('submit', function(e) {
       e.preventDefault();
       let isValid = true;
@@ -192,48 +206,55 @@
       form.querySelectorAll('.form-group').forEach(el => el.classList.remove('has-error'));
       successBanner.style.display = 'none';
 
-      // Validation Rules
+      // 1. Validate Name
       const name = form.querySelector('[name="name"]');
-      if (!name.value.trim()) {
+      if (config.name && !name.value.trim()) {
         document.getElementById('group-name').classList.add('has-error');
         isValid = false;
       }
 
+      // 2. Validate Email
       const email = form.querySelector('[name="email"]');
+      const emailVal = email.value.trim();
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!email.value.trim() || !emailRegex.test(email.value)) {
+      if (config.email && !emailVal) {
+        document.getElementById('group-email').classList.add('has-error');
+        isValid = false;
+      } else if (emailVal && !emailRegex.test(emailVal)) {
+        // If they entered something, always make sure it's valid format
         document.getElementById('group-email').classList.add('has-error');
         isValid = false;
       }
 
+      // 3. Validate Phone
       const phone = form.querySelector('[name="phone"]');
-      if (!phone.value.trim()) {
+      if (config.phone && !phone.value.trim()) {
         document.getElementById('group-phone').classList.add('has-error');
         isValid = false;
       }
 
+      // 4. Validate Reason
       const reason = form.querySelector('[name="reason"]');
-      if (!reason.value) {
+      if (config.reason && !reason.value) {
         document.getElementById('group-reason').classList.add('has-error');
         isValid = false;
       }
 
+      // 5. Validate Message
       const message = form.querySelector('[name="message"]');
-      if (!message.value.trim()) {
+      if (config.message && !message.value.trim()) {
         document.getElementById('group-message').classList.add('has-error');
         isValid = false;
       }
 
-      // Stop submission if invalid
       if (!isValid) return;
 
       if (!webhookUrl) {
-        console.error("Webhook URL is missing.");
         alert("Form setup is incomplete. Missing webhook URL.");
         return;
       }
 
-      // Prepare payload and update UI
+      // Prepare payload
       const originalText = btn.innerText;
       btn.innerText = 'Submitting...';
       btn.disabled = true;
@@ -243,7 +264,7 @@
       data.timestamp = new Date().toISOString();
       data.source = window.location.href;
 
-      // Dispatch Webhook
+      // Send to Webhook
       fetch(webhookUrl, {
         method: 'POST',
         headers: {
@@ -256,7 +277,6 @@
         if (response.ok) {
           form.reset();
           successBanner.style.display = 'block';
-          // Auto-hide success message after 6 seconds
           setTimeout(() => { successBanner.style.display = 'none'; }, 6000);
         } else {
           throw new Error('Webhook failed');
@@ -301,14 +321,74 @@
       "info": "Paste your Zapier, Make, or n8n catch hook URL here."
     },
     {
+      "type": "header",
+      "content": "Button Settings"
+    },
+    {
       "type": "text",
       "id": "btn_text",
       "label": "Submit Button Text",
       "default": "Send Message"
     },
     {
+      "type": "color",
+      "id": "btn_bg_color",
+      "label": "Button Background Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "btn_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "btn_radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Button Border Radius",
+      "default": 50
+    },
+    {
       "type": "header",
-      "content": "Success & Validation Messages"
+      "content": "Validation: Is Field Required?"
+    },
+    {
+      "type": "checkbox",
+      "id": "req_name",
+      "label": "Require Name",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "req_email",
+      "label": "Require Email",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "req_phone",
+      "label": "Require Phone",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "req_reason",
+      "label": "Require Reason",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "req_message",
+      "label": "Require Message",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Success & Error Messages"
     },
     {
       "type": "text",
