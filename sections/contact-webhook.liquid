@@ -1,136 +1,123 @@
 <style>
-  .minimal-contact-section {
-    max-width: 700px;
+  .local-contact-wrap {
+    max-width: 800px;
     margin: 60px auto;
     padding: 0 20px;
     font-family: inherit;
     color: #1a1a1a;
   }
-
-  .minimal-contact-header {
+  .local-contact-header {
     text-align: center;
     margin-bottom: 40px;
   }
-
-  .minimal-contact-header h2 {
-    font-size: {{ section.settings.heading_size }}px;
+  .local-contact-header h2 {
+    font-size: 36px;
     font-weight: 500;
     margin-bottom: 12px;
   }
-
-  .minimal-contact-header p {
+  .local-contact-header p {
     color: #555;
     font-size: 16px;
     margin: 0;
   }
-
-  .minimal-form-group {
-    margin-bottom: 24px;
-  }
-
-  .minimal-form-row {
+  .local-contact-form .form-row {
     display: flex;
-    gap: 24px;
+    gap: 20px;
+  }
+  .local-contact-form .form-group {
+    flex: 1;
+    position: relative;
     margin-bottom: 24px;
   }
-
-  .minimal-form-col {
-    flex: 1;
-  }
-
-  .minimal-contact-form label {
+  .local-contact-form label {
     display: block;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
     margin-bottom: 8px;
-    color: #555;
+    font-size: 14px;
+    font-weight: 500;
   }
-
-  .minimal-contact-form input,
-  .minimal-contact-form select,
-  .minimal-contact-form textarea {
+  .local-contact-form input,
+  .local-contact-form select,
+  .local-contact-form textarea {
     width: 100%;
     padding: 14px 16px;
-    border: 1px solid #e5e5e5;
-    border-radius: 4px;
+    border: 1px solid #e2e2e2;
+    border-radius: 8px;
     font-size: 15px;
-    font-family: inherit;
-    background: #fafafa;
-    transition: all 0.3s ease;
+    background: #fff;
     box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
-
-  .minimal-contact-form input:focus,
-  .minimal-contact-form select:focus,
-  .minimal-contact-form textarea:focus {
+  .local-contact-form input:focus,
+  .local-contact-form select:focus,
+  .local-contact-form textarea:focus {
     outline: none;
     border-color: #1a1a1a;
-    background: #fff;
+    box-shadow: 0 0 0 1px #1a1a1a;
   }
-
-  .minimal-contact-form textarea {
-    resize: vertical;
+  .local-contact-form textarea {
     min-height: 120px;
+    resize: vertical;
+  }
+  
+  /* Validation Styles */
+  .error-text {
+    color: #d93025;
+    font-size: 13px;
+    margin-top: 6px;
+    display: none;
+  }
+  .has-error input,
+  .has-error select,
+  .has-error textarea {
+    border-color: #d93025;
+  }
+  .has-error .error-text {
+    display: block;
   }
 
-  .minimal-submit-btn {
-    background-color: {{ section.settings.btn_color }};
+  /* Button matching Local Theme pill style */
+  .local-btn {
+    background: #1a1a1a;
     color: #fff;
     border: none;
-    padding: 16px 32px;
+    padding: 16px 40px;
     font-size: 16px;
-    font-weight: 500;
-    border-radius: 4px;
+    font-weight: 600;
+    border-radius: 50px; 
     cursor: pointer;
     width: 100%;
-    transition: opacity 0.3s ease;
+    transition: background-color 0.3s ease;
   }
-
-  .minimal-submit-btn:hover {
-    opacity: 0.85;
+  .local-btn:hover {
+    background-color: #333;
   }
-
-  .minimal-submit-btn:disabled {
-    opacity: 0.5;
+  .local-btn:disabled {
+    background-color: #999;
     cursor: not-allowed;
   }
 
-  .form-message {
-    padding: 16px;
-    border-radius: 4px;
-    margin-top: 24px;
-    text-align: center;
-    font-size: 15px;
+  .success-banner {
     display: none;
+    background: #e6f4ea;
+    color: #1e8e3e;
+    padding: 16px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 24px;
+    font-weight: 500;
+    border: 1px solid #cce8d6;
   }
 
-  .form-success {
-    background-color: #f0fdf4;
-    color: #166534;
-    border: 1px solid #bbf7d0;
-  }
-
-  .form-error {
-    background-color: #fef2f2;
-    color: #991b1b;
-    border: 1px solid #fecaca;
-  }
-
-  @media (max-width: 600px) {
-    .minimal-form-row {
+  @media (max-width: 768px) {
+    .local-contact-form .form-row {
       flex-direction: column;
       gap: 0;
-      margin-bottom: 0;
-    }
-    .minimal-form-row .minimal-form-col {
-      margin-bottom: 24px;
     }
   }
 </style>
 
-<div class="minimal-contact-section">
-  <div class="minimal-contact-header">
+<div class="local-contact-wrap">
+  <div class="local-contact-header">
     {% if section.settings.heading != blank %}
       <h2>{{ section.settings.heading }}</h2>
     {% endif %}
@@ -139,88 +126,124 @@
     {% endif %}
   </div>
 
-  <form id="WebhookContactForm-{{ section.id }}" class="minimal-contact-form">
-    <div class="minimal-form-row">
-      <div class="minimal-form-col">
-        <label for="name-{{ section.id }}">Name</label>
-        <input type="text" id="name-{{ section.id }}" name="name" required placeholder="John Doe">
+  <div class="success-banner" id="SuccessBanner-{{ section.id }}">
+    {{ section.settings.success_msg }}
+  </div>
+
+  <form id="LocalContactForm-{{ section.id }}" class="local-contact-form" novalidate>
+    <div class="form-row">
+      <div class="form-group" id="group-name">
+        <label for="ContactFormName">Name</label>
+        <input type="text" id="ContactFormName" name="name" placeholder="Your full name">
+        <div class="error-text">{{ section.settings.err_name }}</div>
       </div>
-      <div class="minimal-form-col">
-        <label for="email-{{ section.id }}">Email</label>
-        <input type="email" id="email-{{ section.id }}" name="email" required placeholder="john@example.com">
+      
+      <div class="form-group" id="group-email">
+        <label for="ContactFormEmail">Email</label>
+        <input type="email" id="ContactFormEmail" name="email" placeholder="you@example.com">
+        <div class="error-text">{{ section.settings.err_email }}</div>
       </div>
     </div>
 
-    <div class="minimal-form-row">
-      <div class="minimal-form-col">
-        <label for="phone-{{ section.id }}">Phone</label>
-        <input type="tel" id="phone-{{ section.id }}" name="phone" placeholder="+1 (555) 000-0000">
+    <div class="form-row">
+      <div class="form-group" id="group-phone">
+        <label for="ContactFormPhone">Phone</label>
+        <input type="tel" id="ContactFormPhone" name="phone" placeholder="+1 (555) 000-0000">
+        <div class="error-text">{{ section.settings.err_phone }}</div>
       </div>
-      <div class="minimal-form-col">
-        <label for="reason-{{ section.id }}">Reason</label>
-        <select id="reason-{{ section.id }}" name="reason" required>
-          <option value="" disabled selected>Select a reason...</option>
-          <option value="General Inquiry">General Inquiry</option>
-          <option value="Support">Support</option>
-          <option value="Feedback">Feedback</option>
+
+      <div class="form-group" id="group-reason">
+        <label for="ContactFormReason">Reason for Contact</label>
+        <select id="ContactFormReason" name="reason">
+          <option value="" disabled selected>Please select...</option>
+          <option value="Order Status">Order Status</option>
+          <option value="Product Question">Product Question</option>
+          <option value="Returns/Exchanges">Returns & Exchanges</option>
           <option value="Other">Other</option>
         </select>
+        <div class="error-text">{{ section.settings.err_reason }}</div>
       </div>
     </div>
 
-    <div class="minimal-form-group">
-      <label for="message-{{ section.id }}">Message</label>
-      <textarea id="message-{{ section.id }}" name="message" required placeholder="How can we help you?"></textarea>
+    <div class="form-group" id="group-message">
+      <label for="ContactFormMessage">Message</label>
+      <textarea id="ContactFormMessage" name="message" placeholder="How can we help you today?"></textarea>
+      <div class="error-text">{{ section.settings.err_message }}</div>
     </div>
 
-    <button type="submit" class="minimal-submit-btn" id="SubmitBtn-{{ section.id }}">
+    <button type="submit" class="local-btn" id="SubmitBtn-{{ section.id }}">
       {{ section.settings.btn_text }}
     </button>
-
-    <div class="form-message form-success" id="SuccessMsg-{{ section.id }}">
-      {{ section.settings.success_message }}
-    </div>
-    
-    <div class="form-message form-error" id="ErrorMsg-{{ section.id }}">
-      Something went wrong. Please check your webhook URL and try again.
-    </div>
   </form>
 </div>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('WebhookContactForm-{{ section.id }}');
-    const submitBtn = document.getElementById('SubmitBtn-{{ section.id }}');
-    const successMsg = document.getElementById('SuccessMsg-{{ section.id }}');
-    const errorMsg = document.getElementById('ErrorMsg-{{ section.id }}');
+    const form = document.getElementById('LocalContactForm-{{ section.id }}');
+    const btn = document.getElementById('SubmitBtn-{{ section.id }}');
+    const successBanner = document.getElementById('SuccessBanner-{{ section.id }}');
     const webhookUrl = "{{ section.settings.webhook_url }}";
 
     form.addEventListener('submit', function(e) {
       e.preventDefault();
+      let isValid = true;
+
+      // Clear previous error states
+      form.querySelectorAll('.form-group').forEach(el => el.classList.remove('has-error'));
+      successBanner.style.display = 'none';
+
+      // Validation Rules
+      const name = form.querySelector('[name="name"]');
+      if (!name.value.trim()) {
+        document.getElementById('group-name').classList.add('has-error');
+        isValid = false;
+      }
+
+      const email = form.querySelector('[name="email"]');
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email.value.trim() || !emailRegex.test(email.value)) {
+        document.getElementById('group-email').classList.add('has-error');
+        isValid = false;
+      }
+
+      const phone = form.querySelector('[name="phone"]');
+      if (!phone.value.trim()) {
+        document.getElementById('group-phone').classList.add('has-error');
+        isValid = false;
+      }
+
+      const reason = form.querySelector('[name="reason"]');
+      if (!reason.value) {
+        document.getElementById('group-reason').classList.add('has-error');
+        isValid = false;
+      }
+
+      const message = form.querySelector('[name="message"]');
+      if (!message.value.trim()) {
+        document.getElementById('group-message').classList.add('has-error');
+        isValid = false;
+      }
+
+      // Stop submission if invalid
+      if (!isValid) return;
 
       if (!webhookUrl) {
-        alert('Webhook URL is missing. Please configure it in the Shopify theme editor.');
+        console.error("Webhook URL is missing.");
+        alert("Form setup is incomplete. Missing webhook URL.");
         return;
       }
 
-      // Hide previous messages
-      successMsg.style.display = 'none';
-      errorMsg.style.display = 'none';
+      // Prepare payload and update UI
+      const originalText = btn.innerText;
+      btn.innerText = 'Submitting...';
+      btn.disabled = true;
 
-      // Update button state
-      const originalBtnText = submitBtn.innerText;
-      submitBtn.disabled = true;
-      submitBtn.innerText = 'Sending...';
-
-      // Gather form data into JSON object
       const formData = new FormData(form);
       const data = Object.fromEntries(formData.entries());
-      
-      // Add timestamp and page origin context
       data.timestamp = new Date().toISOString();
       data.source = window.location.href;
 
-      // Send POST request
+      // Dispatch Webhook
       fetch(webhookUrl, {
         method: 'POST',
         headers: {
@@ -231,19 +254,21 @@
       })
       .then(response => {
         if (response.ok) {
-          successMsg.style.display = 'block';
           form.reset();
+          successBanner.style.display = 'block';
+          // Auto-hide success message after 6 seconds
+          setTimeout(() => { successBanner.style.display = 'none'; }, 6000);
         } else {
-          throw new Error('Network response was not ok');
+          throw new Error('Webhook failed');
         }
       })
       .catch(error => {
-        console.error('Webhook Error:', error);
-        errorMsg.style.display = 'block';
+        console.error('Error:', error);
+        alert('There was a network error sending your message. Please try again.');
       })
       .finally(() => {
-        submitBtn.disabled = false;
-        submitBtn.innerText = originalBtnText;
+        btn.innerText = originalText;
+        btn.disabled = false;
       });
     });
   });
@@ -251,8 +276,12 @@
 
 {% schema %}
 {
-  "name": "Webhook Contact Form",
+  "name": "Local Theme Contact Form",
   "settings": [
+    {
+      "type": "header",
+      "content": "Section Setup"
+    },
     {
       "type": "text",
       "id": "heading",
@@ -260,57 +289,67 @@
       "default": "Get in Touch"
     },
     {
-      "type": "range",
-      "id": "heading_size",
-      "min": 20,
-      "max": 60,
-      "step": 1,
-      "unit": "px",
-      "label": "Heading Font Size",
-      "default": 36
-    },
-    {
       "type": "textarea",
       "id": "subheading",
       "label": "Subheading",
-      "default": "Fill out the form below and we will get back to you as soon as possible."
-    },
-    {
-      "type": "header",
-      "content": "Webhook Configuration"
+      "default": "We'd love to hear from you. Fill out the form below."
     },
     {
       "type": "text",
       "id": "webhook_url",
-      "label": "POST Webhook URL",
-      "info": "The full URL where form data will be sent as JSON (e.g., your n8n, Make, or Zapier catch hook)."
-    },
-    {
-      "type": "header",
-      "content": "Button & Messages"
+      "label": "Webhook POST URL",
+      "info": "Paste your Zapier, Make, or n8n catch hook URL here."
     },
     {
       "type": "text",
       "id": "btn_text",
-      "label": "Button Text",
+      "label": "Submit Button Text",
       "default": "Send Message"
     },
     {
-      "type": "color",
-      "id": "btn_color",
-      "label": "Button Background Color",
-      "default": "#1a1a1a"
+      "type": "header",
+      "content": "Success & Validation Messages"
     },
     {
       "type": "text",
-      "id": "success_message",
+      "id": "success_msg",
       "label": "Success Message",
-      "default": "Thank you! Your message has been sent successfully."
+      "default": "Thanks for reaching out! We will get back to you shortly."
+    },
+    {
+      "type": "text",
+      "id": "err_name",
+      "label": "Name Error",
+      "default": "Please enter your full name."
+    },
+    {
+      "type": "text",
+      "id": "err_email",
+      "label": "Email Error",
+      "default": "Please enter a valid email address."
+    },
+    {
+      "type": "text",
+      "id": "err_phone",
+      "label": "Phone Error",
+      "default": "Please enter your phone number."
+    },
+    {
+      "type": "text",
+      "id": "err_reason",
+      "label": "Reason Error",
+      "default": "Please select a reason for contacting us."
+    },
+    {
+      "type": "text",
+      "id": "err_message",
+      "label": "Message Error",
+      "default": "Please provide a message so we can help you."
     }
   ],
   "presets": [
     {
-      "name": "Webhook Contact Form"
+      "name": "Local Theme Contact Form"
     }
   ]
 }
