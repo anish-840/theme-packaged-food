@@ -240,11 +240,11 @@
               "type": "social-links",
               "name": "t:names.social_media_links",
               "settings": {
-                "facebook_url": "https://facebook.com",
-                "instagram_url": "https://instagram.com",
+                "facebook_url": "https://facebook.com/quietcom",
+                "instagram_url": "https://instagram.com/quietcom",
                 "youtube_url": "",
-                "tiktok_url": "https://tiktok.com",
-                "twitter_url": "https://x.com",
+                "tiktok_url": "https://tiktok.com/quietcom",
+                "twitter_url": "https://x.com/quietcom",
                 "threads_url": "",
                 "linkedin_url": "",
                 "bluesky_url": "",
@@ -252,7 +252,7 @@
                 "pinterest_url": "",
                 "tumblr_url": "",
                 "vimeo_url": "",
-                "custom_url": ""
+                "custom_url": "https://quietcom.com"
               },
               "blocks": {}
             }
