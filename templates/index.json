@@ -296,7 +296,7 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<p>View All Products</p>",
+                "text": "<p><a href=\"/collections/all-products\" title=\"All Products\">View All Products</a></p>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
