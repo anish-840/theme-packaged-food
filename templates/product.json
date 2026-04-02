@@ -814,7 +814,7 @@
         "limit_details_width": false,
         "gap": 48,
         "enable_sticky_add_to_cart": true,
-        "color_scheme": "scheme-5",
+        "color_scheme": "scheme-1",
         "padding-block-start": 0,
         "padding-block-end": 32
       }
@@ -875,7 +875,21 @@
         "overlay_style": "solid",
         "gradient_direction": "to top",
         "padding-block-start": 0,
-        "padding-block-end": 0
+        "padding-block-end": 0,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0,
+        "mobile_height_enabled": false,
+        "mobile_height_px": 400,
+        "group_1_mobile_height": 0,
+        "group_1_mobile_height_type": "min-height",
+        "group_2_mobile_height": 0,
+        "group_2_mobile_height_type": "min-height",
+        "group_3_mobile_height": 0,
+        "group_3_mobile_height_type": "min-height",
+        "group_4_mobile_height": 0,
+        "group_4_mobile_height_type": "min-height",
+        "group_5_mobile_height": 0,
+        "group_5_mobile_height_type": "min-height"
       }
     },
     "product_list_zR9Cym": {
