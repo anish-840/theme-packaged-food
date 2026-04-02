@@ -48,6 +48,7 @@
         "heading",
         "page-content"
       ],
+      "disabled": true,
       "settings": {
         "content_direction": "column",
         "gap": 32,
@@ -55,9 +56,124 @@
         "padding-block-start": 40,
         "padding-block-end": 80
       }
+    },
+    "about_us_jLUXCk": {
+      "type": "about-us",
+      "blocks": {
+        "pillar_nDQPpC": {
+          "type": "pillar",
+          "settings": {
+            "icon": "leaf",
+            "name": "Locally Sourced",
+            "detail": "Fresh products from local producers delivered directly to your front door, daily."
+          }
+        },
+        "pillar_e7LM7L": {
+          "type": "pillar",
+          "settings": {
+            "icon": "truck",
+            "name": "Local Delivery",
+            "detail": "100% curbside recyclable boxes. Free shipping on orders above $50."
+          }
+        },
+        "pillar_ATm3zW": {
+          "type": "pillar",
+          "settings": {
+            "icon": "eco",
+            "name": "For Conscious Eaters",
+            "detail": "We are supporting small farmers and producers who share our values."
+          }
+        },
+        "stat_ef93MJ": {
+          "type": "stat",
+          "settings": {
+            "number": "100%",
+            "label": "Organic Food"
+          }
+        },
+        "stat_E6KQna": {
+          "type": "stat",
+          "settings": {
+            "number": "4",
+            "label": "Store Locations"
+          }
+        },
+        "stat_PXdQFp": {
+          "type": "stat",
+          "settings": {
+            "number": "Daily",
+            "label": "Fresh Delivery"
+          }
+        }
+      },
+      "block_order": [
+        "pillar_nDQPpC",
+        "pillar_e7LM7L",
+        "pillar_ATm3zW",
+        "stat_ef93MJ",
+        "stat_E6KQna",
+        "stat_PXdQFp"
+      ],
+      "name": "About Us",
+      "settings": {
+        "max_width": 1200,
+        "media_cols": 1,
+        "content_cols": 1,
+        "col_gap": 60,
+        "content_gap": 24,
+        "section_bg": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_x": 20,
+        "image": "shopify://shop_images/Untitled_design_68.jpg",
+        "img_ratio": "4 / 5",
+        "img_radius": 16,
+        "img_bg": "#e3edda",
+        "secondary_size": 36,
+        "secondary_offset": 20,
+        "badge_number": "100%",
+        "badge_text": "Organic Food",
+        "badge_bg": "#2d5016",
+        "badge_text_color": "#ffffff",
+        "badge_number_size": 26,
+        "badge_top": 32,
+        "badge_offset": 20,
+        "eyebrow": "Our Story",
+        "title": "Fresh, Organic Goodness",
+        "description": "<p>Fresh products from local producers, delivered directly to your front door, daily. We are supporting small farmers and producers, bringing you the best of what your region has to offer.</p><p>Every product in our collection is carefully vetted to ensure it meets the highest quality standards, giving you peace of mind with every purchase.</p>",
+        "accent_color": "#2d5016",
+        "title_color": "#1a1a1a",
+        "desc_color": "#3d3d3a",
+        "eyebrow_size": 12,
+        "title_size": 40,
+        "title_weight": "700",
+        "desc_size": 15,
+        "widget_bg": "#f5f5f3",
+        "widget_border": "#e8e8e8",
+        "widget_radius": 12,
+        "widget_padding": 20,
+        "pillar_name_size": 14,
+        "pillar_name_weight": "600",
+        "pillar_detail_size": 13,
+        "stat_number_size": 28,
+        "btn_primary_label": "Shop",
+        "btn_primary_url": "shopify://collections/all-products",
+        "btn_primary_bg": "#2d5016",
+        "btn_primary_text": "#ffffff",
+        "btn_primary_hover": "#4a7a25",
+        "btn_secondary_label": "",
+        "btn_secondary_url": "",
+        "btn_secondary_color": "#2d5016",
+        "btn_radius": 30,
+        "btn_padding_v": 14,
+        "btn_padding_h": 32,
+        "btn_font_size": 15,
+        "btn_font_weight": "600"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "about_us_jLUXCk"
   ]
 }
