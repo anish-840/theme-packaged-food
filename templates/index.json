@@ -1535,7 +1535,7 @@
                 "text_kebgLn": {
                   "type": "text",
                   "settings": {
-                    "text": "<h2>Gluten Free</h2>",
+                    "text": "<h2>Plant Based</h2>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "center",
@@ -1686,7 +1686,7 @@
                 "text_ECrfmw": {
                   "type": "text",
                   "settings": {
-                    "text": "<h2>Gluten Free</h2>",
+                    "text": "<h2>Keto</h2>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "center",
@@ -1837,7 +1837,7 @@
                 "text_GnRYeL": {
                   "type": "text",
                   "settings": {
-                    "text": "<h2>Gluten Free</h2>",
+                    "text": "<h2>Vegan</h2>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "center",
@@ -1988,7 +1988,7 @@
                 "text_yqWrQJ": {
                   "type": "text",
                   "settings": {
-                    "text": "<h2>Gluten Free</h2>",
+                    "text": "<h2>Paleo</h2>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "center",
