@@ -17,9 +17,9 @@
           "name": "Title",
           "settings": {
             "text": "<h1>Blogs</h1>",
-            "width": "fit-content",
+            "width": "100%",
             "max_width": "narrow",
-            "alignment": "left",
+            "alignment": "center",
             "type_preset": "h3",
             "font": "var(--font-body--family)",
             "font_size": "",
