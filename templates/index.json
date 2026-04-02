@@ -1286,7 +1286,9 @@
         "padding-block-start": 30,
         "padding-block-end": 30,
         "padding-inline-start": 16,
-        "padding-inline-end": 16
+        "padding-inline-end": 16,
+        "mobile_height_enabled": false,
+        "mobile_height_px": 400
       }
     },
     "section_iYhJfb": {
@@ -2083,7 +2085,9 @@
         "padding-block-start": 100,
         "padding-block-end": 100,
         "padding-inline-start": 0,
-        "padding-inline-end": 0
+        "padding-inline-end": 0,
+        "mobile_height_enabled": false,
+        "mobile_height_px": 400
       }
     },
     "shop_hot_meals_RgaFjc": {
@@ -2405,7 +2409,9 @@
         "padding-block-start": 22,
         "padding-block-end": 22,
         "padding-inline-start": 0,
-        "padding-inline-end": 0
+        "padding-inline-end": 0,
+        "mobile_height_enabled": false,
+        "mobile_height_px": 400
       }
     },
     "testimonials_HCjt6i": {
@@ -3325,7 +3331,9 @@
         "padding-block-start": 100,
         "padding-block-end": 100,
         "padding-inline-start": 0,
-        "padding-inline-end": 0
+        "padding-inline-end": 0,
+        "mobile_height_enabled": false,
+        "mobile_height_px": 400
       }
     }
   },
