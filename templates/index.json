@@ -931,7 +931,7 @@
       "type": "featured-product-new",
       "name": "Featured product",
       "settings": {
-        "product": "mathri",
+        "product": "roasted-almonds",
         "max_width": 1200,
         "media_width": 1,
         "info_width": 1,
@@ -2114,8 +2114,8 @@
       "type": "shop-hot-meals",
       "name": "Shop Hot Meals",
       "settings": {
-        "title": "Shop Hot Meals",
-        "collection": "frontpage",
+        "title": "Eat Healthy",
+        "collection": "health-wellness",
         "section_bg": "#f0f0ee",
         "section_height": 560,
         "title_size": 22,
