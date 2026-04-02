@@ -17,6 +17,7 @@
           "settings": {
             "image": "shopify://shop_images/Untitled_design_67_-Picsart-AiImageEnhancer_1.jpg",
             "video_url": "",
+            "mobile_image": "shopify://shop_images/Untitled_design_68.jpg",
             "overlay_color": "#000000",
             "overlay_opacity": 0,
             "text_horizontal_position": "left",
@@ -52,6 +53,7 @@
           "settings": {
             "image": "shopify://shop_images/Untitled_design_63_-Picsart-AiImageEnhancer.jpg",
             "video_url": "",
+            "mobile_image": "shopify://shop_images/Untitled_design_68.jpg",
             "overlay_color": "#000000",
             "overlay_opacity": 0,
             "text_horizontal_position": "left",
