@@ -5,6 +5,18 @@
 
 {% render 'section', section: section, children: children %}
 
+{%- if section.settings.mobile_height_enabled -%}
+  <style>
+    @media screen and (max-width: 749px) {
+      .section-wrapper[data-section-id="{{ section.id }}"]:not([style*="height"]) > *,
+      #shopify-section-{{ section.id }} .section,
+      #shopify-section-{{ section.id }} [class*="section"] {
+        min-height: {{ section.settings.mobile_height_px }}px !important;
+      }
+    }
+  </style>
+{%- endif -%}
+
 {% schema %}
 {
   "name": "t:names.section",
@@ -437,6 +449,27 @@
       "step": 1,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "checkbox",
+      "id": "mobile_height_enabled",
+      "label": "Set custom height on mobile",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "mobile_height_px",
+      "label": "Mobile height",
+      "min": 100,
+      "max": 1000,
+      "step": 10,
+      "unit": "px",
+      "default": 400,
+      "visible_if": "{{ section.settings.mobile_height_enabled }}"
     }
   ],
   "presets": [
