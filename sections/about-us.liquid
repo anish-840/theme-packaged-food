@@ -1,0 +1,933 @@
+{% comment %}
+  About Us Section — Local Theme
+  Split layout: image left, content right
+  Includes: eyebrow, title, description, value pillars, stats, CTA
+  All content configurable via section settings + blocks
+{% endcomment %}
+
+{%- assign sid = 'about-us-' | append: section.id -%}
+
+<section id="{{ sid }}" class="au-section">
+  <div class="au-inner">
+
+    {%- comment %} ── Left: image(s) ── {%- endcomment %}
+    <div class="au-media">
+
+      {%- if section.settings.image != blank -%}
+        <div class="au-media__main">
+          {{
+            section.settings.image
+            | image_url: width: 1000
+            | image_tag:
+              class: 'au-media__img',
+              loading: 'lazy',
+              widths: '400, 600, 800, 1000',
+              sizes: '(max-width: 749px) 100vw, 45vw',
+              alt: section.settings.image.alt | default: section.settings.title | escape
+          }}
+        </div>
+      {%- else -%}
+        <div class="au-media__main au-media__placeholder">
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'au-placeholder-svg' }}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.image_secondary != blank -%}
+        <div class="au-media__secondary">
+          {{
+            section.settings.image_secondary
+            | image_url: width: 500
+            | image_tag:
+              class: 'au-media__img au-media__img--secondary',
+              loading: 'lazy',
+              widths: '200, 300, 500',
+              sizes: '20vw',
+              alt: section.settings.image_secondary.alt | default: section.settings.title | escape
+          }}
+        </div>
+      {%- endif -%}
+
+      {%- comment %} Floating stat badge {%- endcomment %}
+      {%- if section.settings.badge_text != blank -%}
+        <div class="au-badge">
+          <span class="au-badge__number">{{ section.settings.badge_number | escape }}</span>
+          <span class="au-badge__text">{{ section.settings.badge_text | escape }}</span>
+        </div>
+      {%- endif -%}
+
+    </div>
+
+    {%- comment %} ── Right: content ── {%- endcomment %}
+    <div class="au-content">
+
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="au-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.title != blank -%}
+        <h2 class="au-title">{{ section.settings.title | escape }}</h2>
+      {%- endif -%}
+
+      {%- if section.settings.description != blank -%}
+        <div class="au-description">{{ section.settings.description }}</div>
+      {%- endif -%}
+
+      {%- comment %} Value pillars ── {%- endcomment %}
+      {%- assign pillar_blocks = section.blocks | where: 'type', 'pillar' -%}
+      {%- if pillar_blocks.size > 0 -%}
+        <div class="au-pillars">
+          {%- for block in pillar_blocks -%}
+            <div class="au-pillar" {{ block.shopify_attributes }}>
+              {%- if block.settings.icon == 'leaf' -%}
+                <div class="au-pillar__icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M2 22c0 0 4-8 10-10s10-2 10-2-2 6-8 8S2 22 2 22z"/>
+                    <path d="M12 12L2 22"/>
+                  </svg>
+                </div>
+              {%- elsif block.settings.icon == 'truck' -%}
+                <div class="au-pillar__icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="1" y="3" width="15" height="13" rx="2"/>
+                    <path d="M16 8h4l3 5v4h-7V8z"/>
+                    <circle cx="5.5" cy="18.5" r="2.5"/>
+                    <circle cx="18.5" cy="18.5" r="2.5"/>
+                  </svg>
+                </div>
+              {%- elsif block.settings.icon == 'heart' -%}
+                <div class="au-pillar__icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                  </svg>
+                </div>
+              {%- elsif block.settings.icon == 'eco' -%}
+                <div class="au-pillar__icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M3 21c0 0 3-9 9-9s12 0 12 0-3 9-9 9S3 21 3 21z"/>
+                    <path d="M12 12V3"/>
+                  </svg>
+                </div>
+              {%- elsif block.settings.icon == 'store' -%}
+                <div class="au-pillar__icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                  </svg>
+                </div>
+              {%- else -%}
+                <div class="au-pillar__icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                </div>
+              {%- endif -%}
+              <div class="au-pillar__text">
+                <span class="au-pillar__name">{{ block.settings.name | escape }}</span>
+                {%- if block.settings.detail != blank -%}
+                  <span class="au-pillar__detail">{{ block.settings.detail | escape }}</span>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment %} Stats row ── {%- endcomment %}
+      {%- assign stat_blocks = section.blocks | where: 'type', 'stat' -%}
+      {%- if stat_blocks.size > 0 -%}
+        <div class="au-stats">
+          {%- for block in stat_blocks -%}
+            <div class="au-stat" {{ block.shopify_attributes }}>
+              <span class="au-stat__number">{{ block.settings.number | escape }}</span>
+              <span class="au-stat__label">{{ block.settings.label | escape }}</span>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment %} CTA buttons ── {%- endcomment %}
+      <div class="au-cta">
+        {%- if section.settings.btn_primary_label != blank -%}
+          <a
+            href="{{ section.settings.btn_primary_url | default: '#' }}"
+            class="au-btn au-btn--primary"
+          >{{ section.settings.btn_primary_label | escape }}</a>
+        {%- endif -%}
+        {%- if section.settings.btn_secondary_label != blank -%}
+          <a
+            href="{{ section.settings.btn_secondary_url | default: '#' }}"
+            class="au-btn au-btn--secondary"
+          >{{ section.settings.btn_secondary_label | escape }}</a>
+        {%- endif -%}
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<style>
+  #{{ sid }} {
+    background: {{ section.settings.section_bg }};
+    padding: {{ section.settings.padding_top }}px {{ section.settings.padding_x }}px {{ section.settings.padding_bottom }}px;
+  }
+
+  #{{ sid }} .au-inner {
+    display: grid;
+    grid-template-columns: {{ section.settings.media_cols }}fr {{ section.settings.content_cols }}fr;
+    gap: {{ section.settings.col_gap }}px;
+    align-items: center;
+    max-width: {{ section.settings.max_width }}px;
+    margin: 0 auto;
+  }
+
+  /* ── Media ── */
+  #{{ sid }} .au-media {
+    position: relative;
+  }
+  #{{ sid }} .au-media__main {
+    border-radius: {{ section.settings.img_radius }}px;
+    overflow: hidden;
+    aspect-ratio: {{ section.settings.img_ratio }};
+    background: {{ section.settings.img_bg }};
+  }
+  #{{ sid }} .au-media__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.2;
+  }
+  #{{ sid }} .au-placeholder-svg {
+    width: 60%; height: 60%;
+  }
+  #{{ sid }} .au-media__img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* Secondary floating image */
+  #{{ sid }} .au-media__secondary {
+    position: absolute;
+    bottom: -{{ section.settings.secondary_offset }}px;
+    right: -{{ section.settings.secondary_offset }}px;
+    width: {{ section.settings.secondary_size }}%;
+    border-radius: {{ section.settings.img_radius }}px;
+    overflow: hidden;
+    border: 4px solid {{ section.settings.section_bg }};
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    aspect-ratio: 1 / 1;
+  }
+  #{{ sid }} .au-media__img--secondary {
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+
+  /* Badge */
+  #{{ sid }} .au-badge {
+    position: absolute;
+    top: {{ section.settings.badge_top }}px;
+    left: -{{ section.settings.badge_offset }}px;
+    background: {{ section.settings.badge_bg }};
+    color: {{ section.settings.badge_text_color }};
+    border-radius: {{ section.settings.img_radius }}px;
+    padding: 14px 20px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    min-width: 90px;
+  }
+  #{{ sid }} .au-badge__number {
+    display: block;
+    font-size: {{ section.settings.badge_number_size }}px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  #{{ sid }} .au-badge__text {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    opacity: 0.85;
+    line-height: 1.3;
+  }
+
+  /* ── Content ── */
+  #{{ sid }} .au-content {
+    display: flex;
+    flex-direction: column;
+    gap: {{ section.settings.content_gap }}px;
+  }
+
+  #{{ sid }} .au-eyebrow {
+    font-size: {{ section.settings.eyebrow_size }}px;
+    font-weight: 500;
+    color: {{ section.settings.accent_color }};
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0;
+  }
+
+  #{{ sid }} .au-title {
+    font-size: {{ section.settings.title_size }}px;
+    font-weight: {{ section.settings.title_weight }};
+    color: {{ section.settings.title_color }};
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  #{{ sid }} .au-description {
+    font-size: {{ section.settings.desc_size }}px;
+    color: {{ section.settings.desc_color }};
+    line-height: 1.7;
+  }
+  #{{ sid }} .au-description p { margin: 0 0 10px; }
+  #{{ sid }} .au-description p:last-child { margin-bottom: 0; }
+
+  /* ── Pillars ── */
+  #{{ sid }} .au-pillars {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: {{ section.settings.widget_padding }}px;
+    background: {{ section.settings.widget_bg }};
+    border: 1px solid {{ section.settings.widget_border }};
+    border-radius: {{ section.settings.widget_radius }}px;
+  }
+  #{{ sid }} .au-pillar {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  #{{ sid }} .au-pillar__icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: {{ section.settings.accent_color }}15;
+    color: {{ section.settings.accent_color }};
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  #{{ sid }} .au-pillar__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-top: 2px;
+  }
+  #{{ sid }} .au-pillar__name {
+    font-size: {{ section.settings.pillar_name_size }}px;
+    font-weight: {{ section.settings.pillar_name_weight }};
+    color: {{ section.settings.title_color }};
+    line-height: 1.3;
+  }
+  #{{ sid }} .au-pillar__detail {
+    font-size: {{ section.settings.pillar_detail_size }}px;
+    color: {{ section.settings.desc_color }};
+    line-height: 1.5;
+  }
+
+  /* ── Stats ── */
+  #{{ sid }} .au-stats {
+    display: flex;
+    gap: 0;
+    border: 1px solid {{ section.settings.widget_border }};
+    border-radius: {{ section.settings.widget_radius }}px;
+    overflow: hidden;
+  }
+  #{{ sid }} .au-stat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 18px 12px;
+    text-align: center;
+    background: {{ section.settings.widget_bg }};
+    border-right: 1px solid {{ section.settings.widget_border }};
+  }
+  #{{ sid }} .au-stat:last-child { border-right: none; }
+  #{{ sid }} .au-stat__number {
+    font-size: {{ section.settings.stat_number_size }}px;
+    font-weight: 700;
+    color: {{ section.settings.accent_color }};
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  #{{ sid }} .au-stat__label {
+    font-size: 12px;
+    color: {{ section.settings.desc_color }};
+    line-height: 1.3;
+  }
+
+  /* ── CTA ── */
+  #{{ sid }} .au-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+  #{{ sid }} .au-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: {{ section.settings.btn_padding_v }}px {{ section.settings.btn_padding_h }}px;
+    border-radius: {{ section.settings.btn_radius }}px;
+    font-size: {{ section.settings.btn_font_size }}px;
+    font-weight: {{ section.settings.btn_font_weight }};
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+  #{{ sid }} .au-btn--primary {
+    background: {{ section.settings.btn_primary_bg }};
+    color: {{ section.settings.btn_primary_text }};
+    border: 2px solid {{ section.settings.btn_primary_bg }};
+  }
+  #{{ sid }} .au-btn--primary:hover {
+    background: {{ section.settings.btn_primary_hover }};
+    border-color: {{ section.settings.btn_primary_hover }};
+  }
+  #{{ sid }} .au-btn--secondary {
+    background: transparent;
+    color: {{ section.settings.btn_secondary_color }};
+    border: 2px solid {{ section.settings.btn_secondary_color }};
+  }
+  #{{ sid }} .au-btn--secondary:hover {
+    background: {{ section.settings.btn_secondary_color }};
+    color: #fff;
+  }
+
+  /* ── Mobile ── */
+  @media screen and (max-width: 749px) {
+    #{{ sid }} .au-inner {
+      grid-template-columns: 1fr;
+      gap: {{ section.settings.col_gap | divided_by: 2 }}px;
+    }
+    #{{ sid }} .au-media__secondary { display: none; }
+    #{{ sid }} .au-badge { left: 12px; top: 12px; }
+    #{{ sid }} .au-title {
+      font-size: {{ section.settings.title_size | times: 0.75 | round }}px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "About Us",
+  "tag": "section",
+  "class": "about-us-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Max section width",
+      "min": 800, "max": 1400, "step": 40, "unit": "px",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "media_cols",
+      "label": "Image column width (fr)",
+      "min": 1, "max": 3, "step": 1,
+      "default": 1,
+      "info": "Ratio vs content column. 1:1 = 50/50."
+    },
+    {
+      "type": "range",
+      "id": "content_cols",
+      "label": "Content column width (fr)",
+      "min": 1, "max": 3, "step": 1,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "col_gap",
+      "label": "Gap between columns",
+      "min": 16, "max": 80, "step": 4, "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "content_gap",
+      "label": "Gap between content blocks",
+      "min": 8, "max": 40, "step": 4, "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Section background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0, "max": 100, "step": 4, "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0, "max": 100, "step": 4, "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_x",
+      "label": "Padding left & right",
+      "min": 0, "max": 80, "step": 4, "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Main image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_secondary",
+      "label": "Secondary image (floating)",
+      "info": "Appears as a smaller overlapping image in the bottom-right corner on desktop."
+    },
+    {
+      "type": "select",
+      "id": "img_ratio",
+      "label": "Image aspect ratio",
+      "options": [
+        { "value": "1 / 1",  "label": "Square 1:1" },
+        { "value": "4 / 5",  "label": "Portrait 4:5" },
+        { "value": "3 / 4",  "label": "Portrait 3:4" },
+        { "value": "4 / 3",  "label": "Landscape 4:3" },
+        { "value": "16 / 9", "label": "Wide 16:9" }
+      ],
+      "default": "4 / 5"
+    },
+    {
+      "type": "range",
+      "id": "img_radius",
+      "label": "Image border radius",
+      "min": 0, "max": 32, "step": 2, "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "img_bg",
+      "label": "Image placeholder background",
+      "default": "#e3edda"
+    },
+    {
+      "type": "range",
+      "id": "secondary_size",
+      "label": "Secondary image size (%)",
+      "min": 20, "max": 50, "step": 2,
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "secondary_offset",
+      "label": "Secondary image offset",
+      "min": 0, "max": 40, "step": 4, "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Badge"
+    },
+    {
+      "type": "text",
+      "id": "badge_number",
+      "label": "Badge large number",
+      "default": "100%"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge label text",
+      "default": "Organic Food"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg",
+      "label": "Badge background",
+      "default": "#2d5016"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Badge text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "badge_number_size",
+      "label": "Badge number size",
+      "min": 16, "max": 40, "step": 2, "unit": "px",
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "badge_top",
+      "label": "Badge position from top",
+      "min": 12, "max": 120, "step": 4, "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "badge_offset",
+      "label": "Badge offset from left edge",
+      "min": 0, "max": 48, "step": 4, "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Our Story"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Fresh, Organic Goodness"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Fresh products from local producers, delivered directly to your front door, daily. We are supporting small farmers and producers, bringing you the best of what your region has to offer.</p><p>Every product in our collection is carefully vetted to ensure it meets the highest quality standards, giving you peace of mind with every purchase.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Colors & typography"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#2d5016"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "desc_color",
+      "label": "Description / muted color",
+      "default": "#3d3d3a"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size",
+      "label": "Eyebrow font size",
+      "min": 10, "max": 18, "step": 1, "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title font size",
+      "min": 20, "max": 64, "step": 2, "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Title font weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "desc_size",
+      "label": "Description font size",
+      "min": 12, "max": 20, "step": 1, "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Widget container (pillars & stats)"
+    },
+    {
+      "type": "color",
+      "id": "widget_bg",
+      "label": "Background",
+      "default": "#f5f5f3"
+    },
+    {
+      "type": "color",
+      "id": "widget_border",
+      "label": "Border color",
+      "default": "#e8e8e8"
+    },
+    {
+      "type": "range",
+      "id": "widget_radius",
+      "label": "Border radius",
+      "min": 0, "max": 24, "step": 2, "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "widget_padding",
+      "label": "Padding",
+      "min": 8, "max": 32, "step": 4, "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Pillar text"
+    },
+    {
+      "type": "range",
+      "id": "pillar_name_size",
+      "label": "Name font size",
+      "min": 12, "max": 20, "step": 1, "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "pillar_name_weight",
+      "label": "Name font weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "range",
+      "id": "pillar_detail_size",
+      "label": "Detail font size",
+      "min": 11, "max": 16, "step": 1, "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "header",
+      "content": "Stat numbers"
+    },
+    {
+      "type": "range",
+      "id": "stat_number_size",
+      "label": "Number font size",
+      "min": 18, "max": 48, "step": 2, "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "btn_primary_label",
+      "label": "Primary button label",
+      "default": "About Us"
+    },
+    {
+      "type": "url",
+      "id": "btn_primary_url",
+      "label": "Primary button link"
+    },
+    {
+      "type": "color",
+      "id": "btn_primary_bg",
+      "label": "Primary background",
+      "default": "#2d5016"
+    },
+    {
+      "type": "color",
+      "id": "btn_primary_text",
+      "label": "Primary text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "btn_primary_hover",
+      "label": "Primary hover background",
+      "default": "#4a7a25"
+    },
+    {
+      "type": "text",
+      "id": "btn_secondary_label",
+      "label": "Secondary button label",
+      "default": "F.A.Q."
+    },
+    {
+      "type": "url",
+      "id": "btn_secondary_url",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "color",
+      "id": "btn_secondary_color",
+      "label": "Secondary button color",
+      "default": "#2d5016"
+    },
+    {
+      "type": "range",
+      "id": "btn_radius",
+      "label": "Button border radius",
+      "min": 0, "max": 40, "step": 2, "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "btn_padding_v",
+      "label": "Button padding top & bottom",
+      "min": 8, "max": 24, "step": 2, "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "btn_padding_h",
+      "label": "Button padding left & right",
+      "min": 16, "max": 60, "step": 4, "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "btn_font_size",
+      "label": "Button font size",
+      "min": 12, "max": 20, "step": 1, "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "select",
+      "id": "btn_font_weight",
+      "label": "Button font weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Value pillar",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "leaf",  "label": "Leaf / Local" },
+            { "value": "truck", "label": "Delivery truck" },
+            { "value": "heart", "label": "Heart / Care" },
+            { "value": "eco",   "label": "Eco / Sustainable" },
+            { "value": "store", "label": "Store / Pickup" },
+            { "value": "check", "label": "Checkmark" }
+          ],
+          "default": "leaf"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Locally Sourced"
+        },
+        {
+          "type": "text",
+          "id": "detail",
+          "label": "Detail text",
+          "default": "Fresh products from local producers, delivered daily to your door."
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Number / value",
+          "default": "100%"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Organic"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Us",
+      "blocks": [
+        {
+          "type": "pillar",
+          "settings": {
+            "icon": "leaf",
+            "name": "Locally Sourced",
+            "detail": "Fresh products from local producers delivered directly to your front door, daily."
+          }
+        },
+        {
+          "type": "pillar",
+          "settings": {
+            "icon": "truck",
+            "name": "Local Delivery",
+            "detail": "100% curbside recyclable boxes. Free shipping on orders above $50."
+          }
+        },
+        {
+          "type": "pillar",
+          "settings": {
+            "icon": "eco",
+            "name": "For Conscious Eaters",
+            "detail": "We are supporting small farmers and producers who share our values."
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number": "100%",
+            "label": "Organic Food"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number": "4",
+            "label": "Store Locations"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number": "Daily",
+            "label": "Fresh Delivery"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
