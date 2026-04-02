@@ -23,8 +23,7 @@
 <style>
   {%- if section.settings.mobile_height_enabled -%}
   @media screen and (max-width: 749px) {
-    #shopify-section-{{ section.id }} .section,
-    #shopify-section-{{ section.id }} [class*="section"] {
+    #shopify-section-{{ section.id }} {
       min-height: {{ section.settings.mobile_height_px }}px !important;
     }
   }
@@ -37,10 +36,11 @@
     {%- assign h_type = section.settings[ht_key] -%}
     {%- if mob_h and mob_h > 0 -%}
   @media screen and (max-width: 749px) {
-    #shopify-section-{{ section.id }} > :first-child > *:nth-child({{ i }}),
     #shopify-section-{{ section.id }} .section > *:nth-child({{ i }}) {
       {%- if h_type == 'fixed' -%}
       height: {{ mob_h }}px !important;
+      min-height: unset !important;
+      overflow: hidden;
       {%- else -%}
       min-height: {{ mob_h }}px !important;
       {%- endif -%}

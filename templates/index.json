@@ -1287,8 +1287,18 @@
         "padding-block-end": 30,
         "padding-inline-start": 16,
         "padding-inline-end": 16,
-        "mobile_height_enabled": false,
-        "mobile_height_px": 400
+        "mobile_height_enabled": true,
+        "mobile_height_px": 100,
+        "group_1_mobile_height": 0,
+        "group_1_mobile_height_type": "fixed",
+        "group_2_mobile_height": 1000,
+        "group_2_mobile_height_type": "min-height",
+        "group_3_mobile_height": 0,
+        "group_3_mobile_height_type": "min-height",
+        "group_4_mobile_height": 0,
+        "group_4_mobile_height_type": "min-height",
+        "group_5_mobile_height": 0,
+        "group_5_mobile_height_type": "min-height"
       }
     },
     "section_iYhJfb": {
@@ -2087,7 +2097,17 @@
         "padding-inline-start": 0,
         "padding-inline-end": 0,
         "mobile_height_enabled": false,
-        "mobile_height_px": 400
+        "mobile_height_px": 400,
+        "group_1_mobile_height": 0,
+        "group_1_mobile_height_type": "min-height",
+        "group_2_mobile_height": 0,
+        "group_2_mobile_height_type": "min-height",
+        "group_3_mobile_height": 0,
+        "group_3_mobile_height_type": "min-height",
+        "group_4_mobile_height": 0,
+        "group_4_mobile_height_type": "min-height",
+        "group_5_mobile_height": 0,
+        "group_5_mobile_height_type": "min-height"
       }
     },
     "shop_hot_meals_RgaFjc": {
@@ -2411,7 +2431,17 @@
         "padding-inline-start": 0,
         "padding-inline-end": 0,
         "mobile_height_enabled": false,
-        "mobile_height_px": 400
+        "mobile_height_px": 400,
+        "group_1_mobile_height": 0,
+        "group_1_mobile_height_type": "min-height",
+        "group_2_mobile_height": 0,
+        "group_2_mobile_height_type": "min-height",
+        "group_3_mobile_height": 0,
+        "group_3_mobile_height_type": "min-height",
+        "group_4_mobile_height": 0,
+        "group_4_mobile_height_type": "min-height",
+        "group_5_mobile_height": 0,
+        "group_5_mobile_height_type": "min-height"
       }
     },
     "testimonials_HCjt6i": {
@@ -3333,7 +3363,17 @@
         "padding-inline-start": 0,
         "padding-inline-end": 0,
         "mobile_height_enabled": false,
-        "mobile_height_px": 400
+        "mobile_height_px": 400,
+        "group_1_mobile_height": 0,
+        "group_1_mobile_height_type": "min-height",
+        "group_2_mobile_height": 0,
+        "group_2_mobile_height_type": "min-height",
+        "group_3_mobile_height": 0,
+        "group_3_mobile_height_type": "min-height",
+        "group_4_mobile_height": 0,
+        "group_4_mobile_height_type": "min-height",
+        "group_5_mobile_height": 0,
+        "group_5_mobile_height_type": "min-height"
       }
     }
   },
