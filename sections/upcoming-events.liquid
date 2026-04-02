@@ -44,7 +44,6 @@
     }
   {% endfor %}
 
-  /* General Scoped CSS for layout */
   .upcoming-events-section {
     max-width: 1200px;
     margin: 0 auto;
@@ -89,6 +88,7 @@
     margin-right: 16px;
     color: #1a1a1a;
     transition: transform 0.3s ease;
+    flex-shrink: 0;
   }
 
   .event-info {
@@ -97,37 +97,47 @@
 
   .event-action {
     margin-left: 20px;
+    flex-shrink: 0;
   }
 
+  /* ── Description panel ── */
   .event-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    transition: max-height 0.35s ease-out;
     background: #f9f9f9;
   }
 
   .event-item.active .event-content {
-    max-height: 1000px; /* arbitrary large number for CSS transition */
-    padding: 20px 24px 20px 64px;
-    border-top: 1px solid #e5e5e5;
+    max-height: 1000px;
   }
-  
+
   .event-item.active .event-header {
     background: #f9f9f9;
+  }
+
+  /* ── Description inner — fix left-align ── */
+  .event-content-inner {
+    padding: 20px 24px 20px 64px;
+    border-top: 1px solid #e5e5e5;
   }
 
   .event-item .event-description {
     color: #333;
     line-height: 1.6;
     font-size: 15px;
+    text-align: left;       /* explicit left-align, not centered */
+    width: 100%;
   }
 
   .event-item .event-description p {
     margin-bottom: 12px;
+    text-align: left;
   }
   .event-item .event-description ul {
     margin-top: 10px;
     padding-left: 20px;
+    text-align: left;
   }
 
   @media (max-width: 768px) {
@@ -148,7 +158,7 @@
     .event-action {
       margin-left: 40px;
     }
-    .event-item.active .event-content {
+    .event-content-inner {
       padding: 20px 24px 20px 40px;
     }
   }
@@ -163,9 +173,9 @@
     {% for block in section.blocks %}
       <div class="event-item event-item-{{ block.id }} {% if forloop.first %}active{% endif %}" {{ block.shopify_attributes }}>
         
-        <div class="event-header" onclick="toggleAccordion(this)">
+        <div class="event-header" onclick="ueToggle(this)">
           <div class="event-toggle">
-            <span class="icon-plus" style="display: {% if forloop.first %}none{% else %}block{% endif %};">+</span>
+            <span class="icon-plus"  style="display: {% if forloop.first %}none{% else %}block{% endif %};">+</span>
             <span class="icon-minus" style="display: {% if forloop.first %}block{% else %}none{% endif %};">−</span>
           </div>
           
@@ -190,8 +200,10 @@
         </div>
 
         <div class="event-content">
-          <div class="event-description">
-            {{ block.settings.description }}
+          <div class="event-content-inner">
+            <div class="event-description">
+              {{ block.settings.description }}
+            </div>
           </div>
         </div>
 
@@ -201,23 +213,23 @@
 </div>
 
 <script>
-  function toggleAccordion(header) {
-    const item = header.parentElement;
-    const isMobile = window.innerWidth <= 768;
-    
-    // Toggle active class
-    item.classList.toggle('active');
-    
-    // Toggle icons
-    const plusIcon = header.querySelector('.icon-plus');
-    const minusIcon = header.querySelector('.icon-minus');
-    
-    if (item.classList.contains('active')) {
-      plusIcon.style.display = 'none';
-      minusIcon.style.display = 'block';
-    } else {
-      plusIcon.style.display = 'block';
-      minusIcon.style.display = 'none';
+  function ueToggle(header) {
+    var item    = header.parentElement;
+    var wrapper = item.closest('.events-accordion-wrapper');
+    var isOpen  = item.classList.contains('active');
+
+    /* Close ALL items in this wrapper first */
+    wrapper.querySelectorAll('.event-item').forEach(function(el) {
+      el.classList.remove('active');
+      el.querySelector('.icon-plus').style.display  = 'block';
+      el.querySelector('.icon-minus').style.display = 'none';
+    });
+
+    /* If the clicked one was closed, open it */
+    if (!isOpen) {
+      item.classList.add('active');
+      item.querySelector('.icon-plus').style.display  = 'none';
+      item.querySelector('.icon-minus').style.display = 'block';
     }
   }
 </script>
