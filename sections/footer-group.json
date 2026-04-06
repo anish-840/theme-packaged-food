@@ -136,7 +136,7 @@
           "type": "menu",
           "settings": {
             "menu": "footer-quick-links",
-            "heading": "Shop",
+            "heading": "Help",
             "menu_spacing": 12,
             "show_as_accordion": false,
             "accordion_icon": "caret",
@@ -156,7 +156,7 @@
           "type": "menu",
           "settings": {
             "menu": "popular-categories",
-            "heading": "Help",
+            "heading": "Shop",
             "menu_spacing": 12,
             "show_as_accordion": false,
             "accordion_icon": "caret",
