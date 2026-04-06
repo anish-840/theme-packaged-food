@@ -239,7 +239,7 @@
 
             {%- comment %} Secondary button {%- endcomment %}
             {%- if section.settings.show_secondary_btn and section.settings.btn_secondary_label != blank -%}
-              <a
+              
                 href="{{ section.settings.btn_secondary_url | default: product.url }}"
                 class="fp-btn fp-btn--secondary"
               >{{ section.settings.btn_secondary_label }}</a>
@@ -641,27 +641,39 @@
   var section = document.getElementById(sid);
   if (!section) return;
 
-  /* ── Thumbnail gallery ── */
-  var thumbs = Array.from(section.querySelectorAll('.fp-media__thumb'));
   var heroImg = section.querySelector('.fp-media__main .fp-media__hero-img');
+  var thumbs  = Array.from(section.querySelectorAll('.fp-media__thumb'));
 
+  /* ── Helper: swap main image with fade ── */
+  function setHeroSrc(src) {
+    if (!heroImg) return;
+    heroImg.style.opacity = '0';
+    setTimeout(function() {
+      heroImg.src = src;
+      heroImg.style.opacity = '1';
+    }, 150);
+  }
+
+  /* ── Helper: activate thumbnail matching src ── */
+  function activateThumb(src) {
+    thumbs.forEach(function(t) {
+      t.classList.toggle('is-active', t.dataset.src === src);
+    });
+  }
+
+  /* ── Thumbnail gallery ── */
   thumbs.forEach(function(thumb) {
     thumb.addEventListener('click', function() {
-      if (!heroImg) return;
       thumbs.forEach(function(t) { t.classList.remove('is-active'); });
       thumb.classList.add('is-active');
-      heroImg.style.opacity = '0';
-      setTimeout(function() {
-        heroImg.src = thumb.dataset.src;
-        heroImg.style.opacity = '1';
-      }, 150);
+      setHeroSrc(thumb.dataset.src);
     });
   });
 
   /* ── Quantity stepper ── */
-  var qtyInput  = section.querySelector('.fp-qty__input');
-  var minusBtn  = section.querySelector('.fp-qty__btn--minus');
-  var plusBtn   = section.querySelector('.fp-qty__btn--plus');
+  var qtyInput = section.querySelector('.fp-qty__input');
+  var minusBtn = section.querySelector('.fp-qty__btn--minus');
+  var plusBtn  = section.querySelector('.fp-qty__btn--plus');
 
   if (qtyInput && minusBtn && plusBtn) {
     minusBtn.addEventListener('click', function() {
@@ -678,16 +690,25 @@
     });
   }
 
-  /* ── Variant selector — update hidden variant id ── */
-  var variantBtns  = Array.from(section.querySelectorAll('.fp-variant-btn'));
+  /* ── Variant selector ── */
+  var variantBtns    = Array.from(section.querySelectorAll('.fp-variant-btn'));
   var variantIdInput = section.querySelector('#fp-variant-id-{{ section.id }}');
-  var atcBtn       = section.querySelector('.fp-btn--atc');
+  var atcBtn         = section.querySelector('.fp-btn--atc');
 
   var productVariants = {{ product.variants | json }};
 
+  /* Build map: variantId → featured image URL at 1200px (rendered server-side) */
+  var variantMediaMap = {};
+  {%- for variant in product.variants -%}
+    {%- if variant.featured_media != blank -%}
+      variantMediaMap[{{ variant.id }}] = {{ variant.featured_media.preview_image | image_url: width: 1200 | json }};
+    {%- endif -%}
+  {%- endfor -%}
+
   function getSelectedOptions() {
     var selected = {};
-    variantBtns.filter(function(b) { return b.classList.contains('is-selected'); })
+    variantBtns
+      .filter(function(b) { return b.classList.contains('is-selected'); })
       .forEach(function(b) { selected[b.dataset.optionIndex] = b.dataset.optionValue; });
     return selected;
   }
@@ -701,14 +722,26 @@
   }
 
   function updateVariant() {
-    var opts = getSelectedOptions();
+    var opts  = getSelectedOptions();
     var match = findMatchingVariant(opts);
-    if (match && variantIdInput) {
-      variantIdInput.value = match.id;
-      if (atcBtn) {
-        atcBtn.disabled = !match.available;
-        atcBtn.textContent = match.available ? '{{ section.settings.btn_primary_label | default: "Add to cart" }}' : 'Sold out';
-      }
+    if (!match) return;
+
+    /* Update hidden variant id input */
+    if (variantIdInput) variantIdInput.value = match.id;
+
+    /* Update ATC button state */
+    if (atcBtn) {
+      atcBtn.disabled    = !match.available;
+      atcBtn.textContent = match.available
+        ? '{{ section.settings.btn_primary_label | default: "Add to cart" }}'
+        : 'Sold out';
+    }
+
+    /* Sync hero image + active thumbnail to variant's featured media */
+    if (variantMediaMap[match.id]) {
+      var newSrc = variantMediaMap[match.id];
+      setHeroSrc(newSrc);
+      activateThumb(newSrc);
     }
   }
 
