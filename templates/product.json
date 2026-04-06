@@ -936,7 +936,7 @@
                 "text": "<p>You may also like</p>",
                 "width": "100%",
                 "max_width": "normal",
-                "alignment": "center",
+                "alignment": "left",
                 "type_preset": "h3",
                 "font": "var(--font-primary--family)",
                 "font_size": "",
