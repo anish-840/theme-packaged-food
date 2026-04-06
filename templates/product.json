@@ -759,7 +759,7 @@
                     "text_DNPAct": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Orders typically take<strong>7–11 business days</strong>from the date of dispatch to reach the delivery address. Delivery timelines are indicative and may vary depending on the shipping destination, courier service availability, and external factors beyond our control.</p>",
+                        "text": "<p>Orders typically take <strong>7–11 business days </strong>from the date of dispatch to reach the delivery address. Delivery timelines are indicative and may vary depending on the shipping destination, courier service availability, and external factors beyond our control.</p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
