@@ -644,17 +644,21 @@
   var heroImg = section.querySelector('.fp-media__main .fp-media__hero-img');
   var thumbs  = Array.from(section.querySelectorAll('.fp-media__thumb'));
 
-  /* ── Helper: swap main image with fade ── */
+  /* ── Helper: swap main image with fade ──
+     Clear srcset + sizes first so the browser cannot override
+     the new src with a stale srcset entry                        */
   function setHeroSrc(src) {
     if (!heroImg) return;
     heroImg.style.opacity = '0';
     setTimeout(function() {
-      heroImg.src = src;
+      heroImg.srcset = '';
+      heroImg.sizes  = '';
+      heroImg.src    = src;
       heroImg.style.opacity = '1';
     }, 150);
   }
 
-  /* ── Helper: activate thumbnail matching src ── */
+  /* ── Helper: highlight the thumbnail whose data-src matches ── */
   function activateThumb(src) {
     thumbs.forEach(function(t) {
       t.classList.toggle('is-active', t.dataset.src === src);
@@ -697,7 +701,7 @@
 
   var productVariants = {{ product.variants | json }};
 
-  /* Build map: variantId → featured image URL at 1200px (rendered server-side) */
+  /* Server-side map: variantId → 1200px image URL */
   var variantMediaMap = {};
   {%- for variant in product.variants -%}
     {%- if variant.featured_media != blank -%}
@@ -726,10 +730,10 @@
     var match = findMatchingVariant(opts);
     if (!match) return;
 
-    /* Update hidden variant id input */
+    /* Update hidden variant id */
     if (variantIdInput) variantIdInput.value = match.id;
 
-    /* Update ATC button state */
+    /* Update ATC button */
     if (atcBtn) {
       atcBtn.disabled    = !match.available;
       atcBtn.textContent = match.available
@@ -737,7 +741,7 @@
         : 'Sold out';
     }
 
-    /* Sync hero image + active thumbnail to variant's featured media */
+    /* Sync hero image + active thumbnail to variant featured media */
     if (variantMediaMap[match.id]) {
       var newSrc = variantMediaMap[match.id];
       setHeroSrc(newSrc);
